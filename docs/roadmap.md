@@ -14,27 +14,41 @@
 - Course Validator/Compiler workflow
 - CI Quality Gate
 - Quiz/Exercise/Project runtime wiring
+- Shared activity screens in Core
 
-## Phase 1 — Fundamentals depth
+## Phase 1 — Fundamentals v0.1 coverage
 
-وضعیت: در حال انجام
+وضعیت: پوشش اولیه کامل؛ enrichment ادامه دارد
 
-- تکمیل سواد رایانه و سیستم‌عامل
-- تکمیل مسیرها و بازار کار برنامه‌نویسی
-- تکمیل منطق و حل مسئله
+- سواد رایانه و سیستم‌عامل
+- مسیرها و بازار کار برنامه‌نویسی
+- منطق و حل مسئله
 - الگوریتم‌نویسی
 - فلوچارت و شبه‌کد
+- Dry Run و Correctness
 - متغیرها، نوع داده، Scope و Constants
+- Numeric range/precision و Conversion
 - عملگرها و عبارت‌ها
-- ورودی/خروجی و Validation
-- شرط‌ها
-- حلقه‌ها
-- توابع و Decomposition
-- Quiz/Exercise/Project و آزمون پایان سطح مبانی
+- ورودی/خروجی، Parsing، Validation و Formatting
+- شرط‌ها، Range، Guard Clause و Decision Table
+- حلقه‌ها، Sentinel، Counter/Accumulator، Nested Loop و خطاهای مرزی
+- توابع، Parameter/Argument، Return/Side Effect، Call Stack، Cohesion و Composition
+- آزمون جامع پایان سطح مبانی
+- پروژه پایان سطح مبانی
+
+### Enrichment باقی‌مانده برای Fundamentals
+
+- افزایش Question Bank و تنوع QuestionType
+- Lesson/Chapter Examهای بیشتر
+- Flashcard و مرور فاصله‌دار
+- Diagramهای تعاملی/تصویری
+- Challengeهای بیشتر
+- Placement Test و Weak Topic routing
+- Rubric ارزیابی پروژه‌ها
 
 ## Phase 2 — Beginner engineering toolkit
 
-وضعیت: برنامه‌ریزی شده
+وضعیت: مرحله محتوایی بعدی
 
 - Array/List/Set/Map
 - String processing
@@ -49,6 +63,7 @@
 - Testing fundamentals
 - Documentation and comments
 - پروژه پایان سطح مقدماتی
+- آزمون جامع سطح مقدماتی
 
 ## Phase 3 — Advanced computer science and code quality
 
@@ -66,7 +81,7 @@
 - Refactoring
 - SOLID
 - Design Patterns
-- پروژه پایان سطح پیشرفته
+- پروژه و آزمون پایان سطح پیشرفته
 
 ## Phase 4 — Professional software engineering
 
@@ -84,14 +99,14 @@
 - Resume/GitHub profile
 - Technical and behavioral interviews
 
-## Phase 5 — Assessment system expansion
+## Phase 5 — Assessment and review system expansion
 
 وضعیت: برنامه‌ریزی شده
 
 - Micro Quiz برای همه درس‌های مناسب
 - Lesson Exam
 - Chapter Exam
-- Level Exam
+- Level Examهای بزرگ‌تر
 - Placement Test
 - Question bank بزرگ و Tag شده
 - Weak Topic analysis
@@ -104,7 +119,7 @@
 وضعیت: برنامه‌ریزی شده
 
 - پروژه‌های ترکیبی چندفصلی
-- پروژه جامع نهایی
+- پروژه جامع نهایی کل Basic
 - Rubric ارزیابی پروژه
 - شبیه‌سازی Code Review
 - شبیه‌سازی Bug fixing task
@@ -114,4 +129,4 @@
 
 ## Definition of Done نهایی
 
-Basic زمانی دوره جامع محسوب می‌شود که همه فصل‌های تعریف‌شده محتوای واقعی داشته باشند، ارزیابی‌ها صرفاً Placeholder نباشند، پروژه‌ها مسیر عملی ایجاد کنند، تمام Stable IDها معتبر بمانند، CI سبز باشد و کاربر بتواند مسیر را از صفر تا آمادگی ورود به یک دوره تخصصی بدون شکاف آموزشی طی کند.
+Basic زمانی دوره جامع محسوب می‌شود که همه 39 فصل محتوای واقعی و عمیق داشته باشند، ارزیابی‌ها Placeholder نباشند، پروژه‌ها مسیر عملی ایجاد کنند، Question Bank و مرور فعال باشند، تمام Stable IDها معتبر بمانند، CI سبز باشد و کاربر بتواند مسیر را از صفر تا آمادگی ورود به یک دوره تخصصی بدون شکاف آموزشی طی کند.

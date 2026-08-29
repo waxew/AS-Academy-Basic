@@ -1,0 +1,13 @@
+{
+  "id":"basic-fnd-041","chapterId":"basic-fnd-10-functions","title":"جمع‌بندی سطح مبانی؛ از مسئله تا راه‌حل ساختاریافته","summary":"ترکیب حل مسئله، الگوریتم، داده، عملگر، I/O، شرط، حلقه و تابع در یک جریان کامل پیش از ورود به سطح مقدماتی.","order":6,"estimatedMinutes":45,"tags":["fundamentals","review","capstone","assessment"],"prerequisites":["basic-fnd-040"],
+  "blocks":[
+    {"id":"basic-fnd-041-title","type":"TITLE","content":"حالا اجزای پایه باید به یک سیستم واحد تبدیل شوند","metadata":{}},
+    {"id":"basic-fnd-041-goal","type":"IMPORTANT","content":"هدف درس: یک مسئله چندمرحله‌ای را از Requirement تا داده، الگوریتم، I/O، Branch، Loop و Function طراحی و تصمیم‌های خود را توضیح دهید.","metadata":{}},
+    {"id":"basic-fnd-041-flow","type":"CODE","content":"Understand problem\n  -> Define input/output/constraints\n  -> Model data\n  -> Design algorithm\n  -> Split responsibilities into functions\n  -> Validate input\n  -> Apply conditions and loops\n  -> Produce clear output\n  -> Dry run and test edge cases","metadata":{"language":"learning-flow"}},
+    {"id":"basic-fnd-041-p1","type":"PARAGRAPH","content":"هدف سطح مبانی حفظ Syntax نیست. باید بتوانید قبل از انتخاب زبان، مسئله را روشن کنید، داده را مدل کنید، مسیر اجرا را طراحی کنید، تکرار و تصمیم را کنترل کنید و مسئولیت‌ها را به واحدهای کوچک‌تر بشکنید.","metadata":{}},
+    {"id":"basic-fnd-041-list","type":"LIST","content":"می‌توانم ورودی/خروجی و محدودیت مسئله را تعریف کنم\nمی‌توانم الگوریتم و شبه‌کد بنویسم و Dry Run انجام دهم\nمی‌توانم نوع داده و نام مناسب انتخاب کنم\nمی‌توانم شرط و Loop را با Edge Case تست کنم\nمی‌توانم منطق را به Functionهای روشن تقسیم کنم\nمی‌توانم خروجی و خطای قابل فهم طراحی کنم","metadata":{}},
+    {"id":"basic-fnd-041-quiz","type":"QUIZ","content":"آزمون جامع پایان سطح مبانی","metadata":{"quizId":"basic-qz-011"}},
+    {"id":"basic-fnd-041-project","type":"PROJECT_LINK","content":"پروژه پایان سطح مبانی: سامانه مدیریت هزینه روزانه","metadata":{"projectId":"basic-prj-003"}},
+    {"id":"basic-fnd-041-note","type":"NOTE","content":"پس از موفقیت در آزمون و پروژه این سطح، مسیر بعدی وارد Collection، String، Date/Time، Error Handling، File، Data Format، CLI، Git، Debugging و Testing می‌شود.","metadata":{}}
+  ]
+}

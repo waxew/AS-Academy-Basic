@@ -1,6 +1,6 @@
 # AS Academy Basic
 
-`Basic` دورهٔ پایه و پیش‌نیاز مشترک برنامه‌نویسی در مجموعهٔ AS Academy است. این برنامه قبل از دوره‌های زبان‌محور مانند Python، Java، Kotlin، C، C++، C#، JavaScript و PHP قرار می‌گیرد و مفاهیم مشترک برنامه‌نویسی و مهندسی نرم‌افزار را از صفر تا آمادگی ورود به مسیر تخصصی آموزش می‌دهد.
+`Basic` دوره پایه و پیش‌نیاز مشترک برنامه‌نویسی در مجموعه AS Academy است. این برنامه قبل از دوره‌های زبان‌محور مانند Python، Java، Kotlin، C، C++، C#، JavaScript و PHP قرار می‌گیرد و مفاهیم مشترک برنامه‌نویسی و مهندسی نرم‌افزار را از صفر تا آمادگی ورود به مسیر تخصصی آموزش می‌دهد.
 
 ## هویت پروژه
 
@@ -27,11 +27,11 @@
 
 ## مدل آموزشی
 
-چرخهٔ استاندارد هر موضوع:
+چرخه استاندارد هر موضوع:
 
 `Learn -> Example -> Practice -> Quiz -> Challenge -> Project -> Exam -> Review`
 
-هر درس در توسعهٔ کامل می‌تواند شامل این لایه‌ها باشد:
+هر درس در توسعه کامل می‌تواند شامل این لایه‌ها باشد:
 
 - هدف یادگیری و پیش‌نیاز
 - توضیح ساده و شهودی
@@ -42,11 +42,11 @@
 - Hint مرحله‌ای و پاسخ تشریحی
 - Micro Quiz و Lesson Exam
 - Chapter Exam و Level Exam
-- پروژهٔ کوچک یا Practical Assessment
-- خلاصه، مرور و فلش‌کارت
-- واژه‌نامهٔ فارسی/انگلیسی
+- پروژه کوچک یا Practical Assessment
+- خلاصه، مرور و Flashcard
+- واژه‌نامه فارسی/انگلیسی
 - سؤال مصاحبه در مباحث مناسب
-- ثبت نقاط ضعف برای مرور بعدی
+- ثبت Weak Topics برای مرور بعدی
 
 ## چهار سطح اصلی
 
@@ -66,24 +66,24 @@ OOP، Functional Programming، Recursion، Data Structures، Search/Sort، Big-O
 
 Software Architecture، Dependency Management، Versioning، Security، Code Review، Agile/Scrum/Kanban، CI/CD، Open Source، Portfolio، GitHub، Resume و Technical Interview.
 
-## وضعیت محتوای ثبت‌شده در نسخه 0.1.0
+## وضعیت محتوای واقعی
 
 - **4 سطح اصلی** تعریف شده
 - **39 فصل** با Stable ID و ترتیب مشخص تعریف شده
-- **16 درس واقعی** نوشته شده
-- **5 Quiz** با مجموع **24 سؤال** ثبت شده
-- **15 تمرین** با Hint، Solution و Explanation ثبت شده
-- **2 پروژه عملی** چندمرحله‌ای ثبت شده
-- **16 مدخل Glossary** ثبت شده
-- فصل الگوریتم/فلوچارت/شبه‌کد بسته آموزشی اولیه کامل دارد
-- فصل متغیرها/انواع داده بسته آموزشی اولیه کامل دارد
+- **41 درس واقعی** نوشته شده
+- **11 Quiz** با مجموع **66 سؤال** ثبت شده
+- **39 Exercise** با Hint، Solution و Explanation ثبت شده
+- **3 پروژه عملی** چندمرحله‌ای ثبت شده
+- **39 مدخل Glossary** ثبت شده
+- هر 10 فصل سطح مبانی دارای محتوای آموزشی واقعی است
+- آزمون جامع پایان سطح مبانی ایجاد شده است
+- پروژه پایان سطح مبانی «سامانه مدیریت هزینه روزانه» ایجاد شده است
 - Android Host مستقل Basic ایجاد شده
 - Quiz/Exercise/Project به Screenهای عمومی Core متصل شده‌اند
 - Quiz History، Exercise Draft/Completion و Project Progress در Room مشترک ذخیره می‌شوند
 - CI قبل از Build، Course Package را Validate و Compile می‌کند
-- Quality Gate هسته بعد از اضافه‌شدن Screenهای عمومی Quiz/Exercise/Project با موفقیت کامل اجرا شده است
 
-تعداد فعلی محتوا فقط نقطه شروع است و به‌عنوان تکمیل دوره در نظر گرفته نمی‌شود.
+این اعداد نشان‌دهنده محتوای واقعی فعلی‌اند، نه ادعای تکمیل نهایی دوره. سطح مبانی پوشش اولیه کامل دارد و در فازهای بعدی عمیق‌تر می‌شود.
 
 ## هدف محتوایی نسخه جامع
 
@@ -132,7 +132,7 @@ AS-Academy-Basic/
 
 ## اتصال به AS Academy Core
 
-برای توسعهٔ محلی دو Repository را کنار هم قرار دهید:
+برای توسعه محلی دو Repository را کنار هم قرار دهید:
 
 ```text
 workspace/
@@ -180,11 +180,11 @@ Windows:
 ..\AS-Academy-Core\gradlew.bat -p . :app:assembleDebug
 ```
 
-GitHub Actions همین مراحل را اجرا می‌کند: Validate → Compile Course Bundle → Lint → Assemble Debug → Upload APK Artifact. Workflow برای Push، Pull Request و اجرای دستی طراحی می‌شود.
+GitHub Actions همین مراحل را اجرا می‌کند: Validate → Compile Course Bundle → Lint → Assemble Debug → Upload APK Artifact. Workflow برای Push، Pull Request و اجرای دستی تعریف شده است.
 
 ## Version History
 
-### 0.1.0 — Foundation + first curriculum expansion
+### 0.1.0 — Foundation + Fundamentals v0.1
 
 - ایجاد رسمی پروژه Basic
 - تعریف Course ID و Android package پایدار
@@ -195,11 +195,13 @@ GitHub Actions همین مراحل را اجرا می‌کند: Validate → Com
 - اتصال Lesson به Quiz/Exercise/Project workflow مشترک
 - اتصال Room برای تاریخچه آزمون، Draft و Progress فعالیت‌ها
 - ایجاد Script تولید Course Bundle و CI
-- تکمیل اولین 16 درس واقعی
-- تکمیل بسته اولیه فصل الگوریتم، فلوچارت و شبه‌کد
-- تکمیل بسته اولیه فصل متغیرها و انواع داده
-- رسیدن به 5 Quiz، 24 سؤال، 15 Exercise، 2 Project و 16 Glossary entry
+- ایجاد 41 درس واقعی اولیه
+- پوشش اولیه همه 10 فصل سطح مبانی
+- ایجاد 11 Quiz و 66 سؤال
+- ایجاد 39 Exercise
+- ایجاد 3 Project شامل پروژه پایان سطح مبانی
+- ایجاد 39 Glossary entry
 
 ## وضعیت فعلی
 
-پروژه در فاز **Foundation complete / Fundamentals content in progress** قرار دارد. فصل‌های بعدی سطح مبانی که وارد تولید محتوای عمیق می‌شوند: Operators، Input/Output، Conditions، Loops و Functions. پس از آن آزمون جامع سطح مبانی و پروژه پایان سطح ساخته می‌شود.
+پروژه در فاز **Foundation complete / Fundamentals v0.1 covered / Beginner next** قرار دارد. سطح مبانی از نظر مسیر اولیه بسته شده، اما enrichment آن ادامه خواهد داشت. توسعه محتوایی بعدی روی Collections، String، Date/Time، Error Handling، Files، JSON/CSV/XML، CLI، Git/GitHub، Debugging، Testing و Documentation متمرکز است.
