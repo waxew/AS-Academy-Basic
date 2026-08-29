@@ -70,15 +70,18 @@ Software Architecture، Dependency Management، Versioning، Security، Code Rev
 
 - **4 سطح اصلی** تعریف شده
 - **39 فصل** با Stable ID و ترتیب مشخص تعریف شده
-- **6 درس واقعی** اولیه نوشته شده
-- **3 Quiz** با مجموع 12 سؤال ثبت شده
-- **5 تمرین** با Hint، Solution و Explanation ثبت شده
-- **1 پروژه عملی** چندمرحله‌ای ثبت شده
-- **6 مدخل Glossary** اولیه ثبت شده
+- **16 درس واقعی** نوشته شده
+- **5 Quiz** با مجموع **24 سؤال** ثبت شده
+- **15 تمرین** با Hint، Solution و Explanation ثبت شده
+- **2 پروژه عملی** چندمرحله‌ای ثبت شده
+- **16 مدخل Glossary** ثبت شده
+- فصل الگوریتم/فلوچارت/شبه‌کد بسته آموزشی اولیه کامل دارد
+- فصل متغیرها/انواع داده بسته آموزشی اولیه کامل دارد
 - Android Host مستقل Basic ایجاد شده
 - Quiz/Exercise/Project به Screenهای عمومی Core متصل شده‌اند
 - Quiz History، Exercise Draft/Completion و Project Progress در Room مشترک ذخیره می‌شوند
 - CI قبل از Build، Course Package را Validate و Compile می‌کند
+- Quality Gate هسته بعد از اضافه‌شدن Screenهای عمومی Quiz/Exercise/Project با موفقیت کامل اجرا شده است
 
 تعداد فعلی محتوا فقط نقطه شروع است و به‌عنوان تکمیل دوره در نظر گرفته نمی‌شود.
 
@@ -177,25 +180,26 @@ Windows:
 ..\AS-Academy-Core\gradlew.bat -p . :app:assembleDebug
 ```
 
-GitHub Actions همین مراحل را به‌صورت خودکار اجرا می‌کند: Validate → Compile Course Bundle → Lint → Assemble Debug → Upload APK Artifact.
+GitHub Actions همین مراحل را اجرا می‌کند: Validate → Compile Course Bundle → Lint → Assemble Debug → Upload APK Artifact. Workflow برای Push، Pull Request و اجرای دستی طراحی می‌شود.
 
 ## Version History
 
-### 0.1.0 — Foundation
+### 0.1.0 — Foundation + first curriculum expansion
 
 - ایجاد رسمی پروژه Basic
 - تعریف Course ID و Android package پایدار
 - اتصال معماری به AS-Academy-Core
 - تعریف چهار سطح و 39 فصل اصلی
 - ایجاد استاندارد تولید محتوای آموزشی
-- نوشتن اولین شش درس واقعی
-- افزودن Quiz، Exercise، Glossary و پروژه عملی اولیه
 - ایجاد Android Host Compose
 - اتصال Lesson به Quiz/Exercise/Project workflow مشترک
 - اتصال Room برای تاریخچه آزمون، Draft و Progress فعالیت‌ها
-- ایجاد Script تولید Course Bundle
-- ایجاد CI برای Validation و Build خودکار
+- ایجاد Script تولید Course Bundle و CI
+- تکمیل اولین 16 درس واقعی
+- تکمیل بسته اولیه فصل الگوریتم، فلوچارت و شبه‌کد
+- تکمیل بسته اولیه فصل متغیرها و انواع داده
+- رسیدن به 5 Quiz، 24 سؤال، 15 Exercise، 2 Project و 16 Glossary entry
 
 ## وضعیت فعلی
 
-پروژه در فاز **Foundation complete / Fundamentals content in progress** قرار دارد. قدم محتوایی بعدی گسترش سطح مبانی از درس 7 به بعد و تبدیل فصل‌های Algorithm، Variables، Operators، I/O، Conditions، Loops و Functions به بسته‌های کامل آموزشی است.
+پروژه در فاز **Foundation complete / Fundamentals content in progress** قرار دارد. فصل‌های بعدی سطح مبانی که وارد تولید محتوای عمیق می‌شوند: Operators، Input/Output، Conditions، Loops و Functions. پس از آن آزمون جامع سطح مبانی و پروژه پایان سطح ساخته می‌شود.
