@@ -4,12 +4,13 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 # CI فقط Repositoryها را می‌خواند و هیچ Permission نوشتن نیاز ندارد.
 permissions:
   contents: read
 
-# Push جدید روی همان Branch اجرای قدیمی را لغو می‌کند تا Artifact منسوخ تولید نشود.
+# اجرای جدید همان Branch، اجرای قدیمی را لغو می‌کند تا Artifact منسوخ تولید نشود.
 concurrency:
   group: basic-ci-${{ github.ref }}
   cancel-in-progress: true
