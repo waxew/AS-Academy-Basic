@@ -1,0 +1,21 @@
+# Gradle output and local caches are generated on each machine.
+.gradle/
+build/
+**/build/
+
+# Android Studio / IntelliJ local files are not part of the project source.
+.idea/
+*.iml
+local.properties
+
+# OS-specific temporary files must not enter version control.
+.DS_Store
+Thumbs.db
+
+# The runtime Course Bundle is generated from course/basic before each build.
+app/src/main/assets/basic-course.json
+
+# Signing material and secrets must never be committed to this public repository.
+*.jks
+*.keystore
+keystore.properties
