@@ -1,0 +1,8 @@
+[
+  {"id":"basic-glossary-hardware","courseId":"basic","term":"Hardware","definition":"اجزای فیزیکی یک سیستم رایانه‌ای مانند CPU، حافظه، دیسک و تجهیزات ورودی/خروجی.","aliases":["سخت‌افزار"],"relatedLessonIds":["basic-fnd-001"],"tags":["computer-literacy"]},
+  {"id":"basic-glossary-software","courseId":"basic","term":"Software","definition":"مجموعه برنامه‌ها و داده‌هایی که روی سخت‌افزار اجرا یا پردازش می‌شوند.","aliases":["نرم‌افزار"],"relatedLessonIds":["basic-fnd-001"],"tags":["computer-literacy"]},
+  {"id":"basic-glossary-operating-system","courseId":"basic","term":"Operating System","definition":"نرم‌افزار سیستمی که منابع سخت‌افزار را مدیریت و بستری برای اجرای برنامه‌ها فراهم می‌کند.","aliases":["OS","سیستم‌عامل"],"relatedLessonIds":["basic-fnd-002"],"tags":["operating-system"]},
+  {"id":"basic-glossary-process","courseId":"basic","term":"Process","definition":"نمونه در حال اجرای یک برنامه با حافظه، وضعیت و منابع مخصوص خود.","aliases":["پردازش"],"relatedLessonIds":["basic-fnd-002"],"tags":["operating-system"]},
+  {"id":"basic-glossary-decomposition","courseId":"basic","term":"Decomposition","definition":"شکستن یک مسئله بزرگ به زیرمسئله‌های کوچک‌تر و قابل مدیریت.","aliases":["تجزیه مسئله"],"relatedLessonIds":["basic-fnd-005"],"tags":["problem-solving"]},
+  {"id":"basic-glossary-abstraction","courseId":"basic","term":"Abstraction","definition":"تمرکز بر ویژگی‌های مهم و کنار گذاشتن جزئیاتی که برای سطح فعلی حل مسئله ضروری نیستند.","aliases":["انتزاع"],"relatedLessonIds":["basic-fnd-006"],"tags":["problem-solving"]}
+]
