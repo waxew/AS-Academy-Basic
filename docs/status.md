@@ -13,77 +13,60 @@
 - Course Validator / Compiler: متصل شده
 - GitHub Actions Quality Gate: فعال
 - Shared Quiz/Exercise/Project UI در Core: انجام شده
-- public RoomDatabase dependency در Core: اصلاح و CI آن سبز شده
-- Build واقعی Basic روی main: Validate + Compile + Lint + Assemble Debug + Artifact موفق
+- public RoomDatabase dependency در Core: اصلاح شده و Core CI سبز است
+- Build واقعی Basic: Validate + Compile + Lint + Assemble Debug + APK Artifact موفق
 
 ## آمار محتوای واقعی در شاخه توسعه فعلی
 
 - سطح‌ها: 4 / 4 تعریف شده
 - فصل‌ها: 39 فصل تعریف شده
-- درس واقعی: 89
-- Quiz: 24
-- سؤال Quiz: 126
-- Exercise: 87
-- Project: 6
+- درس واقعی: 133
+- Quiz: 36
+- سؤال Quiz: 182
+- Exercise: 131
+- Project: 10
 - Glossary: 39 مدخل فعلی
 
-## پوشش سطح مبانی
+## سطح مبانی
 
-سطح مبانی در 10 فصل با 41 درس واقعی پوشش داده شده است:
+10 فصل و 41 درس واقعی. `basic-qz-011` آزمون جامع و `basic-prj-003` پروژه پایان سطح است.
 
-1. سواد رایانه و سیستم‌عامل
-2. رشته‌ها و بازار کار برنامه‌نویسی
-3. منطق و حل مسئله
-4. الگوریتم، فلوچارت و شبه‌کد
-5. متغیرها و انواع داده
-6. عملگرها و عبارت‌ها
-7. ورودی و خروجی
-8. شرط‌ها و تصمیم‌گیری
-9. حلقه‌ها و تکرار
-10. توابع و تفکیک مسئولیت
+## سطح مقدماتی
 
-درس `basic-fnd-041` جمع‌بندی سطح، Quiz `basic-qz-011` آزمون جامع مبانی و Project `basic-prj-003` پروژه پایان سطح است.
+12 فصل و 48 درس واقعی شامل Collections، String، Date/Time، Error Handling، File، JSON/CSV/XML، CLI، Git/GitHub، Branch/Merge/PR، Debugging، Testing و Documentation. `basic-qz-024` آزمون جامع و `basic-prj-006` پروژه پایان سطح است.
 
-## پوشش سطح مقدماتی
+## سطح پیشرفته
 
-سطح مقدماتی در 12 فصل با 48 درس واقعی پوشش داده شده است:
+11 فصل و 44 درس واقعی:
 
-1. Array / List / Set / Map و انتخاب Collection
-2. String، Unicode، Parsing و Text Processing
-3. Date/Time، Instant، UTC، Time Zone و Duration
-4. Error/Exception، Fail Fast، Logging و Recovery Strategy
-5. File/Path، Encoding، Atomic Save و Streaming
-6. JSON / CSV / XML، Schema و Validation
-7. Terminal / Shell / Pipe / Redirection / Environment / Script
-8. Git Repository / Commit / Diff / Remote / Tag / .gitignore
-9. Branch / Merge / Rebase / Pull Request / Code Review مقدماتی
-10. Debugging / Reproduce / Breakpoint / Stack Trace / Root Cause
-11. Testing / AAA / Boundary / Test Double / Regression / Test Pyramid
-12. README / Comment / Naming / Changelog / ADR و مستندسازی فنی
+1. OOP: Object/Class، Encapsulation، Composition/Inheritance/Polymorphism و Interface
+2. Functional Programming: Pure Function، Immutability، Higher-order Function و Composition
+3. Recursion: Base Case، Call Stack، Tree Recursion، Iteration/Memoization
+4. Data Structures: ADT، Stack/Queue، Linked List/Hash Table، Tree/Heap/Graph
+5. Search/Sort: Linear/Binary Search، Insertion/Selection، Merge/Quick Sort و انتخاب Algorithm
+6. Complexity: Big-O، Best/Average/Worst، Space Complexity و تحلیل Pipeline
+7. Memory: Stack/Heap، GC/Ownership، Leak/Lifecycle و Profiling
+8. Advanced Testing: Integration/Contract، E2E، Determinism و Property/Mutation Testing
+9. Clean Code/Refactoring: Cohesion/Coupling، Code Smell، Refactor امن و Boundary Design
+10. SOLID: SRP، OCP، LSP، ISP و DIP
+11. Design Patterns: Pattern Language، Factory/Builder، Adapter/Decorator/Facade و Strategy/Observer/Command
 
-Quiz `basic-qz-024` آزمون جامع پایان سطح مقدماتی و Project `basic-prj-006` پروژه پایان سطح است. دو پروژه میانی `basic-prj-004` و `basic-prj-005` نیز Collection/String/DateTime و Error/File/Data Format را یکپارچه می‌کنند.
+ارزیابی سطح پیشرفته:
+- Quiz فصل‌ها: `basic-qz-025` تا `basic-qz-035`
+- آزمون جامع: `basic-qz-036`
+- پروژه‌های میانی: `basic-prj-007`، `basic-prj-008`، `basic-prj-009`
+- Capstone پایان Advanced: `basic-prj-010`
 
 ## معنی «پوشش اولیه کامل»
 
-مبانی و مقدماتی اکنون مسیر آموزشی end-to-end دارند، اما enrichment ادامه خواهد داشت:
-
-- Micro Quiz و Lesson Exam بیشتر
-- Question Bank بزرگ‌تر
-- Flashcard و Spaced Review
-- Placement Test
-- Weak Topic review queue
-- مثال‌ها و سناریوهای بیشتر
-- Challenge Exercise بیشتر
-- Rubric دقیق‌تر پروژه‌ها
-- Diagram و Assetهای بصری مناسب
-- Glossary گسترده‌تر برای سطح مقدماتی
+سه سطح اول اکنون مسیر آموزشی end-to-end دارند. Enrichment بعدی شامل Micro Quiz، Question Bank گسترده‌تر، Flashcard، Placement Test، Weak Topic Review، مثال و Challenge بیشتر، Rubric دقیق پروژه و Diagram/Asset است.
 
 ## فاز فعلی
 
-`Foundation complete → Fundamentals covered → Beginner covered → Advanced next`
+`Foundation complete → Fundamentals covered → Beginner covered → Advanced covered → Specialist next`
 
-مرحله بعد روی OOP، Functional Programming، Recursion، Data Structures، Search/Sort، Big-O، Memory، Advanced Testing، Clean Code/Refactoring، SOLID و Design Patterns متمرکز است.
+مرحله بعد روی Software Architecture، Dependency/Versioning، Security، Teamwork/Agile/Code Review، CI/CD، Open Source، Portfolio/Resume و Technical Interview متمرکز است.
 
 ## معیار گزارش پیشرفت
 
-عنوان یا فایل خالی «تکمیل» محسوب نمی‌شود. فقط محتوایی در آمار تکمیل وارد می‌شود که آموزش واقعی، مثال، تمرین یا ارزیابی معتبر داشته باشد و با قرارداد Course Package سازگار باشد. CI و Validator مرجع فنی صحت بسته هستند.
+عنوان یا فایل خالی «تکمیل» محسوب نمی‌شود. فقط محتوای دارای آموزش واقعی، مثال، تمرین یا ارزیابی معتبر در آمار تکمیل وارد می‌شود. Validator و CI مرجع فنی صحت Course Package هستند.
