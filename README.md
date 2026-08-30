@@ -12,18 +12,18 @@
 - Android: `minSdk 23` / `targetSdk 36`
 - Java compatibility: JDK 17
 - Core: `AS-Academy-Core >= 1.0.1`
-- نسخه Host/Course: **0.2.0**
-- Android `versionCode`: **2**
+- نسخه Host/Course: **0.2.1**
+- Android `versionCode`: **3**
 
 ## قانون معماری
 
-این Repository فقط بخش‌های اختصاصی Basic را نگه می‌دارد: Course Package، محتوای آموزشی، Branding و Android Host اختصاصی. Navigation، Drawer/Profile، Settings، Room Database، Progress، Search، Bookmark، Notes، Quiz/Exercise/Project Engine و UI، Achievement، Backup/Restore، Content Update و Lesson Renderer در `AS-Academy-Core` قرار دارند و در Basic تکرار نمی‌شوند.
+این Repository فقط بخش‌های اختصاصی Basic را نگه می‌دارد: Course Package، محتوای آموزشی، Branding و Android Host اختصاصی. Navigation، Drawer/Profile، Settings، Room Database، Progress، Search، Bookmark، Notes، Quiz/Exercise/Project Engine و UI، Achievement، Backup/Restore، Content Update، Lesson Renderer و منطق مرور مشترک در `AS-Academy-Core` قرار دارند و در Basic تکرار نمی‌شوند.
 
 ## مدل آموزشی
 
 چرخه استاندارد:
 
-`Learn -> Example -> Practice -> Quiz -> Challenge -> Project -> Exam -> Review`
+`Placement -> Learn -> Example -> Practice -> Quiz -> Weak Topic Review -> Challenge -> Project -> Exam -> Spaced Review`
 
 درس‌ها بر حسب موضوع شامل هدف و پیش‌نیاز، توضیح شهودی و تخصصی، مثال، نکته و خطای رایج، تمرین، Hint/Solution، Quiz، پروژه، مرور، واژه‌نامه و سؤال مصاحبه هستند.
 
@@ -34,15 +34,16 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code/Refactoring، SOLID و Design Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Teamwork/Agile/Review، CI/CD/Open Source، Portfolio/Resume و Technical Interview.
 
-## وضعیت محتوای واقعی نسخه 0.2.0
+## وضعیت محتوای واقعی نسخه 0.2.1
 
 - **4 سطح اصلی**
 - **39 فصل** با Stable ID
 - **157 درس واقعی**
-- **43 Quiz** با مجموع **222 سؤال**
+- **44 Quiz** با مجموع **254 سؤال**
 - **155 Exercise** دارای Hint، Solution و Explanation
 - **14 Project** چندمرحله‌ای
-- **39 Glossary entry** فعلی
+- **69 Glossary entry** برای واژه‌نامه و Flashcard seed
+- **1 Placement Test جامع 32 سؤالی**
 - مبانی: **41 درس / 10 فصل**
 - مقدماتی: **48 درس / 12 فصل**
 - پیشرفته: **44 درس / 11 فصل**
@@ -85,6 +86,21 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 - Portfolio Case Study
 - Mock Technical Interview Defense
 
+ارزیابی پروژه‌ها طبق Rubric صد امتیازی `docs/PROJECT_RUBRIC.md` انجام می‌شود و `acceptanceCriteria` هر Milestone معیار اجرایی همان مرحله است.
+
+## کیفیت یادگیری
+
+نسخه 0.2.1 پایه یادگیری تطبیقی را اضافه می‌کند:
+
+- `basic-qz-placement-001` برای تعیین نقطه شروع
+- استفاده از Question Tagها و `weakTags` برای مرور هدفمند
+- Glossary گسترده‌تر به‌عنوان منبع واحد Flashcardها
+- استاندارد Spaced Review بدون duplication محتوای Course
+- Rubric استاندارد پروژه‌ها
+- Definition of Learning Done به‌جای Complete شدن صرفاً با بازکردن درس
+
+جزئیات در `docs/LEARNING_QUALITY.md` مستند شده است.
+
 ## وضعیت فنی Android
 
 - Android Host مستقل Basic فعال است.
@@ -93,22 +109,27 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 - Course Package قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
 - Core `1.0.1` سازگاری `EXERCISE_LINK` و dependency عمومی Room را برای Course Hostها فراهم می‌کند.
 - GitHub Actions مسیر `Validate -> Compile -> Lint -> Assemble Debug -> Upload APK Artifact` را اجرا می‌کند.
-- نسخه Android به `versionCode=2 / versionName=0.2.0` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
+- نسخه Android به `versionCode=3 / versionName=0.2.1` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
 
 ## Enrichment بعد از پوشش سرفصل اصلی
 
-پوشش اصلی کامل شده اما توسعه محتوایی ادامه خواهد داشت:
+انجام‌شده در فاز فعلی:
+
+- Placement Test
+- Question Bank اولیه گسترده‌تر
+- Weak Topic Review contract/flow
+- Flashcard و Spaced Review foundation
+- Rubric پروژه‌ها
+- Glossary گسترده‌تر
+
+ادامه توسعه محتوایی:
 
 - Micro Quiz و Lesson Exam بیشتر
-- Question Bank گسترده‌تر
-- Placement Test
-- Weak Topic Review
-- Flashcard و Spaced Review
 - Challenge Exerciseهای بیشتر
-- Rubric پروژه‌ها
 - Diagram و Assetهای بصری
-- Glossary گسترده‌تر
 - بانک سؤال مصاحبه بزرگ‌تر
+- Question Bank چندصدسؤالی عمیق‌تر برای هر Level
+- UI کامل Review Session و Placement Summary
 
 ## ساختار Repository
 
@@ -129,6 +150,8 @@ AS-Academy-Basic/
 │   ├── assets.json
 │   └── references.json
 ├── docs/
+│   ├── LEARNING_QUALITY.md
+│   └── PROJECT_RUBRIC.md
 ├── scripts/
 ├── build.gradle.kts
 ├── settings.gradle.kts
@@ -165,6 +188,15 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## Version History
 
+### 0.2.1 — Learning quality foundation
+
+- آزمون تعیین سطح جامع 32 سؤالی با وزن و Tag موضوعی
+- افزایش بانک سؤال به 254 سؤال
+- افزایش Glossary به 69 مدخل و آماده‌سازی Flashcard seed
+- تعریف Weak Topic Review و Spaced Review workflow
+- اضافه‌شدن Rubric صد امتیازی پروژه‌ها
+- افزایش Android versionCode به 3 برای Update سالم
+
 ### 0.2.0 — Four-level curriculum
 
 - تکمیل پوشش اصلی هر چهار سطح
@@ -182,4 +214,4 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## وضعیت فعلی
 
-`Four-level curriculum covered / Final quality gate in progress / Enrichment and release hardening next`
+`Four-level curriculum covered / Learning-quality phase in validation / Release hardening next`
