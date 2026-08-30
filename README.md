@@ -31,22 +31,7 @@
 
 `Learn -> Example -> Practice -> Quiz -> Challenge -> Project -> Exam -> Review`
 
-هر درس در توسعه کامل می‌تواند شامل این لایه‌ها باشد:
-
-- هدف یادگیری و پیش‌نیاز
-- توضیح ساده و شهودی
-- تعریف دقیق و واژگان تخصصی
-- مثال ساده و مثال واقعی
-- نکات مهم و اشتباهات رایج
-- تمرین Easy / Medium / Challenge
-- Hint مرحله‌ای و پاسخ تشریحی
-- Micro Quiz و Lesson Exam
-- Chapter Exam و Level Exam
-- پروژه کوچک یا Practical Assessment
-- خلاصه، مرور و Flashcard
-- واژه‌نامه فارسی/انگلیسی
-- سؤال مصاحبه در مباحث مناسب
-- ثبت Weak Topics برای مرور بعدی
+هر درس می‌تواند شامل هدف، پیش‌نیاز، توضیح ساده و تخصصی، مثال، نکته، خطای رایج، تمرین چندسطحی، Hint، پاسخ تشریحی، Quiz، پروژه، مرور، واژه‌نامه و سؤال مصاحبه باشد.
 
 ## چهار سطح اصلی
 
@@ -68,22 +53,35 @@ Software Architecture، Dependency Management، Versioning، Security، Code Rev
 
 ## وضعیت محتوای واقعی
 
+در شاخه توسعه جاری:
+
 - **4 سطح اصلی** تعریف شده
 - **39 فصل** با Stable ID و ترتیب مشخص تعریف شده
-- **41 درس واقعی** نوشته شده
-- **11 Quiz** با مجموع **66 سؤال** ثبت شده
-- **39 Exercise** با Hint، Solution و Explanation ثبت شده
-- **3 پروژه عملی** چندمرحله‌ای ثبت شده
-- **39 مدخل Glossary** ثبت شده
-- هر 10 فصل سطح مبانی دارای محتوای آموزشی واقعی است
-- آزمون جامع پایان سطح مبانی ایجاد شده است
-- پروژه پایان سطح مبانی «سامانه مدیریت هزینه روزانه» ایجاد شده است
-- Android Host مستقل Basic ایجاد شده
-- Quiz/Exercise/Project به Screenهای عمومی Core متصل شده‌اند
+- **89 درس واقعی** نوشته شده
+- **24 Quiz** با مجموع **126 سؤال** ثبت شده
+- **87 Exercise** با Hint، Solution و Explanation ثبت شده
+- **6 پروژه عملی** چندمرحله‌ای ثبت شده
+- **39 مدخل Glossary** فعلی ثبت شده
+- هر **10 فصل سطح مبانی** دارای محتوای آموزشی واقعی است
+- هر **12 فصل سطح مقدماتی** دارای محتوای آموزشی واقعی است
+- آزمون جامع و پروژه پایان سطح برای مبانی ایجاد شده
+- آزمون جامع و پروژه پایان سطح برای مقدماتی ایجاد شده
+- Android Host مستقل Basic فعال است
+- Quiz/Exercise/Project از Screenهای عمومی Core استفاده می‌کنند
 - Quiz History، Exercise Draft/Completion و Project Progress در Room مشترک ذخیره می‌شوند
 - CI قبل از Build، Course Package را Validate و Compile می‌کند
+- Build واقعی Basic روی main با Validate → Compile → Lint → Assemble Debug → Upload Artifact موفق شده است
 
-این اعداد نشان‌دهنده محتوای واقعی فعلی‌اند، نه ادعای تکمیل نهایی دوره. سطح مبانی پوشش اولیه کامل دارد و در فازهای بعدی عمیق‌تر می‌شود.
+این اعداد محتوای واقعی‌اند، نه Placeholder. مبانی و مقدماتی پوشش اولیه end-to-end دارند و enrichment آن‌ها در فازهای بعدی ادامه می‌یابد.
+
+## پروژه‌های مرحله‌ای فعلی
+
+- `basic-prj-001` — پروژه شروع مسیر
+- `basic-prj-002` — پروژه تحلیل داده‌های پایه
+- `basic-prj-003` — پروژه پایان مبانی: سامانه مدیریت هزینه روزانه
+- `basic-prj-004` — تحلیل‌گر فعالیت و زمان
+- `basic-prj-005` — Import/Export آفلاین امن
+- `basic-prj-006` — پروژه پایان مقدماتی: ابزار Import و Report مهندسی‌شده
 
 ## هدف محتوایی نسخه جامع
 
@@ -92,18 +90,14 @@ Software Architecture، Dependency Management، Versioning، Security، Code Rev
 - بیش از 100 درس عمیق
 - صدها مثال واقعی و سناریوی حل مسئله
 - بیش از 300 تمرین مرحله‌ای
-- حدود 1000 سؤال Quiz/Exam و در صورت نیاز بیشتر
-- آزمون‌های پایان درس، فصل و سطح
-- Placement Test برای تعیین سطح
-- سیستم Weak Topics و مرور هوشمند
-- Flashcard و مرور فاصله‌دار
-- پروژه‌های کوچک در طول دوره
-- پروژه‌های پایان سطح
-- Final Capstone چندمرحله‌ای
+- Question Bank بزرگ برای Lesson/Chapter/Level Exam
+- Placement Test و Weak Topic Review
+- Flashcard و Spaced Review
+- پروژه‌های پایان سطح و Final Capstone
 - بانک سؤال مصاحبه و تمرین حل مسئله
 - مسیر آمادگی Portfolio و ورود به بازار کار
 
-عدد محتوا معیار اصلی کیفیت نیست. یک درس فقط زمانی Done است که آموزش واقعی، مثال، تمرین، ارزیابی و ارتباط صحیح با پیش‌نیازها داشته باشد و Validator هسته بدون خطا اجرا شود.
+یک درس فقط زمانی Done است که آموزش واقعی، مثال، تمرین، ارزیابی و ارتباط صحیح با پیش‌نیازها داشته باشد و Validator هسته بدون خطا اجرا شود.
 
 ## ساختار Repository
 
@@ -123,8 +117,8 @@ AS-Academy-Basic/
 │   ├── glossary/
 │   ├── assets.json
 │   └── references.json
-├── docs/                   # Curriculum، استاندارد محتوا و Roadmap
-├── scripts/                # Validate/Compile Course Package
+├── docs/
+├── scripts/
 ├── build.gradle.kts
 ├── settings.gradle.kts
 └── README.md
@@ -140,11 +134,9 @@ workspace/
 └── AS-Academy-Basic/
 ```
 
-Basic از Composite Build استفاده می‌کند و مختصات Runtime مشترک را به `com.asdevelopers.academy:core:1.0.0` متصل می‌کند.
+Basic از Composite Build استفاده می‌کند و Runtime مشترک را از `AS-Academy-Core` مصرف می‌کند.
 
 ## آماده‌سازی Course Bundle
-
-قبل از اجرای Android Host باید فایل‌های قابل ویرایش `course/basic` با ابزار رسمی Core Validate و Compile شوند.
 
 Linux/macOS:
 
@@ -158,15 +150,9 @@ Windows:
 scripts\prepare-course.bat
 ```
 
-خروجی در مسیر زیر ساخته می‌شود و عمداً داخل Git Commit نمی‌شود:
-
-```text
-app/src/main/assets/basic-course.json
-```
+خروجی در `app/src/main/assets/basic-course.json` ساخته می‌شود و عمداً داخل Git Commit نمی‌شود.
 
 ## Build اندروید
-
-بعد از اجرای `prepare-course` می‌توان از Gradle Wrapper موجود در Core برای Build استفاده کرد:
 
 Linux/macOS:
 
@@ -180,28 +166,22 @@ Windows:
 ..\AS-Academy-Core\gradlew.bat -p . :app:assembleDebug
 ```
 
-GitHub Actions همین مراحل را اجرا می‌کند: Validate → Compile Course Bundle → Lint → Assemble Debug → Upload APK Artifact. Workflow برای Push، Pull Request و اجرای دستی تعریف شده است.
+GitHub Actions مراحل Validate → Compile Course Bundle → Lint → Assemble Debug → Upload APK Artifact را اجرا می‌کند.
 
 ## Version History
 
-### 0.1.0 — Foundation + Fundamentals v0.1
+### 0.1.0 — Foundation + Fundamentals + Beginner
 
-- ایجاد رسمی پروژه Basic
-- تعریف Course ID و Android package پایدار
-- اتصال معماری به AS-Academy-Core
+- ایجاد رسمی پروژه Basic و اتصال به AS-Academy-Core
 - تعریف چهار سطح و 39 فصل اصلی
-- ایجاد استاندارد تولید محتوای آموزشی
-- ایجاد Android Host Compose
-- اتصال Lesson به Quiz/Exercise/Project workflow مشترک
+- ایجاد Android Host Compose و workflowهای مشترک Quiz/Exercise/Project
 - اتصال Room برای تاریخچه آزمون، Draft و Progress فعالیت‌ها
 - ایجاد Script تولید Course Bundle و CI
-- ایجاد 41 درس واقعی اولیه
-- پوشش اولیه همه 10 فصل سطح مبانی
-- ایجاد 11 Quiz و 66 سؤال
-- ایجاد 39 Exercise
-- ایجاد 3 Project شامل پروژه پایان سطح مبانی
-- ایجاد 39 Glossary entry
+- تکمیل پوشش اولیه سطح مبانی با 41 درس
+- تکمیل پوشش اولیه سطح مقدماتی با 48 درس
+- ایجاد آزمون‌ها، تمرین‌ها و پروژه‌های مرحله‌ای و پایان سطح
+- تأیید Build واقعی Android و Course Package در GitHub Actions
 
 ## وضعیت فعلی
 
-پروژه در فاز **Foundation complete / Fundamentals v0.1 covered / Beginner next** قرار دارد. سطح مبانی از نظر مسیر اولیه بسته شده، اما enrichment آن ادامه خواهد داشت. توسعه محتوایی بعدی روی Collections، String، Date/Time، Error Handling، Files، JSON/CSV/XML، CLI، Git/GitHub، Debugging، Testing و Documentation متمرکز است.
+پروژه در فاز **Fundamentals covered / Beginner covered / Advanced next** قرار دارد. مرحله بعدی: OOP، Functional Programming، Recursion، Data Structures، Search/Sort، Big-O، Memory، Testing پیشرفته، Clean Code/Refactoring، SOLID و Design Patterns.
