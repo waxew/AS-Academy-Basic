@@ -15,9 +15,9 @@ android {
         minSdk = 23
         targetSdk = 36
         // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
-        versionCode = 2
-        // 0.2.0 اولین نسخه‌ای است که هر چهار سطح محتوایی Basic را در یک Package واحد دارد.
-        versionName = "0.2.0"
+        versionCode = 3
+        // 0.2.1 پایه کیفیت یادگیری شامل Placement Test و محتوای Review/Glossary گسترده‌تر است.
+        versionName = "0.2.1"
     }
 
     // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
