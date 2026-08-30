@@ -1,1 +1,18 @@
-[]
+[
+  {"id":"basic-ref-unicode-standard","title":"The Unicode Standard","url":"https://www.unicode.org/standard/standard.html","lessonId":"basic-beg-006","publisher":"Unicode Consortium"},
+  {"id":"basic-ref-json-rfc8259","title":"RFC 8259 — The JavaScript Object Notation Data Interchange Format","url":"https://www.rfc-editor.org/rfc/rfc8259","lessonId":"basic-beg-021","publisher":"RFC Editor"},
+  {"id":"basic-ref-csv-rfc4180","title":"RFC 4180 — Common Format and MIME Type for CSV Files","url":"https://www.rfc-editor.org/rfc/rfc4180","lessonId":"basic-beg-022","publisher":"RFC Editor"},
+  {"id":"basic-ref-xml-spec","title":"Extensible Markup Language XML 1.0","url":"https://www.w3.org/TR/xml/","lessonId":"basic-beg-023","publisher":"W3C"},
+  {"id":"basic-ref-git-docs","title":"Git Reference Documentation","url":"https://git-scm.com/docs","lessonId":"basic-beg-029","publisher":"Git SCM"},
+  {"id":"basic-ref-git-branching","title":"Pro Git — Git Branching","url":"https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell","lessonId":"basic-beg-033","publisher":"Git SCM"},
+  {"id":"basic-ref-github-pull-requests","title":"GitHub Docs — Pull Requests","url":"https://docs.github.com/en/pull-requests","lessonId":"basic-beg-036","publisher":"GitHub"},
+  {"id":"basic-ref-semver","title":"Semantic Versioning 2.0.0","url":"https://semver.org/","lessonId":"basic-spc-004","publisher":"Semantic Versioning"},
+  {"id":"basic-ref-owasp-threat-modeling","title":"OWASP Threat Modeling Cheat Sheet","url":"https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html","lessonId":"basic-spc-005","publisher":"OWASP"},
+  {"id":"basic-ref-owasp-input-validation","title":"OWASP Input Validation Cheat Sheet","url":"https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html","lessonId":"basic-spc-006","publisher":"OWASP"},
+  {"id":"basic-ref-owasp-secrets","title":"OWASP Secrets Management Cheat Sheet","url":"https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html","lessonId":"basic-spc-007","publisher":"OWASP"},
+  {"id":"basic-ref-owasp-authorization","title":"OWASP Authorization Cheat Sheet","url":"https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html","lessonId":"basic-spc-008","publisher":"OWASP"},
+  {"id":"basic-ref-agile-manifesto","title":"Manifesto for Agile Software Development","url":"https://agilemanifesto.org/","lessonId":"basic-spc-010","publisher":"Agile Manifesto"},
+  {"id":"basic-ref-scrum-guide","title":"The Scrum Guide","url":"https://scrumguides.org/scrum-guide.html","lessonId":"basic-spc-011","publisher":"Scrum Guides"},
+  {"id":"basic-ref-github-actions","title":"GitHub Actions Documentation","url":"https://docs.github.com/en/actions","lessonId":"basic-spc-013","publisher":"GitHub"},
+  {"id":"basic-ref-open-source-guide","title":"How to Contribute to Open Source","url":"https://opensource.guide/how-to-contribute/","lessonId":"basic-spc-016","publisher":"Open Source Guides"}
+]
