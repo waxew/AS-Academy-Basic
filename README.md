@@ -11,13 +11,14 @@
 - زبان اصلی محتوا: فارسی و RTL
 - Android: `minSdk 23` / `targetSdk 36`
 - Java compatibility: JDK 17
-- Core: `AS-Academy-Core >= 1.0.1`
-- نسخه Host/Course: **0.2.0**
-- Android `versionCode`: **2**
+- Core: `AS-Academy-Core >= 1.1.0`
+- نسخه Host/Course: **0.3.0**
+- Android `versionCode`: **3**
+- Curriculum version: **0.2.0**؛ ترتیب سرفصل‌های چهارسطحی در 0.3.0 تغییر نکرده و Enrichment آموزشی اضافه شده است.
 
 ## قانون معماری
 
-این Repository فقط بخش‌های اختصاصی Basic را نگه می‌دارد: Course Package، محتوای آموزشی، Branding و Android Host اختصاصی. Navigation، Drawer/Profile، Settings، Room Database، Progress، Search، Bookmark، Notes، Quiz/Exercise/Project Engine و UI، Achievement، Backup/Restore، Content Update و Lesson Renderer در `AS-Academy-Core` قرار دارند و در Basic تکرار نمی‌شوند.
+این Repository فقط بخش‌های اختصاصی Basic را نگه می‌دارد: Course Package، محتوای آموزشی، Branding و Android Host اختصاصی. Navigation، Drawer/Profile، Settings، Room Database، Progress، Search، Bookmark، Notes، Quiz/Exercise/Project Engine و UI، Flashcard/Spaced Review Engine و UI، Achievement، Backup/Restore، Content Update و Lesson Renderer در `AS-Academy-Core` قرار دارند و در Basic تکرار نمی‌شوند.
 
 ## مدل آموزشی
 
@@ -25,7 +26,7 @@
 
 `Learn -> Example -> Practice -> Quiz -> Challenge -> Project -> Exam -> Review`
 
-درس‌ها بر حسب موضوع شامل هدف و پیش‌نیاز، توضیح شهودی و تخصصی، مثال، نکته و خطای رایج، تمرین، Hint/Solution، Quiz، پروژه، مرور، واژه‌نامه و سؤال مصاحبه هستند.
+درس‌ها بر حسب موضوع شامل هدف و پیش‌نیاز، توضیح شهودی و تخصصی، مثال، نکته و خطای رایج، تمرین، Hint/Solution، Quiz، پروژه، مرور، واژه‌نامه، Flashcard، منبع تکمیلی و سؤال مصاحبه هستند.
 
 ## چهار سطح اصلی
 
@@ -34,7 +35,7 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code/Refactoring، SOLID و Design Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Teamwork/Agile/Review، CI/CD/Open Source، Portfolio/Resume و Technical Interview.
 
-## وضعیت محتوای واقعی نسخه 0.2.0
+## وضعیت محتوای واقعی نسخه 0.3.0
 
 - **4 سطح اصلی**
 - **39 فصل** با Stable ID
@@ -42,13 +43,31 @@
 - **43 Quiz** با مجموع **222 سؤال**
 - **155 Exercise** دارای Hint، Solution و Explanation
 - **14 Project** چندمرحله‌ای
-- **39 Glossary entry** فعلی
+- **147 Glossary entry** در چهار سطح
+- **56 Flashcard** مفهومی با اتصال مستقیم به Lesson IDهای واقعی
+- **16 منبع رسمی و مرجع** از Unicode، RFC، W3C، Git/GitHub، OWASP، SemVer، Agile/Scrum و Open Source
 - مبانی: **41 درس / 10 فصل**
 - مقدماتی: **48 درس / 12 فصل**
 - پیشرفته: **44 درس / 11 فصل**
 - تخصصی و بازار کار: **24 درس / 6 فصل**
 
 همه چهار سطح مسیر آموزشی end-to-end، ارزیابی و پروژه دارند. اعداد بالا Placeholder نیستند و هر آیتم محتوای واقعی دارد.
+
+## مرور Flashcard و Spaced Review
+
+نسخه 0.3.0 مرور مفهومی را از یک فایل محتوایی ساده به قابلیت واقعی برنامه تبدیل می‌کند:
+
+- چهار Deck مستقل برای Fundamentals، Beginner، Advanced و Specialist
+- Stable ID برای حفظ Review History در Updateهای بعدی
+- Ratingهای `Again / Hard / Good / Easy`
+- زمان‌بندی مرور فاصله‌دار توسط `FlashcardReviewEngine` در Core
+- Seed خودکار کارت جدید هنگام Import بدون overwrite کردن سابقه قبلی
+- صف کارت‌های موعدرسیده و Session ثابت مرور
+- ذخیره `repetitions / intervalDays / easeFactor / dueAt / lastReviewedAt` در Room مشترک Core
+- Migration غیرتخریبی Database v3 -> v4
+- حفظ Review History در Backup/Restore
+- ایندکس Front/Back/Hint/Tag در Search مشترک Core
+- صفحه و Deck UI مشترک Core؛ Basic فقط Bundle و Database را متصل می‌کند
 
 ## پروژه‌های مرحله‌ای
 
@@ -89,26 +108,28 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 
 - Android Host مستقل Basic فعال است.
 - Lesson/Quiz/Exercise/Project به UI مشترک Core وصل‌اند.
-- Quiz History، Exercise Draft/Completion و Project Progress در Room مشترک ذخیره می‌شوند.
+- Flashcard به Navigation، Deck UI، Review Engine و Repository مشترک Core وصل است.
+- Quiz History، Exercise Draft/Completion، Project Progress و Flashcard Review State در Room مشترک ذخیره می‌شوند.
+- `CoursePackageImporter` بعد از Validation، Legacy claim، Flashcard seed و Search Index را در Transaction مشترک انجام می‌دهد.
 - Course Package قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
-- Core `1.0.1` سازگاری `EXERCISE_LINK` و dependency عمومی Room را برای Course Hostها فراهم می‌کند.
+- Core `1.1.0` قابلیت Flashcard، Room v4، Backup/Restore مرور و سازگاری legacy `EXERCISE_LINK` را فراهم می‌کند.
 - GitHub Actions مسیر `Validate -> Compile -> Lint -> Assemble Debug -> Upload APK Artifact` را اجرا می‌کند.
-- نسخه Android به `versionCode=2 / versionName=0.2.0` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
+- نسخه Android به `versionCode=3 / versionName=0.3.0` افزایش یافته؛ `applicationId` ثابت است و Migration دیتابیس از v3 به v4 destructive نیست.
 
 ## Enrichment بعد از پوشش سرفصل اصلی
 
-پوشش اصلی کامل شده اما توسعه محتوایی ادامه خواهد داشت:
+پوشش اصلی کامل شده و توسعه محتوایی از اینجا روی عمق و سنجش یادگیری متمرکز می‌شود:
 
 - Micro Quiz و Lesson Exam بیشتر
 - Question Bank گسترده‌تر
 - Placement Test
-- Weak Topic Review
-- Flashcard و Spaced Review
+- Weak Topic / Wrong Answer Review
 - Challenge Exerciseهای بیشتر
 - Rubric پروژه‌ها
 - Diagram و Assetهای بصری
-- Glossary گسترده‌تر
 - بانک سؤال مصاحبه بزرگ‌تر
+- گسترش Flashcardها از Deckهای هسته به پوشش granular در سطح Lesson
+- تکمیل منابع تکمیلی برای فصل‌های باقی‌مانده
 
 ## ساختار Repository
 
@@ -126,6 +147,7 @@ AS-Academy-Basic/
 │   ├── exercises/
 │   ├── projects/
 │   ├── glossary/
+│   ├── flashcards/
 │   ├── assets.json
 │   └── references.json
 ├── docs/
@@ -143,7 +165,7 @@ workspace/
 └── AS-Academy-Basic/
 ```
 
-Basic از Runtime و Contract مشترک `AS-Academy-Core` استفاده می‌کند.
+Basic از Runtime و Contract مشترک `AS-Academy-Core` استفاده می‌کند. هر تغییر reusable باید ابتدا در Core انجام شود و سپس Course Package فقط داده اختصاصی خود را مصرف کند.
 
 ## آماده‌سازی و Build
 
@@ -165,6 +187,16 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## Version History
 
+### 0.3.0 — Learning review enrichment
+
+- افزودن 56 Flashcard واقعی در چهار سطح
+- گسترش Glossary از 39 به 147 مدخل و اتصال به Lesson IDها
+- افزودن 16 منبع رسمی و مرجع
+- اتصال Host به `CoursePackageImporter`
+- اتصال مقصد مرور Flashcard به Navigation/Drawer
+- مصرف `AS-Academy-Core 1.1.0` برای Spaced Review، Room v4، Search و Backup/Restore
+- افزایش Android `versionCode` به 3 با `applicationId` ثابت و Migration غیرتخریبی
+
 ### 0.2.0 — Four-level curriculum
 
 - تکمیل پوشش اصلی هر چهار سطح
@@ -182,4 +214,4 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## وضعیت فعلی
 
-`Four-level curriculum covered / Final quality gate in progress / Enrichment and release hardening next`
+`Four-level curriculum complete / Flashcard and glossary enrichment implemented / Core 1.1.0 quality gate and Basic 0.3.0 integration validation in progress`
