@@ -8,6 +8,17 @@
     {"id":"basic-fnd-041-list","type":"LIST","content":"می‌توانم ورودی/خروجی و محدودیت مسئله را تعریف کنم\nمی‌توانم الگوریتم و شبه‌کد بنویسم و Dry Run انجام دهم\nمی‌توانم نوع داده و نام مناسب انتخاب کنم\nمی‌توانم شرط و Loop را با Edge Case تست کنم\nمی‌توانم منطق را به Functionهای روشن تقسیم کنم\nمی‌توانم خروجی و خطای قابل فهم طراحی کنم","metadata":{}},
     {"id":"basic-fnd-041-quiz","type":"QUIZ","content":"آزمون جامع پایان سطح مبانی","metadata":{"quizId":"basic-qz-011"}},
     {"id":"basic-fnd-041-project","type":"PROJECT_LINK","content":"پروژه پایان سطح مبانی: سامانه مدیریت هزینه روزانه","metadata":{"projectId":"basic-prj-003"}},
-    {"id":"basic-fnd-041-note","type":"NOTE","content":"پس از موفقیت در آزمون و پروژه این سطح، مسیر بعدی وارد Collection، String، Date/Time، Error Handling، File، Data Format، CLI، Git، Debugging و Testing می‌شود.","metadata":{}}
+    {"id":"basic-fnd-041-challenge-title","type":"SUBTITLE","content":"Challenge Bank مبانی — ده مسئله چندموضوعی","metadata":{}},
+    {"id":"basic-fnd-041-ch156","type":"EXERCISE","content":"Challenge 156: خط لوله اعتبارسنجی ورودی","metadata":{"exerciseId":"basic-ex-156"}},
+    {"id":"basic-fnd-041-ch157","type":"EXERCISE","content":"Challenge 157: محاسبه هزینه ارسال چندقاعده‌ای","metadata":{"exerciseId":"basic-ex-157"}},
+    {"id":"basic-fnd-041-ch158","type":"EXERCISE","content":"Challenge 158: موتور طبقه‌بندی نمره","metadata":{"exerciseId":"basic-ex-158"}},
+    {"id":"basic-fnd-041-ch159","type":"EXERCISE","content":"Challenge 159: منوی تعاملی پایدار","metadata":{"exerciseId":"basic-ex-159"}},
+    {"id":"basic-fnd-041-ch160","type":"EXERCISE","content":"Challenge 160: تحلیل جریان تراکنش‌ها","metadata":{"exerciseId":"basic-ex-160"}},
+    {"id":"basic-fnd-041-ch161","type":"EXERCISE","content":"Challenge 161: بازی حدس عدد با Strategy","metadata":{"exerciseId":"basic-ex-161"}},
+    {"id":"basic-fnd-041-ch162","type":"EXERCISE","content":"Challenge 162: قوانین برداشت ATM","metadata":{"exerciseId":"basic-ex-162"}},
+    {"id":"basic-fnd-041-ch163","type":"EXERCISE","content":"Challenge 163: سیاست رمز عبور بدون Regex","metadata":{"exerciseId":"basic-ex-163"}},
+    {"id":"basic-fnd-041-ch164","type":"EXERCISE","content":"Challenge 164: تصمیم سفارش مجدد انبار","metadata":{"exerciseId":"basic-ex-164"}},
+    {"id":"basic-fnd-041-ch165","type":"EXERCISE","content":"Challenge 165: گزارش هزینه روزانه","metadata":{"exerciseId":"basic-ex-165"}},
+    {"id":"basic-fnd-041-note","type":"NOTE","content":"پس از موفقیت در آزمون، پروژه و Challengeهای این سطح، مسیر بعدی وارد Collection، String، Date/Time، Error Handling، File، Data Format، CLI، Git، Debugging و Testing می‌شود.","metadata":{}}
   ]
 }
