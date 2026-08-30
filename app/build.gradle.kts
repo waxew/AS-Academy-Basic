@@ -15,9 +15,9 @@ android {
         minSdk = 23
         targetSdk = 36
         // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
-        versionCode = 8
-        // 0.2.6 بیست Micro Quiz پنج‌سؤالی را برای تشخیص سریع ضعف‌های چهار سطح اضافه می‌کند.
-        versionName = "0.2.6"
+        versionCode = 9
+        // 1.0.0 نخستین نسخه Stable/Release دوره Basic با چهار سطح کامل آموزشی است.
+        versionName = "1.0.0"
     }
 
     // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
@@ -32,7 +32,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    // Release builds are prepared for signing outside the public repository.
+    // Release builds are produced unsigned by Gradle in the public repository and are signed outside the repository with the stable private AS Academy key.
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -42,7 +42,7 @@ android {
 
 dependencies {
     // All shared learning/runtime behavior comes from the central composite build.
-    // 1.2.0 شامل Placement، Weak Topic Review، Spaced Review، Persistence و Navigation مشترک است.
+    // Core 1.2.0 provides Placement, Weak Topic Review, Spaced Review, persistence and shared Navigation used by Basic 1.0.0.
     implementation("com.asdevelopers.academy:core:1.2.0")
 
     // Host-only Android and Compose dependencies mirror the versions used by Core.

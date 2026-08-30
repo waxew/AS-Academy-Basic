@@ -12,8 +12,8 @@
 - Android: `minSdk 23` / `targetSdk 36`
 - Java: JDK 17
 - Core: `AS-Academy-Core >= 1.2.0`
-- Course/Host: **0.2.6**
-- Android `versionCode`: **8**
+- Course/Host: **1.0.0**
+- Android `versionCode`: **9**
 
 ## قانون معماری
 
@@ -30,14 +30,14 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code، Refactoring، SOLID و Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Agile/Review، CI/CD، Open Source، Portfolio و Technical Interview.
 
-## وضعیت واقعی محتوای نسخه 0.2.6
+## وضعیت واقعی محتوای نسخه 1.0.0
 
 - **4 سطح**
 - **39 فصل**
 - **157 درس واقعی**
 - **73 Quiz**
 - **534 سؤال** با Explanation و Tag موضوعی
-- **20 Micro Quiz** جدید، هرکدام 5 سؤال
+- **20 Micro Quiz**، هرکدام 5 سؤال
 - **195 Exercise** با Hint/Solution/Explanation
 - **40 Challenge Exercise چندموضوعی**
 - **14 Project** چندمرحله‌ای
@@ -53,7 +53,7 @@
 - پیشرفته: **44 درس / 11 فصل**
 - تخصصی: **24 درس / 6 فصل**
 
-## Micro Quizهای نسخه 0.2.6
+## Micro Quizها
 
 Micro Quizها برای تشخیص سریع ضعف قبل از آزمون جامع ساخته شده‌اند. هر سطح پنج Micro Quiz دارد و همه از درس جمع‌بندی همان سطح قابل بازشدن‌اند.
 
@@ -139,8 +139,9 @@ Android Host به قابلیت‌های مشترک Core متصل است:
 - Placement Summary، Weak Topic Review و Flashcard Review فعال‌اند.
 - Quiz History، Exercise Draft/Completion، Project Progress و Flashcard Progress در Room مشترک ذخیره می‌شوند.
 - Course Package قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
-- GitHub Actions: `Validate -> Compile -> Lint -> Assemble Debug -> Upload APK Artifact`.
-- `versionCode=8 / versionName=0.2.6` برای Update سالم روی نسخه‌های قبلی.
+- GitHub Actions: `Validate -> Compile -> Lint -> Assemble Debug -> Assemble Release -> SHA-256 -> Upload QA Artifacts`.
+- `versionCode=9 / versionName=1.0.0` برای Update سالم روی نسخه‌های قبلی.
+- APK Publish نهایی با keystore خصوصی و پایدار خارج از repository عمومی امضا می‌شود.
 
 ## Build
 
@@ -148,17 +149,26 @@ Linux/macOS:
 
 ```bash
 ./scripts/prepare-course.sh
-../AS-Academy-Core/gradlew -p . :app:assembleDebug
+../AS-Academy-Core/gradlew -p . :app:assembleDebug :app:assembleRelease
 ```
 
 Windows:
 
 ```bat
 scripts\prepare-course.bat
-..\AS-Academy-Core\gradlew.bat -p . :app:assembleDebug
+..\AS-Academy-Core\gradlew.bat -p . :app:assembleDebug :app:assembleRelease
 ```
 
 ## Version History
+
+### 1.0.0 — Stable Release
+
+- تثبیت Curriculum چهارسطحی کامل
+- 157 درس، 73 Quiz، 534 سؤال، 195 Exercise و 14 Project
+- Placement، Weak Topic Review و Spaced Review end-to-end
+- Final Capstone و Interview Bank کامل
+- Release QA برای Debug و Release variant و SHA-256
+- Android `versionCode` به 9 افزایش یافت
 
 ### 0.2.6 — Micro Quiz checkpoints
 
@@ -196,4 +206,4 @@ scripts\prepare-course.bat
 
 ## وضعیت فعلی
 
-`Four-level curriculum covered / Adaptive learning active / 195 exercises / 534 questions / Micro Quiz validation in progress`
+`Release Candidate 1.0.0 / Four-level curriculum covered / Adaptive learning active / 195 exercises / 534 questions / awaiting final signed publish artifact`
