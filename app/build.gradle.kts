@@ -1,5 +1,5 @@
 plugins {
-    // AGP 9 provides the Android application and built-in Kotlin support used by the Core sample host.
+    // AGP 9 provides the Android application and built-in Kotlin support used by the Core host.
     id("com.android.application")
     // Compose compiler version is kept aligned with the Core repository.
     id("org.jetbrains.kotlin.plugin.compose")
@@ -15,9 +15,9 @@ android {
         minSdk = 23
         targetSdk = 36
         // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
-        versionCode = 4
-        // 0.2.2 بانک ارزیابی عمیق هر چهار سطح را گسترش می‌دهد.
-        versionName = "0.2.2"
+        versionCode = 5
+        // 0.3.0 مسیر Adaptive Learning را به Android Host واقعی متصل می‌کند.
+        versionName = "0.3.0"
     }
 
     // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
@@ -41,9 +41,8 @@ android {
 }
 
 dependencies {
-    // All shared learning/runtime behavior comes from the central composite build.
-    // 1.0.1 شامل قرارداد سازگار EXERCISE_LINK و dependency عمومی Room برای Hostهای دوره است.
-    implementation("com.asdevelopers.academy:core:1.0.1")
+    // Placement، Weak Review، Flashcard Review، Room v4 و Routeهای Adaptive از Core مشترک 1.2.0 می‌آیند.
+    implementation("com.asdevelopers.academy:core:1.2.0")
 
     // Host-only Android and Compose dependencies mirror the versions used by Core.
     implementation("androidx.core:core-ktx:1.17.0")
