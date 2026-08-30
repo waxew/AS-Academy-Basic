@@ -1,6 +1,6 @@
 # AS Academy Basic
 
-`Basic` دوره پایه و پیش‌نیاز مشترک برنامه‌نویسی در مجموعه AS Academy است. این برنامه قبل از دوره‌های زبان‌محور مانند Python، Java، Kotlin، C، C++، C#، JavaScript و PHP قرار می‌گیرد و مفاهیم مشترک برنامه‌نویسی و مهندسی نرم‌افزار را از صفر تا آمادگی ورود به مسیر تخصصی آموزش می‌دهد.
+`Basic` دوره پایه و پیش‌نیاز مشترک برنامه‌نویسی در مجموعه AS Academy است. این برنامه قبل از دوره‌های زبان‌محور مانند Python، Java، Kotlin، C، C++، C#، JavaScript و PHP قرار می‌گیرد و مفاهیم مشترک برنامه‌نویسی و مهندسی نرم‌افزار را از صفر تا آمادگی ورود به بازار کار آموزش می‌دهد.
 
 ## هویت پروژه
 
@@ -11,8 +11,9 @@
 - زبان اصلی محتوا: فارسی و RTL
 - Android: `minSdk 23` / `targetSdk 36`
 - Java compatibility: JDK 17
-- Core: `AS-Academy-Core >= 1.0.0`
-- نسخه توسعه فعلی Host/Course: `0.1.0`
+- Core: `AS-Academy-Core >= 1.0.1`
+- نسخه Host/Course: **0.2.0**
+- Android `versionCode`: **2**
 
 ## قانون معماری
 
@@ -24,7 +25,7 @@
 
 `Learn -> Example -> Practice -> Quiz -> Challenge -> Project -> Exam -> Review`
 
-یک درس می‌تواند هدف و پیش‌نیاز، توضیح شهودی و تخصصی، مثال، نکته و خطای رایج، تمرین چندسطحی، Hint/Solution، Quiz، پروژه، مرور، واژه‌نامه و سؤال مصاحبه داشته باشد.
+درس‌ها بر حسب موضوع شامل هدف و پیش‌نیاز، توضیح شهودی و تخصصی، مثال، نکته و خطای رایج، تمرین، Hint/Solution، Quiz، پروژه، مرور، واژه‌نامه و سؤال مصاحبه هستند.
 
 ## چهار سطح اصلی
 
@@ -33,22 +34,21 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code/Refactoring، SOLID و Design Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Teamwork/Agile/Review، CI/CD/Open Source، Portfolio/Resume و Technical Interview.
 
-## وضعیت محتوای واقعی
+## وضعیت محتوای واقعی نسخه 0.2.0
 
-در شاخه توسعه Advanced:
-
-- **4 سطح اصلی** تعریف شده
-- **39 فصل** با Stable ID تعریف شده
-- **133 درس واقعی**
-- **36 Quiz** با مجموع **182 سؤال**
-- **131 Exercise** دارای Hint، Solution و Explanation
-- **10 Project** چندمرحله‌ای
+- **4 سطح اصلی**
+- **39 فصل** با Stable ID
+- **157 درس واقعی**
+- **43 Quiz** با مجموع **222 سؤال**
+- **155 Exercise** دارای Hint، Solution و Explanation
+- **14 Project** چندمرحله‌ای
 - **39 Glossary entry** فعلی
-- سطح مبانی: **41 درس / 10 فصل**
-- سطح مقدماتی: **48 درس / 12 فصل**
-- سطح پیشرفته: **44 درس / 11 فصل**
+- مبانی: **41 درس / 10 فصل**
+- مقدماتی: **48 درس / 12 فصل**
+- پیشرفته: **44 درس / 11 فصل**
+- تخصصی و بازار کار: **24 درس / 6 فصل**
 
-سه سطح اول مسیر آموزشی کامل اولیه، آزمون جامع و پروژه پایان سطح دارند. این اعداد Placeholder نیستند و هر آیتم محتوای واقعی دارد.
+همه چهار سطح مسیر آموزشی end-to-end، ارزیابی و پروژه دارند. اعداد بالا Placeholder نیستند و هر آیتم محتوای واقعی دارد.
 
 ## پروژه‌های مرحله‌ای
 
@@ -62,6 +62,28 @@
 - `basic-prj-008` — موتور Search/Ranking و تحلیل Complexity
 - `basic-prj-009` — Refactor موتور گزارش Legacy
 - `basic-prj-010` — Capstone پیشرفته: سامانه Task/Workflow ماژولار
+- `basic-prj-011` — معماری و امنیت سامانه اشتراک فایل
+- `basic-prj-012` — شبیه‌سازی Team Delivery و CI/CD
+- `basic-prj-013` — بسته Portfolio و Resume مهندسی
+- `basic-prj-014` — **Final Capstone: Personal Operations Manager**
+
+## Final Capstone
+
+Final Capstone کل دوره باید این مهارت‌ها را در یک محصول واقعی یکپارچه کند:
+
+- Problem/Scope و Acceptance Criteria
+- Data Model، Algorithm و Data Structure
+- Architecture و Dependency Direction
+- Offline Storage، Migration، Backup/Restore و Import/Export
+- Security و Threat Model
+- Git / Issue / Branch / Pull Request
+- Unit / Property / Integration / E2E / Regression Testing
+- CI/CD، Artifact و Release Evidence
+- README، Changelog و ADR
+- Complexity / Performance / Memory Review
+- Code Review و Security Review
+- Portfolio Case Study
+- Mock Technical Interview Defense
 
 ## وضعیت فنی Android
 
@@ -69,12 +91,24 @@
 - Lesson/Quiz/Exercise/Project به UI مشترک Core وصل‌اند.
 - Quiz History، Exercise Draft/Completion و Project Progress در Room مشترک ذخیره می‌شوند.
 - Course Package قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
+- Core `1.0.1` سازگاری `EXERCISE_LINK` و dependency عمومی Room را برای Course Hostها فراهم می‌کند.
 - GitHub Actions مسیر `Validate -> Compile -> Lint -> Assemble Debug -> Upload APK Artifact` را اجرا می‌کند.
-- Build واقعی Basic و Core پس از اصلاح public Room dependency با موفقیت اجرا شده است.
+- نسخه Android به `versionCode=2 / versionName=0.2.0` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
 
-## هدف نسخه جامع
+## Enrichment بعد از پوشش سرفصل اصلی
 
-هدف صرفاً عبور از 100 درس نیست. دوره باید Question Bank بزرگ، Micro Quiz، Lesson/Chapter/Level Exam، Placement Test، Weak Topic Review، Flashcard/Spaced Review، Challengeهای بیشتر، پروژه‌های واقعی، Final Capstone، بانک سؤال مصاحبه و مسیر Portfolio/Resume داشته باشد.
+پوشش اصلی کامل شده اما توسعه محتوایی ادامه خواهد داشت:
+
+- Micro Quiz و Lesson Exam بیشتر
+- Question Bank گسترده‌تر
+- Placement Test
+- Weak Topic Review
+- Flashcard و Spaced Review
+- Challenge Exerciseهای بیشتر
+- Rubric پروژه‌ها
+- Diagram و Assetهای بصری
+- Glossary گسترده‌تر
+- بانک سؤال مصاحبه بزرگ‌تر
 
 ## ساختار Repository
 
@@ -102,8 +136,6 @@ AS-Academy-Basic/
 ```
 
 ## اتصال به AS Academy Core
-
-دو Repository باید کنار هم باشند:
 
 ```text
 workspace/
@@ -133,17 +165,21 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## Version History
 
-### 0.1.0 — Foundation + Fundamentals + Beginner + Advanced
+### 0.2.0 — Four-level curriculum
 
-- اتصال کامل به AS-Academy-Core و Android Host
+- تکمیل پوشش اصلی هر چهار سطح
+- 157 درس، 155 تمرین، 43 Quiz با 222 سؤال و 14 پروژه
+- آزمون جامع هر سطح و آزمون جامع نهایی کل Basic
+- Final Capstone صفر تا مهندسی، Release، Portfolio و Interview
+- ارتقای Core requirement به 1.0.1
+- افزایش Android versionCode به 2 برای Update سالم
+
+### 0.1.0 — Foundation
+
+- ایجاد پروژه، Android Host و اتصال به AS-Academy-Core
 - تعریف چهار سطح و 39 فصل
-- تکمیل پوشش اولیه مبانی، مقدماتی و پیشرفته
-- 133 درس، 131 تمرین، 36 Quiz و 10 پروژه واقعی
-- آزمون جامع و Capstone برای هر سه سطح تکمیل‌شده
-- GitHub Actions و Android Debug APK build فعال و تأیید شده
+- ایجاد Validator/Compiler/CI integration
 
 ## وضعیت فعلی
 
-`Fundamentals covered / Beginner covered / Advanced covered / Specialist next`
-
-مرحله بعد: Architecture، Dependency/Versioning، Security، Teamwork/Agile/Code Review، CI/CD/Open Source، Portfolio/Resume و Technical Interview.
+`Four-level curriculum covered / Final quality gate in progress / Enrichment and release hardening next`
