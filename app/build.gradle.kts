@@ -15,9 +15,9 @@ android {
         minSdk = 23
         targetSdk = 36
         // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
-        versionCode = 7
-        // 0.2.5 بانک 100 سؤالی Interview را به محتوای تخصصی Basic اضافه می‌کند.
-        versionName = "0.2.5"
+        versionCode = 8
+        // 0.2.6 بیست Micro Quiz پنج‌سؤالی را برای تشخیص سریع ضعف‌های چهار سطح اضافه می‌کند.
+        versionName = "0.2.6"
     }
 
     // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
