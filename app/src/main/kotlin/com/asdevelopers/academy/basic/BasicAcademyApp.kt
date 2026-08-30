@@ -273,7 +273,7 @@ fun BasicAcademyApp() {
                         AcademyAboutScreen(
                             appTitle = "Basic",
                             description = "دوره پایه و پیش‌نیاز مشترک برنامه‌نویسی در AS Academy؛ از سواد رایانه و حل مسئله تا مهندسی نرم‌افزار و آمادگی بازار کار.",
-                            versionName = "0.1.0",
+                            versionName = BuildConfig.VERSION_NAME,
                             modifier = Modifier.padding(paddingValues)
                         )
                     },
