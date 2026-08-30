@@ -12,8 +12,8 @@
 - Android: `minSdk 23` / `targetSdk 36`
 - Java compatibility: JDK 17
 - Core: `AS-Academy-Core >= 1.2.0`
-- نسخه Host/Course: **0.2.4**
-- Android `versionCode`: **6**
+- نسخه Host/Course: **0.2.5**
+- Android `versionCode`: **7**
 
 ## قانون معماری
 
@@ -23,7 +23,7 @@
 
 چرخه استاندارد:
 
-`Placement -> Learn -> Example -> Practice -> Quiz -> Weak Topic Review -> Challenge -> Project -> Exam -> Spaced Review`
+`Placement -> Learn -> Example -> Practice -> Quiz -> Weak Topic Review -> Challenge -> Project -> Exam -> Spaced Review -> Interview Defense`
 
 درس‌ها بر حسب موضوع شامل هدف و پیش‌نیاز، توضیح شهودی و تخصصی، مثال، نکته و خطای رایج، تمرین، Hint/Solution، Quiz، پروژه، مرور، واژه‌نامه و سؤال مصاحبه هستند.
 
@@ -34,39 +34,52 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code/Refactoring، SOLID و Design Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Teamwork/Agile/Review، CI/CD/Open Source، Portfolio/Resume و Technical Interview.
 
-## وضعیت محتوای واقعی نسخه 0.2.4
+## وضعیت محتوای واقعی نسخه 0.2.5
 
 - **4 سطح اصلی**
 - **39 فصل** با Stable ID
 - **157 درس واقعی**
-- **48 Quiz** با مجموع **334 سؤال**
+- **53 Quiz** با مجموع **434 سؤال**
 - **195 Exercise** دارای Hint، Solution و Explanation
-- **40 Challenge Exercise چندموضوعی جدید**؛ 10 مورد برای هر سطح
+- **40 Challenge Exercise چندموضوعی**؛ 10 مورد برای هر سطح
+- **100 سؤال Interview Bank** در 5 آزمون تخصصی
 - **14 Project** چندمرحله‌ای
 - **69 Glossary entry** برای واژه‌نامه و Flashcard seed
 - **1 Placement Test جامع 32 سؤالی**
-- **4 Depth Assessment سطحی با مجموع 80 سؤال جدید**
+- **4 Depth Assessment سطحی با مجموع 80 سؤال**
 - مبانی: **41 درس / 10 فصل**
 - مقدماتی: **48 درس / 12 فصل**
 - پیشرفته: **44 درس / 11 فصل**
 - تخصصی و بازار کار: **24 درس / 6 فصل**
 
-همه چهار سطح مسیر آموزشی end-to-end، ارزیابی، Challenge و پروژه دارند. اعداد بالا Placeholder نیستند و هر آیتم محتوای واقعی دارد.
+همه چهار سطح مسیر آموزشی end-to-end، ارزیابی، Challenge، پروژه و آمادگی مصاحبه دارند. اعداد بالا Placeholder نیستند و هر آیتم محتوای واقعی دارد.
 
-## بانک Challenge نسخه 0.2.4
+## Interview Bank نسخه 0.2.5
 
-Challengeها عمداً زبان‌خنثی و چندموضوعی هستند تا قبل از ورود به Python/Java/Kotlin/C/C++/C#/JavaScript/PHP، توان حل مسئله و مهندسی کاربر را بسنجند. از `BUILD_FEATURE` و `READ_AND_ANSWER` در Exercise Engine مشترک استفاده شده و منطق Runner زبان خاصی داخل Basic اضافه نشده است.
+صد سؤال جدید به‌صورت پنج آزمون 20 سؤالی طراحی شده‌اند. سؤال‌ها فقط حفظ اصطلاح نیستند و explanation و Tag موضوعی دارند تا برای Weak Topic Review نیز قابل استفاده باشند.
+
+- `basic-qz-interview-001` — **حل مسئله و الگوریتم**: constraints، Big-O، search، recursion، stack/queue، graph، heap، sliding window و reasoning مصاحبه.
+- `basic-qz-interview-002` — **طراحی کد، OOP و Data Structure**: Encapsulation، Composition، SOLID، Functional، Pattern، Hash/Queue/List/Heap، Coupling/Cohesion و Refactoring.
+- `basic-qz-interview-003` — **Debugging، Testing و Git**: Root Cause، Stack Trace، Regression، Test Doubles، Coverage، Commit، Merge/Rebase، PR و Code Review.
+- `basic-qz-interview-004` — **Architecture، Security و Delivery**: ADR، SemVer، Dependency، Threat Model، AuthN/AuthZ، Least Privilege، CI/CD، Migration، Incident و Open Source.
+- `basic-qz-interview-005` — **System Design، Behavioral و Career**: NFR، Offline-First، Sync، Idempotency، Cache، Replication/Sharding، Observability، STAR، Portfolio و Mock Interview.
+
+هر پنج آزمون از درس نهایی `basic-spc-024` قابل بازشدن‌اند و نتیجه آن‌ها وارد تاریخچه Quiz و Weak Topic Review مشترک Core می‌شود.
+
+## بانک Challenge نسخه 0.2.4+
+
+Challengeها زبان‌خنثی و چندموضوعی هستند تا قبل از ورود به دوره‌های زبان‌محور، توان حل مسئله و مهندسی کاربر را بسنجند. از `BUILD_FEATURE` و `READ_AND_ANSWER` در Exercise Engine مشترک استفاده شده و منطق Runner زبان خاصی داخل Basic اضافه نشده است.
 
 - `basic-ex-156` تا `basic-ex-165` — **مبانی**: validation pipeline، rule precedence، statistics، menu state، transaction stream، ATM، password policy، inventory و گزارش مالی.
 - `basic-ex-166` تا `basic-ex-175` — **مقدماتی**: CSV/JSON، migration، timezone، file recovery، CLI، Git conflict، debugging، test matrix، API contract و Backup/Restore.
 - `basic-ex-176` تا `basic-ex-185` — **پیشرفته**: OOP/Composition، Functional Core، Recursion/Tree، Graph، Hash Index، Search/Sort، Big-O optimization، Memory audit، Test Architecture و Refactoring/SOLID/Patterns.
 - `basic-ex-186` تا `basic-ex-195` — **تخصصی**: ADR، Dependency Policy، Threat Model، AuthN/AuthZ، Code Review، Incident Delivery، CI/CD، Open Source، Portfolio و Mock System Design.
 
-همه Challengeها Hint، Solution، Explanation و Tagهای موضوعی دارند و به درس جمع‌بندی سطح مربوط متصل‌اند.
+همه Challengeها Hint، Solution، Explanation و Tagهای موضوعی دارند و از درس جمع‌بندی سطح مربوط قابل بازشدن‌اند.
 
 ## بانک سنجش عمیق
 
-چهار آزمون عمیق فقط سؤال حفظی اضافه نمی‌کنند؛ تمرکز آن‌ها روی reasoning، boundary، trade-off و سناریوهای واقعی است:
+چهار آزمون عمیق تمرکزشان روی reasoning، boundary، trade-off و سناریوهای واقعی است:
 
 - `basic-qz-depth-fundamentals-001` — Problem Solving، Algorithm، Validation، Control Flow و Function Design
 - `basic-qz-depth-beginner-001` — Collections، Date/Time، Error/File/Data Format، CLI، Git، Debugging، Testing و Documentation
@@ -138,15 +151,16 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 - Course Package قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
 - Core `1.2.0` منبع رسمی Navigation، Adaptive Review، Placement، Spaced Review، Persistence و UI مشترک است.
 - GitHub Actions مسیر `Validate -> Compile -> Lint -> Assemble Debug -> Upload APK Artifact` را اجرا می‌کند.
-- نسخه Android به `versionCode=6 / versionName=0.2.4` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
+- نسخه Android به `versionCode=7 / versionName=0.2.5` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
 
 ## Enrichment بعد از پوشش سرفصل اصلی
 
 انجام‌شده:
 
 - Placement Test
-- Question Bank تا 334 سؤال
+- Question Bank تا 434 سؤال
 - چهار Depth Assessment سطحی
+- Interview Bank صدسؤالی
 - Weak Topic Review end-to-end
 - Flashcard و Spaced Review end-to-end
 - Placement Summary و شروع سطح پیشنهادی
@@ -158,10 +172,10 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 ادامه توسعه محتوایی:
 
 - Micro Quiz و Lesson Exam بیشتر برای درس‌های پرریسک
-- بانک سؤال مصاحبه بزرگ‌تر
 - Diagram و Assetهای بصری
-- افزایش Challenge Bank به سمت 300–500 تمرین کل
-- افزایش Question Bank به سمت حدود 1000 سؤال با تنوع سناریویی
+- افزایش Exercise Bank به سمت 300–500 تمرین
+- افزایش Question Bank به سمت حدود 1000 سؤال
+- Scenario Lab و Mock Interviewهای تعاملی بیشتر
 
 ## ساختار Repository
 
@@ -220,6 +234,15 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## Version History
 
+### 0.2.5 — 100-question Interview Bank
+
+- اضافه‌شدن 5 آزمون Interview با مجموع 100 سؤال واقعی
+- افزایش Quiz Bank از 48 به 53 آزمون
+- افزایش Question Bank از 334 به 434 سؤال
+- پوشش Problem Solving، Code Design، Debug/Test/Git، Architecture/Security/Delivery و System Design/Behavioral
+- اتصال پنج آزمون به درس نهایی و History/Weak Topic Review مشترک
+- افزایش Android versionCode به 7 برای Update سالم
+
 ### 0.2.4 — Multi-topic Challenge Bank
 
 - اضافه‌شدن 40 Challenge Exercise واقعی و چندموضوعی
@@ -273,4 +296,4 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## وضعیت فعلی
 
-`Four-level curriculum covered / Adaptive learning integrated / 195-exercise Challenge Bank in validation / Interview Bank next`
+`Four-level curriculum covered / Adaptive learning integrated / 195 exercises / 434 questions / Interview Bank in validation`
