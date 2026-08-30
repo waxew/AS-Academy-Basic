@@ -1,6 +1,6 @@
 # Basic 1.0.0 Release Checklist
 
-این سند معیار نهایی انتشار نخستین نسخه Stable دوره Basic است.
+این سند وضعیت نهایی نخستین نسخه Stable دوره Basic را ثبت می‌کند.
 
 ## Version and identity
 
@@ -37,29 +37,36 @@
 
 ## Automated QA
 
-- [ ] Course Validator سبز.
-- [ ] Course Compiler سبز.
-- [ ] Android Lint سبز.
-- [ ] Debug APK build سبز.
-- [ ] Release variant build سبز.
-- [ ] SHA-256 برای Debug و Release QA تولید شده است.
+- [x] Course Validator سبز.
+- [x] Course Compiler سبز.
+- [x] Android Lint سبز.
+- [x] Debug APK build سبز.
+- [x] Release variant build سبز.
+- [x] SHA-256 برای خروجی‌ها تولید و مستقل تطبیق داده شد.
 
 ## Publish signing
 
-- [ ] یک keystore خصوصی و پایدار برای `com.asdevelopers.academy.basic` ساخته شده است.
-- [ ] keystore داخل repository عمومی Commit نشده است.
-- [ ] Release APK با همان keystore امضا شده است.
-- [ ] `apksigner verify --verbose --print-certs` موفق است.
-- [ ] SHA-256 فایل Publish ثبت شده است.
-- [ ] fingerprint گواهی Signing ثبت شده است.
+- [x] یک keystore خصوصی و پایدار برای `com.asdevelopers.academy.basic` ساخته شده است.
+- [x] keystore داخل repository عمومی Commit نشده است.
+- [x] Release APK با همان keystore امضا شده است.
+- [x] `apksigner verify --verbose --print-certs` موفق است.
+- [x] SHA-256 فایل Publish ثبت شده است: `00abcd81578227ff2b4aca6d3055e35e922c50063fff00f516ca49772c648959`.
+- [x] fingerprint گواهی Signing ثبت شده است: `611be8ffff16978f90ff3ffec761500af4da78379bb51f7299486acbf5822cba`.
+- [x] Backup رمز‌شده Signing بازیابی آزمایشی شد و JKS بازیابی‌شده همان Certificate APK را دارد.
 
 ## Final delivery pack
 
-- [ ] APK Publish/Release نهایی با نام بدون `debug`.
-- [ ] APK Debug.
-- [ ] Source ZIP کامل.
-- [ ] `info.txt` شامل Version، Package، Signing certificate fingerprint و دستورهای Build/Verify.
-- [ ] SHA-256/checksum خروجی‌ها.
-- [ ] گزارش verify امضای APK.
+- [x] APK Publish/Release نهایی: `AS-Academy-Basic-1.0.0.apk`.
+- [x] APK Debug: `AS-Academy-Basic-1.0.0-debug.apk`.
+- [x] Source ZIP کامل: `source.as-academy-basic-1.0.0.zip`.
+- [x] `info.txt` و اطلاعات نسخه/Package/Signing certificate موجود است.
+- [x] SHA-256/checksum خروجی‌ها موجود است.
+- [x] گزارش verify امضای APK موجود است.
+- [x] Backup خصوصی Signing برای نگهداری و Updateهای بعدی آماده است.
+- [x] GitHub Release `v1.0.0` روی commit `e12f885c59582964e7a53ccfc3333504b9a1b2f2` منتشر شده است.
 
-تا زمانی که تمام موارد Automated QA و Publish signing سبز نشده‌اند، نسخه `1.0.0` فقط Release Candidate محسوب می‌شود.
+## نتیجه
+
+**AS Academy Basic 1.0.0 Released / Production-ready baseline.**
+
+تمام APKهای بعدی با package `com.asdevelopers.academy.basic` باید با همین keystore نسخه 1.0.0 امضا شوند تا نصب Update بدون حذف برنامه و داده‌های کاربر ممکن بماند.
