@@ -47,17 +47,27 @@ import com.asdevelopers.academy.core.navigation.AcademyNavHost
 import com.asdevelopers.academy.core.navigation.AcademyRoutes
 import com.asdevelopers.academy.core.navigation.openAbout
 import com.asdevelopers.academy.core.navigation.openExercise
+import com.asdevelopers.academy.core.navigation.openFlashcardReview
 import com.asdevelopers.academy.core.navigation.openLesson
+import com.asdevelopers.academy.core.navigation.openPlacement
 import com.asdevelopers.academy.core.navigation.openProject
 import com.asdevelopers.academy.core.navigation.openQuiz
 import com.asdevelopers.academy.core.navigation.openSettings
+import com.asdevelopers.academy.core.navigation.openWeakTopicReview
 import com.asdevelopers.academy.core.notification.StudyReminderScheduler
 import com.asdevelopers.academy.core.progress.LearningCompletion
+import com.asdevelopers.academy.core.progress.LearningPathEngine
 import com.asdevelopers.academy.core.progress.LearningTargetType
 import com.asdevelopers.academy.core.repository.ExerciseDraftRepository
+import com.asdevelopers.academy.core.repository.FlashcardReviewRepository
 import com.asdevelopers.academy.core.repository.LearningCompletionRepository
+import com.asdevelopers.academy.core.repository.PlacementResultRepository
 import com.asdevelopers.academy.core.repository.ProjectProgressRepository
 import com.asdevelopers.academy.core.repository.QuizHistoryRepository
+import com.asdevelopers.academy.core.repository.WeakTopicReviewRepository
+import com.asdevelopers.academy.core.review.Flashcard
+import com.asdevelopers.academy.core.review.PlacementEngine
+import com.asdevelopers.academy.core.review.SpacedReviewEngine
 import com.asdevelopers.academy.core.settings.AcademyPreferencesRepository
 import com.asdevelopers.academy.core.settings.AcademyProfile
 import com.asdevelopers.academy.core.settings.AcademySettings
@@ -67,16 +77,19 @@ import com.asdevelopers.academy.core.ui.components.AcademyDrawerItem
 import com.asdevelopers.academy.core.ui.content.LessonRenderer
 import com.asdevelopers.academy.core.ui.screens.AcademyAboutScreen
 import com.asdevelopers.academy.core.ui.screens.AcademyExerciseScreen
+import com.asdevelopers.academy.core.ui.screens.AcademyFlashcardReviewScreen
+import com.asdevelopers.academy.core.ui.screens.AcademyPlacementSummaryScreen
 import com.asdevelopers.academy.core.ui.screens.AcademyProjectScreen
 import com.asdevelopers.academy.core.ui.screens.AcademyQuizScreen
 import com.asdevelopers.academy.core.ui.screens.AcademySettingsScreen
+import com.asdevelopers.academy.core.ui.screens.AcademyWeakTopicReviewScreen
 import com.asdevelopers.academy.core.ui.theme.AcademyTheme
 import com.asdevelopers.academy.core.ui.theme.DefaultAcademyBranding
 import kotlinx.coroutines.launch
 
 /**
  * Host اختصاصی Basic فقط Course Bundle، Branding و اتصال Repositoryها را فراهم می‌کند.
- * Navigation، Drawer، Quiz/Exercise/Project UI و تمام Engineها از AS-Academy-Core مصرف می‌شوند.
+ * Navigation، Drawer، Quiz/Exercise/Project، Placement و Review UI/Engineها از AS-Academy-Core مصرف می‌شوند.
  */
 @Composable
 fun BasicAcademyApp() {
@@ -95,6 +108,12 @@ fun BasicAcademyApp() {
     val database = remember { AcademyDatabase.create(context, "basic_academy.db") }
     // Repository تاریخچه آزمون، QuizScore را بدون SQL مستقیم از Host ذخیره می‌کند.
     val quizHistoryRepository = remember(database) { QuizHistoryRepository(database.quizResultDao()) }
+    // Weak Topic Repository تاریخچه همان Course را به پیشنهاد درس تبدیل می‌کند.
+    val weakTopicReviewRepository = remember(database) { WeakTopicReviewRepository(database.quizResultDao()) }
+    // نتیجه Placement پس از Rotation/Restart از Room دوباره ساخته می‌شود.
+    val placementResultRepository = remember(database) { PlacementResultRepository(database.quizResultDao()) }
+    // زمان‌بندی Flashcard فقط در Core نگهداری و Persist می‌شود.
+    val flashcardReviewRepository = remember(database) { FlashcardReviewRepository(database.flashcardProgressDao()) }
     // Draft تمرین از Repository مشترک و جدول چنددوره‌ای استفاده می‌کند.
     val exerciseDraftRepository = remember(database) { ExerciseDraftRepository(database.exerciseDraftDao()) }
     // Completion تمرین و پروژه برای Dashboard و Achievement قابل استفاده است.
@@ -105,6 +124,8 @@ fun BasicAcademyApp() {
     val projectProgressRepository = remember(database) {
         ProjectProgressRepository(database.projectProgressDao())
     }
+    // Policy چهارسطحی رسمی Core برای Basic دقیقاً با ساختار Fundamentals/Beginner/Advanced/Specialist منطبق است.
+    val placementPolicy = remember { PlacementEngine.fourLevelPolicy() }
 
     // هنگام خارج شدن Host، Connection دیتابیس بسته می‌شود و هیچ Singleton مخفی باقی نمی‌ماند.
     DisposableEffect(database) {
@@ -155,7 +176,7 @@ fun BasicAcademyApp() {
     // فقط Result موفق Bundle معتبر در اختیار UI و Activity Screenها قرار می‌گیرد.
     val bundle = (courseResult as? CourseLoadResult.Success)?.bundle
 
-    // Drawer فقط گزینه‌های اختصاصی Course را تعریف می‌کند؛ Settings/Share/About از Core می‌آیند.
+    // Drawer فقط مقصدهای Course را انتخاب می‌کند؛ Route و Screen واقعی در Core مشترک هستند.
     val drawerItems = listOf(
         AcademyDrawerItem(
             id = "basic-home",
@@ -178,6 +199,28 @@ fun BasicAcademyApp() {
             bundle?.lessons?.firstOrNull()?.let { lesson ->
                 navController.openLesson(lesson.id)
             }
+        },
+        AcademyDrawerItem(
+            id = "basic-placement",
+            label = "تعیین سطح",
+            icon = Icons.Outlined.MenuBook
+        ) {
+            // تعیین سطح همیشه Quiz واقعی دوره را باز می‌کند؛ Result بعد از Completion از Room خوانده می‌شود.
+            navController.openQuiz(BASIC_PLACEMENT_QUIZ_ID)
+        },
+        AcademyDrawerItem(
+            id = "basic-weak-review",
+            label = "مرور نقاط ضعف",
+            icon = Icons.Outlined.MenuBook
+        ) {
+            navController.openWeakTopicReview()
+        },
+        AcademyDrawerItem(
+            id = "basic-flashcards",
+            label = "مرور فلش‌کارت",
+            icon = Icons.Outlined.MenuBook
+        ) {
+            navController.openFlashcardReview()
         }
     )
 
@@ -230,6 +273,9 @@ fun BasicAcademyApp() {
                             result = courseResult,
                             bundle = bundle,
                             onOpenLesson = { lessonId -> navController.openLesson(lessonId) },
+                            onOpenPlacement = { navController.openQuiz(BASIC_PLACEMENT_QUIZ_ID) },
+                            onOpenWeakReview = { navController.openWeakTopicReview() },
+                            onOpenFlashcards = { navController.openFlashcardReview() },
                             modifier = Modifier.padding(paddingValues)
                         )
                     },
@@ -321,6 +367,10 @@ fun BasicAcademyApp() {
                                             score = score,
                                             completedAt = System.currentTimeMillis()
                                         )
+                                        // فقط Placement Quiz بعد از Persist شدن نتیجه، Summary مشترک را باز می‌کند.
+                                        if (quiz.id == BASIC_PLACEMENT_QUIZ_ID) {
+                                            navController.openPlacement()
+                                        }
                                     }
                                 }
                             )
@@ -337,7 +387,7 @@ fun BasicAcademyApp() {
                         } else {
                             // Draft ذخیره‌شده به‌صورت Flow خوانده می‌شود تا پس از بازگشت از صفحه باقی بماند.
                             val draftFlow = remember(exercise.id) {
-                                exerciseDraftRepository.observe("basic", exercise.id)
+                                exerciseDraftRepository.observe(BASIC_COURSE_ID, exercise.id)
                             }
                             val savedDraft by draftFlow.collectAsState(initial = null)
                             AcademyExerciseScreen(
@@ -349,7 +399,7 @@ fun BasicAcademyApp() {
                                     scope.launch {
                                         exerciseDraftRepository.save(
                                             ExerciseDraft(
-                                                courseId = "basic",
+                                                courseId = BASIC_COURSE_ID,
                                                 exerciseId = exercise.id,
                                                 answer = answer,
                                                 updatedAtEpochMillis = System.currentTimeMillis()
@@ -363,7 +413,7 @@ fun BasicAcademyApp() {
                                         val now = System.currentTimeMillis()
                                         exerciseDraftRepository.save(
                                             ExerciseDraft(
-                                                courseId = "basic",
+                                                courseId = BASIC_COURSE_ID,
                                                 exerciseId = exercise.id,
                                                 answer = answer,
                                                 updatedAtEpochMillis = now
@@ -372,7 +422,7 @@ fun BasicAcademyApp() {
                                         // Completion جدا از Draft است و Dashboard می‌تواند آن را مصرف کند.
                                         completionRepository.save(
                                             LearningCompletion(
-                                                courseId = "basic",
+                                                courseId = BASIC_COURSE_ID,
                                                 targetType = LearningTargetType.EXERCISE,
                                                 targetId = exercise.id,
                                                 completed = true,
@@ -395,7 +445,7 @@ fun BasicAcademyApp() {
                         } else {
                             // Progress پروژه Flow است تا Milestoneها پس از خروج و ورود دوباره بازیابی شوند.
                             val progressFlow = remember(project.id) {
-                                projectProgressRepository.observe("basic", project.id)
+                                projectProgressRepository.observe(BASIC_COURSE_ID, project.id)
                             }
                             val savedProgress by progressFlow.collectAsState(initial = null)
                             AcademyProjectScreen(
@@ -410,7 +460,7 @@ fun BasicAcademyApp() {
                                         progress.completedAtEpochMillis?.let { completedAt ->
                                             completionRepository.save(
                                                 LearningCompletion(
-                                                    courseId = "basic",
+                                                    courseId = BASIC_COURSE_ID,
                                                     targetType = LearningTargetType.PROJECT,
                                                     targetId = project.id,
                                                     completed = true,
@@ -421,6 +471,118 @@ fun BasicAcademyApp() {
                                     }
                                 }
                             )
+                        }
+                    },
+                    placement = {
+                        val currentBundle = bundle
+                        if (currentBundle == null) {
+                            BasicMessage(
+                                message = "Course هنوز بارگذاری نشده است.",
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        } else {
+                            val placementFlow = remember(currentBundle.manifest.version) {
+                                placementResultRepository.observeLatest(
+                                    courseId = currentBundle.manifest.courseId,
+                                    placementQuizId = BASIC_PLACEMENT_QUIZ_ID,
+                                    policy = placementPolicy
+                                )
+                            }
+                            val placementState by placementFlow.collectAsState(initial = null)
+                            val state = placementState
+                            if (state == null) {
+                                BasicMessage(
+                                    message = "ابتدا آزمون تعیین سطح را کامل کنید.",
+                                    modifier = Modifier.padding(paddingValues)
+                                )
+                            } else {
+                                AcademyPlacementSummaryScreen(
+                                    recommendation = state.recommendation,
+                                    weakTags = state.weakTags,
+                                    onStartLevel = { levelType ->
+                                        // انتخاب نقطه شروع دقیقاً با ترتیب رسمی فصل/درس Core انجام می‌شود.
+                                        val firstLessonId = LearningPathEngine.firstLessonIdForLevelType(
+                                            currentBundle,
+                                            levelType
+                                        )
+                                        if (firstLessonId == null) {
+                                            navController.navigate(AcademyRoutes.HOME) { launchSingleTop = true }
+                                        } else {
+                                            navController.openLesson(firstLessonId)
+                                        }
+                                    },
+                                    onReviewWeakTopics = { navController.openWeakTopicReview() },
+                                    modifier = Modifier.padding(paddingValues)
+                                )
+                            }
+                        }
+                    },
+                    weakTopicReview = {
+                        val currentBundle = bundle
+                        if (currentBundle == null) {
+                            BasicMessage(
+                                message = "Course هنوز بارگذاری نشده است.",
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        } else {
+                            val recommendationsFlow = remember(currentBundle.manifest.version) {
+                                weakTopicReviewRepository.observeRecommendations(currentBundle)
+                            }
+                            val recommendations by recommendationsFlow.collectAsState(initial = emptyList())
+                            AcademyWeakTopicReviewScreen(
+                                recommendations = recommendations,
+                                onLessonClick = { lessonId -> navController.openLesson(lessonId) },
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                    },
+                    flashcardReview = {
+                        val currentBundle = bundle
+                        if (currentBundle == null) {
+                            BasicMessage(
+                                message = "Course هنوز بارگذاری نشده است.",
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        } else {
+                            // Epoch day ثابت ابتدای Session از جابه‌جایی کارت‌ها هنگام Rating جلوگیری می‌کند.
+                            val sessionStartedAt = remember { System.currentTimeMillis() }
+                            val reviewDay = remember(sessionStartedAt) {
+                                SpacedReviewEngine.utcEpochDay(sessionStartedAt)
+                            }
+                            var cards by remember(currentBundle.manifest.version, reviewDay) {
+                                mutableStateOf<List<Flashcard>?>(null)
+                            }
+                            LaunchedEffect(currentBundle, reviewDay) {
+                                cards = flashcardReviewRepository.loadDueCards(currentBundle, reviewDay)
+                            }
+
+                            val sessionCards = cards
+                            if (sessionCards == null) {
+                                Column(
+                                    modifier = Modifier.fillMaxSize().padding(paddingValues),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    CircularProgressIndicator()
+                                }
+                            } else {
+                                AcademyFlashcardReviewScreen(
+                                    cards = sessionCards,
+                                    onRated = { card, rating ->
+                                        scope.launch {
+                                            flashcardReviewRepository.recordReview(
+                                                courseId = currentBundle.manifest.courseId,
+                                                cardId = card.id,
+                                                rating = rating,
+                                                reviewedEpochDay = reviewDay,
+                                                updatedAtEpochMillis = System.currentTimeMillis()
+                                            )
+                                        }
+                                    },
+                                    onSessionFinished = { navController.popBackStack() },
+                                    modifier = Modifier.padding(paddingValues)
+                                )
+                            }
                         }
                     }
                 )
@@ -435,6 +597,9 @@ private fun BasicHomeScreen(
     result: CourseLoadResult?,
     bundle: CourseBundle?,
     onOpenLesson: (String) -> Unit,
+    onOpenPlacement: () -> Unit,
+    onOpenWeakReview: () -> Unit,
+    onOpenFlashcards: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     // نوع نتیجه Loader تعیین می‌کند صفحه چه Stateای را نشان دهد.
@@ -483,9 +648,18 @@ private fun BasicHomeScreen(
                         text = "${bundle?.levels?.size ?: 0} سطح • ${bundle?.chapters?.size ?: 0} فصل • ${bundle?.lessons?.size ?: 0} درس آماده"
                     )
                     Text(
-                        text = "از مبانی رایانه و حل مسئله شروع کنید؛ محتوای دوره مرحله‌به‌مرحله تا سطح تخصصی گسترش می‌یابد.",
+                        text = "مسیر تطبیقی فعال است: تعیین سطح، مرور نقاط ضعف و مرور فاصله‌دار از Core مشترک استفاده می‌کنند.",
                         style = MaterialTheme.typography.bodyMedium
                     )
+                    Button(onClick = onOpenPlacement, modifier = Modifier.fillMaxWidth()) {
+                        Text("آزمون تعیین سطح")
+                    }
+                    Button(onClick = onOpenWeakReview, modifier = Modifier.fillMaxWidth()) {
+                        Text("مرور نقاط ضعف")
+                    }
+                    Button(onClick = onOpenFlashcards, modifier = Modifier.fillMaxWidth()) {
+                        Text("مرور فلش‌کارت")
+                    }
                 }
             }
 
@@ -526,3 +700,7 @@ private fun BasicMessage(
         Text(message)
     }
 }
+
+/** Stable IDهای Course در یک محل نگهداری می‌شوند تا Navigation و Persistence اختلاف نداشته باشند. */
+private const val BASIC_COURSE_ID = "basic"
+private const val BASIC_PLACEMENT_QUIZ_ID = "basic-qz-placement-001"
