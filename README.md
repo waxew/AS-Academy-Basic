@@ -12,8 +12,8 @@
 - Android: `minSdk 23` / `targetSdk 36`
 - Java compatibility: JDK 17
 - Core: `AS-Academy-Core >= 1.2.0`
-- نسخه Host/Course: **0.2.3**
-- Android `versionCode`: **5**
+- نسخه Host/Course: **0.2.4**
+- Android `versionCode`: **6**
 
 ## قانون معماری
 
@@ -34,13 +34,14 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code/Refactoring، SOLID و Design Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Teamwork/Agile/Review، CI/CD/Open Source، Portfolio/Resume و Technical Interview.
 
-## وضعیت محتوای واقعی نسخه 0.2.3
+## وضعیت محتوای واقعی نسخه 0.2.4
 
 - **4 سطح اصلی**
 - **39 فصل** با Stable ID
 - **157 درس واقعی**
 - **48 Quiz** با مجموع **334 سؤال**
-- **155 Exercise** دارای Hint، Solution و Explanation
+- **195 Exercise** دارای Hint، Solution و Explanation
+- **40 Challenge Exercise چندموضوعی جدید**؛ 10 مورد برای هر سطح
 - **14 Project** چندمرحله‌ای
 - **69 Glossary entry** برای واژه‌نامه و Flashcard seed
 - **1 Placement Test جامع 32 سؤالی**
@@ -50,7 +51,18 @@
 - پیشرفته: **44 درس / 11 فصل**
 - تخصصی و بازار کار: **24 درس / 6 فصل**
 
-همه چهار سطح مسیر آموزشی end-to-end، ارزیابی و پروژه دارند. اعداد بالا Placeholder نیستند و هر آیتم محتوای واقعی دارد.
+همه چهار سطح مسیر آموزشی end-to-end، ارزیابی، Challenge و پروژه دارند. اعداد بالا Placeholder نیستند و هر آیتم محتوای واقعی دارد.
+
+## بانک Challenge نسخه 0.2.4
+
+Challengeها عمداً زبان‌خنثی و چندموضوعی هستند تا قبل از ورود به Python/Java/Kotlin/C/C++/C#/JavaScript/PHP، توان حل مسئله و مهندسی کاربر را بسنجند. از `BUILD_FEATURE` و `READ_AND_ANSWER` در Exercise Engine مشترک استفاده شده و منطق Runner زبان خاصی داخل Basic اضافه نشده است.
+
+- `basic-ex-156` تا `basic-ex-165` — **مبانی**: validation pipeline، rule precedence، statistics، menu state، transaction stream، ATM، password policy، inventory و گزارش مالی.
+- `basic-ex-166` تا `basic-ex-175` — **مقدماتی**: CSV/JSON، migration، timezone، file recovery، CLI، Git conflict، debugging، test matrix، API contract و Backup/Restore.
+- `basic-ex-176` تا `basic-ex-185` — **پیشرفته**: OOP/Composition، Functional Core، Recursion/Tree، Graph، Hash Index، Search/Sort، Big-O optimization، Memory audit، Test Architecture و Refactoring/SOLID/Patterns.
+- `basic-ex-186` تا `basic-ex-195` — **تخصصی**: ADR، Dependency Policy، Threat Model، AuthN/AuthZ، Code Review، Incident Delivery، CI/CD، Open Source، Portfolio و Mock System Design.
+
+همه Challengeها Hint، Solution، Explanation و Tagهای موضوعی دارند و به درس جمع‌بندی سطح مربوط متصل‌اند.
 
 ## بانک سنجش عمیق
 
@@ -102,7 +114,7 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 
 ## کیفیت یادگیری تطبیقی
 
-نسخه 0.2.3 قابلیت‌های مشترک Core 1.2.0 را به Android Host واقعی Basic متصل می‌کند:
+قابلیت‌های مشترک Core 1.2.0 به Android Host واقعی Basic متصل‌اند:
 
 - `basic-qz-placement-001` آزمون تعیین سطح واقعی است و Attempt آن در Room ذخیره می‌شود.
 - `PlacementResultRepository` آخرین نتیجه را پس از Rotation/Restart بازیابی می‌کند.
@@ -126,7 +138,7 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 - Course Package قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
 - Core `1.2.0` منبع رسمی Navigation، Adaptive Review، Placement، Spaced Review، Persistence و UI مشترک است.
 - GitHub Actions مسیر `Validate -> Compile -> Lint -> Assemble Debug -> Upload APK Artifact` را اجرا می‌کند.
-- نسخه Android به `versionCode=5 / versionName=0.2.3` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
+- نسخه Android به `versionCode=6 / versionName=0.2.4` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
 
 ## Enrichment بعد از پوشش سرفصل اصلی
 
@@ -139,16 +151,17 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 - Flashcard و Spaced Review end-to-end
 - Placement Summary و شروع سطح پیشنهادی
 - Persistence و Backup/Restore مرور از Core
+- 40 Challenge Exercise چندموضوعی
 - Rubric پروژه‌ها
 - Glossary گسترده‌تر
 
 ادامه توسعه محتوایی:
 
 - Micro Quiz و Lesson Exam بیشتر برای درس‌های پرریسک
-- Challenge Exerciseهای چندموضوعی بیشتر
-- Diagram و Assetهای بصری
 - بانک سؤال مصاحبه بزرگ‌تر
-- افزایش Question Bank به چندصد سؤال بیشتر با تنوع سناریویی
+- Diagram و Assetهای بصری
+- افزایش Challenge Bank به سمت 300–500 تمرین کل
+- افزایش Question Bank به سمت حدود 1000 سؤال با تنوع سناریویی
 
 ## ساختار Repository
 
@@ -207,6 +220,15 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## Version History
 
+### 0.2.4 — Multi-topic Challenge Bank
+
+- اضافه‌شدن 40 Challenge Exercise واقعی و چندموضوعی
+- 10 Challenge برای هر یک از چهار سطح
+- افزایش Exercise Bank از 155 به 195 تمرین
+- پوشش سناریوهای validation، data import، algorithms، architecture، security، CI/CD و interview defense
+- حفظ language-neutral بودن Basic با `BUILD_FEATURE` و `READ_AND_ANSWER`
+- افزایش Android versionCode به 6 برای Update سالم
+
 ### 0.2.3 — Adaptive Android integration
 
 - اتصال آزمون تعیین سطح واقعی به Android Host
@@ -251,4 +273,4 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## وضعیت فعلی
 
-`Four-level curriculum covered / Adaptive Android learning integrated / Challenge Bank expansion next`
+`Four-level curriculum covered / Adaptive learning integrated / 195-exercise Challenge Bank in validation / Interview Bank next`
