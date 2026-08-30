@@ -13,60 +13,133 @@
 - Course Validator / Compiler: متصل شده
 - GitHub Actions Quality Gate: فعال
 - Shared Quiz/Exercise/Project UI در Core: انجام شده
-- public RoomDatabase dependency در Core: اصلاح شده و Core CI سبز است
-- Build واقعی Basic: Validate + Compile + Lint + Assemble Debug + APK Artifact موفق
+- Core compatibility patch: نسخه `1.0.1`
+- Android Host Basic: نسخه `0.2.0` با `versionCode=2`
+- Build pipeline: Validate → Compile → Lint → Assemble Debug → APK Artifact
 
-## آمار محتوای واقعی در شاخه توسعه فعلی
+## آمار محتوای واقعی
 
-- سطح‌ها: 4 / 4 تعریف شده
-- فصل‌ها: 39 فصل تعریف شده
-- درس واقعی: 133
-- Quiz: 36
-- سؤال Quiz: 182
-- Exercise: 131
-- Project: 10
+- سطح‌ها: 4 / 4
+- فصل‌ها: 39
+- درس واقعی: 157
+- Quiz: 43
+- سؤال Quiz: 222
+- Exercise: 155
+- Project: 14
 - Glossary: 39 مدخل فعلی
 
-## سطح مبانی
+## سطح ۱ — مبانی
 
-10 فصل و 41 درس واقعی. `basic-qz-011` آزمون جامع و `basic-prj-003` پروژه پایان سطح است.
+10 فصل و 41 درس واقعی:
 
-## سطح مقدماتی
+1. سواد رایانه و سیستم‌عامل
+2. رشته‌ها و بازار کار برنامه‌نویسی
+3. منطق و حل مسئله
+4. الگوریتم، فلوچارت و شبه‌کد
+5. متغیرها و انواع داده
+6. عملگرها و عبارت‌ها
+7. ورودی و خروجی
+8. شرط‌ها و تصمیم‌گیری
+9. حلقه‌ها و تکرار
+10. توابع و تفکیک مسئولیت
 
-12 فصل و 48 درس واقعی شامل Collections، String، Date/Time، Error Handling، File، JSON/CSV/XML، CLI، Git/GitHub، Branch/Merge/PR، Debugging، Testing و Documentation. `basic-qz-024` آزمون جامع و `basic-prj-006` پروژه پایان سطح است.
+- آزمون جامع: `basic-qz-011`
+- پروژه پایان سطح: `basic-prj-003`
 
-## سطح پیشرفته
+## سطح ۲ — مقدماتی
+
+12 فصل و 48 درس واقعی:
+
+1. Collectionها: Array / List / Set / Map
+2. String / Unicode / Parsing / Text Processing
+3. Date / Time / UTC / Time Zone / Duration
+4. Error / Exception / Logging / Recovery
+5. File / Path / Encoding / Atomic Save / Streaming
+6. JSON / CSV / XML / Schema / Validation
+7. Terminal / Shell / Pipe / Script / Environment
+8. Git Repository / Commit / Diff / Remote / Tag
+9. Branch / Merge / Rebase / Pull Request
+10. Debugging / Reproduce / Breakpoint / Stack Trace / Root Cause
+11. Testing / AAA / Boundary / Test Double / Regression
+12. README / Comment / Naming / Changelog / ADR
+
+- آزمون جامع: `basic-qz-024`
+- پروژه‌های میانی: `basic-prj-004` و `basic-prj-005`
+- پروژه پایان سطح: `basic-prj-006`
+
+## سطح ۳ — پیشرفته
 
 11 فصل و 44 درس واقعی:
 
-1. OOP: Object/Class، Encapsulation، Composition/Inheritance/Polymorphism و Interface
-2. Functional Programming: Pure Function، Immutability، Higher-order Function و Composition
-3. Recursion: Base Case، Call Stack، Tree Recursion، Iteration/Memoization
-4. Data Structures: ADT، Stack/Queue، Linked List/Hash Table، Tree/Heap/Graph
-5. Search/Sort: Linear/Binary Search، Insertion/Selection، Merge/Quick Sort و انتخاب Algorithm
-6. Complexity: Big-O، Best/Average/Worst، Space Complexity و تحلیل Pipeline
-7. Memory: Stack/Heap، GC/Ownership، Leak/Lifecycle و Profiling
-8. Advanced Testing: Integration/Contract، E2E، Determinism و Property/Mutation Testing
-9. Clean Code/Refactoring: Cohesion/Coupling، Code Smell، Refactor امن و Boundary Design
-10. SOLID: SRP، OCP، LSP، ISP و DIP
-11. Design Patterns: Pattern Language، Factory/Builder، Adapter/Decorator/Facade و Strategy/Observer/Command
+1. OOP
+2. Functional Programming
+3. Recursion
+4. Data Structures
+5. Search / Sort
+6. Big-O و Complexity
+7. Memory Management
+8. Advanced Testing
+9. Clean Code / Refactoring
+10. SOLID
+11. Design Patterns
 
-ارزیابی سطح پیشرفته:
 - Quiz فصل‌ها: `basic-qz-025` تا `basic-qz-035`
 - آزمون جامع: `basic-qz-036`
 - پروژه‌های میانی: `basic-prj-007`، `basic-prj-008`، `basic-prj-009`
-- Capstone پایان Advanced: `basic-prj-010`
+- پروژه پایان سطح: `basic-prj-010`
 
-## معنی «پوشش اولیه کامل»
+## سطح ۴ — تخصصی و بازار کار
 
-سه سطح اول اکنون مسیر آموزشی end-to-end دارند. Enrichment بعدی شامل Micro Quiz، Question Bank گسترده‌تر، Flashcard، Placement Test، Weak Topic Review، مثال و Challenge بیشتر، Rubric دقیق پروژه و Diagram/Asset است.
+6 فصل و 24 درس واقعی:
+
+1. Software Architecture / Dependency Management / Versioning / Migration / ADR
+2. Security / Threat Modeling / AuthN / AuthZ / Injection / Secure Delivery
+3. Teamwork / Agile / Scrum / Kanban / Code Review / Incident/Postmortem
+4. CI/CD / Release / Rollback / Open Source / Supply Chain / Artifact Provenance
+5. Portfolio / GitHub / Resume / Career Gap Analysis
+6. Technical Interview / Algorithm Patterns / Design Interview / STAR
+
+- Quiz فصل‌ها: `basic-qz-037` تا `basic-qz-042`
+- آزمون جامع نهایی کل Basic: `basic-qz-043`
+- پروژه‌های تخصصی: `basic-prj-011`، `basic-prj-012`، `basic-prj-013`
+- Final Capstone کل دوره: `basic-prj-014`
+
+## Final Capstone
+
+`basic-prj-014` یک Personal Operations Manager است که باید در یک زبان انتخابی پیاده‌سازی شود و این موارد را یکپارچه کند:
+
+- Problem/Scope و Acceptance Criteria
+- Data Model و Algorithm/Data Structure
+- Architecture و Dependency Direction
+- Offline Storage، Migration، Backup/Restore و Import/Export
+- Security و Threat Model
+- Git/Issue/Branch/PR Workflow
+- Unit/Property/Integration/E2E/Regression Testing
+- CI/CD و Release Evidence
+- Documentation و ADR
+- Complexity/Performance/Memory Review
+- Security/Code Review
+- Portfolio Case Study و Mock Interview Defense
+
+## وضعیت پوشش آموزشی
+
+چهار سطح اصلی اکنون مسیر آموزشی end-to-end دارند. «پوشش کامل اولیه» به معنی وجود درس واقعی، تمرین، ارزیابی و پروژه برای تمام فصل‌های اصلی است؛ enrichment همچنان ادامه پیدا می‌کند:
+
+- Micro Quiz و Lesson Exam بیشتر
+- Question Bank بزرگ‌تر
+- Placement Test
+- Weak Topic Review Queue
+- Flashcard و Spaced Review
+- مثال‌ها و Challengeهای بیشتر
+- Rubric دقیق‌تر پروژه‌ها
+- Diagram و Assetهای بصری
+- Glossary گسترده‌تر
+- بانک سؤال مصاحبه بزرگ‌تر
 
 ## فاز فعلی
 
-`Foundation complete → Fundamentals covered → Beginner covered → Advanced covered → Specialist next`
+`Four-level curriculum covered → Final validation/build → Enrichment and release hardening`
 
-مرحله بعد روی Software Architecture، Dependency/Versioning، Security، Teamwork/Agile/Code Review، CI/CD، Open Source، Portfolio/Resume و Technical Interview متمرکز است.
+## معیار Done
 
-## معیار گزارش پیشرفت
-
-عنوان یا فایل خالی «تکمیل» محسوب نمی‌شود. فقط محتوای دارای آموزش واقعی، مثال، تمرین یا ارزیابی معتبر در آمار تکمیل وارد می‌شود. Validator و CI مرجع فنی صحت Course Package هستند.
+عنوان یا فایل خالی Done محسوب نمی‌شود. فقط محتوایی در آمار تکمیل وارد می‌شود که آموزش واقعی، مثال/سناریو، تمرین یا ارزیابی معتبر داشته باشد. Course Validator و GitHub Actions مرجع فنی صحت Package و Android Host هستند.
