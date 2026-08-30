@@ -15,9 +15,9 @@ android {
         minSdk = 23
         targetSdk = 36
         // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
-        versionCode = 3
-        // 0.2.1 پایه کیفیت یادگیری شامل Placement Test و محتوای Review/Glossary گسترده‌تر است.
-        versionName = "0.2.1"
+        versionCode = 4
+        // 0.2.2 بانک ارزیابی عمیق هر چهار سطح را گسترش می‌دهد.
+        versionName = "0.2.2"
     }
 
     // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
