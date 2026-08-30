@@ -61,15 +61,41 @@ jobs:
         working-directory: AS-Academy-Core
         run: ./gradlew :tools:run --args="compile ../AS-Academy-Basic/course/basic ../AS-Academy-Basic/app/src/main/assets/basic-course.json" --stacktrace
 
-      # Wrapper Core پروژه Basic را با Composite Build و همان Runtime مشترک Build می‌کند.
+      # Wrapper Core پروژه Basic را با Composite Build و همان Runtime مشترک Lint و Build می‌کند.
       - name: Lint and build Basic debug APK
         working-directory: AS-Academy-Basic
         run: ../AS-Academy-Core/gradlew -p . :app:lintDebug :app:assembleDebug --stacktrace
 
-      # APK Debug برای تست هر Commit به‌عنوان Artifact نگهداری می‌شود؛ Release signing جداگانه و خصوصی خواهد بود.
+      # Release variant نیز قبل از امضای خصوصی ساخته می‌شود تا خطاهای مخصوص Release زودتر دیده شوند.
+      - name: Build unsigned Basic release APK
+        working-directory: AS-Academy-Basic
+        run: ../AS-Academy-Core/gradlew -p . :app:assembleRelease --stacktrace
+
+      # SHA-256 خروجی‌های QA برای مقایسه و ثبت reproducibility نگهداری می‌شود.
+      - name: Generate QA checksums
+        shell: bash
+        run: |
+          sha256sum AS-Academy-Basic/app/build/outputs/apk/debug/app-debug.apk > AS-Academy-Basic/app/build/outputs/apk/debug/app-debug.apk.sha256
+          RELEASE_APK=$(find AS-Academy-Basic/app/build/outputs/apk/release -maxdepth 1 -type f -name '*.apk' | head -n 1)
+          test -n "$RELEASE_APK"
+          sha256sum "$RELEASE_APK" > "$RELEASE_APK.sha256"
+
+      # APK Debug برای تست هر Commit به‌عنوان Artifact نگهداری می‌شود.
       - name: Upload Basic debug APK
         uses: actions/upload-artifact@v4
         with:
           name: basic-debug-${{ github.sha }}
-          path: AS-Academy-Basic/app/build/outputs/apk/debug/app-debug.apk
+          path: |
+            AS-Academy-Basic/app/build/outputs/apk/debug/app-debug.apk
+            AS-Academy-Basic/app/build/outputs/apk/debug/app-debug.apk.sha256
+          if-no-files-found: error
+
+      # Release unsigned فقط QA است؛ فایل Publish نهایی خارج از repo با کلید خصوصی پایدار امضا می‌شود.
+      - name: Upload unsigned Basic release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: basic-release-unsigned-${{ github.sha }}
+          path: |
+            AS-Academy-Basic/app/build/outputs/apk/release/*.apk
+            AS-Academy-Basic/app/build/outputs/apk/release/*.sha256
           if-no-files-found: error
