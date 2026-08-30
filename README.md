@@ -12,8 +12,8 @@
 - Android: `minSdk 23` / `targetSdk 36`
 - Java compatibility: JDK 17
 - Core: `AS-Academy-Core >= 1.0.1`
-- نسخه Host/Course: **0.2.1**
-- Android `versionCode`: **3**
+- نسخه Host/Course: **0.2.2**
+- Android `versionCode`: **4**
 
 ## قانون معماری
 
@@ -34,22 +34,34 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code/Refactoring، SOLID و Design Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Teamwork/Agile/Review، CI/CD/Open Source، Portfolio/Resume و Technical Interview.
 
-## وضعیت محتوای واقعی نسخه 0.2.1
+## وضعیت محتوای واقعی نسخه 0.2.2
 
 - **4 سطح اصلی**
 - **39 فصل** با Stable ID
 - **157 درس واقعی**
-- **44 Quiz** با مجموع **254 سؤال**
+- **48 Quiz** با مجموع **334 سؤال**
 - **155 Exercise** دارای Hint، Solution و Explanation
 - **14 Project** چندمرحله‌ای
 - **69 Glossary entry** برای واژه‌نامه و Flashcard seed
 - **1 Placement Test جامع 32 سؤالی**
+- **4 Depth Assessment سطحی با مجموع 80 سؤال جدید**
 - مبانی: **41 درس / 10 فصل**
 - مقدماتی: **48 درس / 12 فصل**
 - پیشرفته: **44 درس / 11 فصل**
 - تخصصی و بازار کار: **24 درس / 6 فصل**
 
 همه چهار سطح مسیر آموزشی end-to-end، ارزیابی و پروژه دارند. اعداد بالا Placeholder نیستند و هر آیتم محتوای واقعی دارد.
+
+## بانک سنجش عمیق 0.2.2
+
+چهار آزمون جدید فقط سؤال حفظی اضافه نمی‌کنند؛ تمرکز آن‌ها روی reasoning، boundary، trade-off و سناریوهای واقعی است:
+
+- `basic-qz-depth-fundamentals-001` — Problem Solving، Algorithm، Validation، Control Flow و Function Design
+- `basic-qz-depth-beginner-001` — Collections، Date/Time، Error/File/Data Format، CLI، Git، Debugging، Testing و Documentation
+- `basic-qz-depth-advanced-001` — OOP/Functional، Recursion، Data Structures، Complexity، Memory، Testing، Refactoring، SOLID و Patterns
+- `basic-qz-depth-specialist-001` — Architecture، Versioning، Security، Team Delivery، CI/CD، Open Source، Portfolio و Interview
+
+Question Tagها برای اتصال به `weakTags` و Weak Topic Review حفظ شده‌اند.
 
 ## پروژه‌های مرحله‌ای
 
@@ -90,7 +102,7 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 
 ## کیفیت یادگیری
 
-نسخه 0.2.1 پایه یادگیری تطبیقی را اضافه می‌کند:
+پایه یادگیری تطبیقی شامل این اجزا است:
 
 - `basic-qz-placement-001` برای تعیین نقطه شروع
 - استفاده از Question Tagها و `weakTags` برای مرور هدفمند
@@ -98,6 +110,7 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 - استاندارد Spaced Review بدون duplication محتوای Course
 - Rubric استاندارد پروژه‌ها
 - Definition of Learning Done به‌جای Complete شدن صرفاً با بازکردن درس
+- Depth Assessment جدا برای هر چهار سطح
 
 جزئیات در `docs/LEARNING_QUALITY.md` مستند شده است.
 
@@ -109,14 +122,15 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 - Course Package قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
 - Core `1.0.1` سازگاری `EXERCISE_LINK` و dependency عمومی Room را برای Course Hostها فراهم می‌کند.
 - GitHub Actions مسیر `Validate -> Compile -> Lint -> Assemble Debug -> Upload APK Artifact` را اجرا می‌کند.
-- نسخه Android به `versionCode=3 / versionName=0.2.1` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
+- نسخه Android به `versionCode=4 / versionName=0.2.2` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
 
 ## Enrichment بعد از پوشش سرفصل اصلی
 
-انجام‌شده در فاز فعلی:
+انجام‌شده:
 
 - Placement Test
-- Question Bank اولیه گسترده‌تر
+- Question Bank تا 334 سؤال
+- چهار Depth Assessment سطحی
 - Weak Topic Review contract/flow
 - Flashcard و Spaced Review foundation
 - Rubric پروژه‌ها
@@ -124,12 +138,12 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 
 ادامه توسعه محتوایی:
 
-- Micro Quiz و Lesson Exam بیشتر
+- Micro Quiz و Lesson Exam بیشتر برای درس‌های پرریسک
 - Challenge Exerciseهای بیشتر
 - Diagram و Assetهای بصری
 - بانک سؤال مصاحبه بزرگ‌تر
-- Question Bank چندصدسؤالی عمیق‌تر برای هر Level
-- UI کامل Review Session و Placement Summary
+- افزایش Question Bank به چندصد سؤال بیشتر با تنوع سناریویی
+- اتصال کامل Review Session و Placement Summary مشترک Core به Android Host
 
 ## ساختار Repository
 
@@ -188,6 +202,14 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## Version History
 
+### 0.2.2 — Assessment depth expansion
+
+- اضافه‌شدن 4 آزمون عمیق مستقل برای چهار سطح
+- اضافه‌شدن 80 سؤال سناریویی و reasoning-based
+- افزایش بانک سؤال از 254 به 334 سؤال
+- حفظ Tagهای موضوعی برای Weak Topic Review
+- افزایش Android versionCode به 4 برای Update سالم
+
 ### 0.2.1 — Learning quality foundation
 
 - آزمون تعیین سطح جامع 32 سؤالی با وزن و Tag موضوعی
@@ -214,4 +236,4 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## وضعیت فعلی
 
-`Four-level curriculum covered / Learning-quality phase in validation / Release hardening next`
+`Four-level curriculum covered / 334-question assessment bank in validation / Adaptive-review Android integration next`
