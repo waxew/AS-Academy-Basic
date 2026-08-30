@@ -11,13 +11,13 @@
 - زبان اصلی محتوا: فارسی و RTL
 - Android: `minSdk 23` / `targetSdk 36`
 - Java compatibility: JDK 17
-- Core: `AS-Academy-Core >= 1.0.1`
-- نسخه Host/Course: **0.2.2**
-- Android `versionCode`: **4**
+- Core: `AS-Academy-Core >= 1.2.0`
+- نسخه Host/Course: **0.3.0**
+- Android `versionCode`: **5**
 
 ## قانون معماری
 
-این Repository فقط بخش‌های اختصاصی Basic را نگه می‌دارد: Course Package، محتوای آموزشی، Branding و Android Host اختصاصی. Navigation، Drawer/Profile، Settings، Room Database، Progress، Search، Bookmark، Notes، Quiz/Exercise/Project Engine و UI، Achievement، Backup/Restore، Content Update، Lesson Renderer و منطق مرور مشترک در `AS-Academy-Core` قرار دارند و در Basic تکرار نمی‌شوند.
+این Repository فقط بخش‌های اختصاصی Basic را نگه می‌دارد: Course Package، محتوای آموزشی، Branding و Android Host اختصاصی. Navigation، Drawer/Profile، Settings، Room Database، Progress، Search، Bookmark، Notes، Quiz/Exercise/Project Engine و UI، Achievement، Backup/Restore، Content Update، Lesson Renderer، Placement، Weak Topic Review و Spaced Review در `AS-Academy-Core` قرار دارند و در Basic تکرار نمی‌شوند.
 
 ## مدل آموزشی
 
@@ -25,7 +25,7 @@
 
 `Placement -> Learn -> Example -> Practice -> Quiz -> Weak Topic Review -> Challenge -> Project -> Exam -> Spaced Review`
 
-درس‌ها بر حسب موضوع شامل هدف و پیش‌نیاز، توضیح شهودی و تخصصی، مثال، نکته و خطای رایج، تمرین، Hint/Solution، Quiz، پروژه، مرور، واژه‌نامه و سؤال مصاحبه هستند.
+در نسخه 0.3.0 سه بخش Placement، Weak Topic Review و Spaced Review به Android Host واقعی متصل شده‌اند و نتیجه‌ها فقط State موقت UI نیستند؛ Room و Backup مشترک Core منبع حقیقت داده کاربر هستند.
 
 ## چهار سطح اصلی
 
@@ -34,7 +34,7 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code/Refactoring، SOLID و Design Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Teamwork/Agile/Review، CI/CD/Open Source، Portfolio/Resume و Technical Interview.
 
-## وضعیت محتوای واقعی نسخه 0.2.2
+## وضعیت محتوای واقعی نسخه 0.3.0
 
 - **4 سطح اصلی**
 - **39 فصل** با Stable ID
@@ -42,9 +42,9 @@
 - **48 Quiz** با مجموع **334 سؤال**
 - **155 Exercise** دارای Hint، Solution و Explanation
 - **14 Project** چندمرحله‌ای
-- **69 Glossary entry** برای واژه‌نامه و Flashcard seed
+- **69 Glossary entry** به‌عنوان منبع Flashcard
 - **1 Placement Test جامع 32 سؤالی**
-- **4 Depth Assessment سطحی با مجموع 80 سؤال جدید**
+- **4 Depth Assessment** سطحی با مجموع 80 سؤال reasoning/scenario
 - مبانی: **41 درس / 10 فصل**
 - مقدماتی: **48 درس / 12 فصل**
 - پیشرفته: **44 درس / 11 فصل**
@@ -52,16 +52,46 @@
 
 همه چهار سطح مسیر آموزشی end-to-end، ارزیابی و پروژه دارند. اعداد بالا Placeholder نیستند و هر آیتم محتوای واقعی دارد.
 
-## بانک سنجش عمیق 0.2.2
+## یادگیری تطبیقی در Android
 
-چهار آزمون جدید فقط سؤال حفظی اضافه نمی‌کنند؛ تمرکز آن‌ها روی reasoning، boundary، trade-off و سناریوهای واقعی است:
+### Placement
+
+- `basic-qz-placement-001` همان Quiz Engine عمومی را مصرف می‌کند.
+- Attempt و `weakTags` قبل از نمایش نتیجه در Room ذخیره می‌شوند.
+- Placement Summary آخرین نتیجه Persist شده را می‌خواند و با Rotation/Restart از بین نمی‌رود.
+- Thresholdهای استاندارد چهارسطحی از `PlacementEngine` مرکزی Core می‌آیند.
+- اولین درس سطح پیشنهادی از `LearningPathEngine.firstLessonIdForLevelType` پیدا می‌شود.
+
+### Weak Topic Review
+
+- تمام Attemptهای همان Course از Room خوانده می‌شوند.
+- Weak Tagها در چند آزمون تجمیع می‌شوند.
+- درس‌هایی که Tag مشترک بیشتری با ضعف تکرارشونده دارند اولویت بالاتری می‌گیرند.
+- کاربر از Review Screen مستقیماً به درس پیشنهادی می‌رود.
+- Basic هیچ SQL، parsing یا الگوریتم رتبه‌بندی اختصاصی ندارد.
+
+### Flashcard / Spaced Review
+
+- 69 Glossary Entry منبع واحد Flashcardها هستند و تعریف جداگانه تکراری نداریم.
+- کارت‌های دیده‌نشده در اولین Session قابل مرورند.
+- Session به‌صورت پیش‌فرض حداکثر 20 کارت دارد.
+- فهرست Session snapshot می‌شود تا Rating هر کارت ترتیب کارت بعدی را تغییر ندهد.
+- Ratingها: `AGAIN / HARD / GOOD / EASY`.
+- زمان مرور بعدی بر اساس UTC epoch day در Core محاسبه می‌شود.
+- Progress کارت‌ها در Room schema v4 ذخیره و در Backup schema v3 Export/Restore می‌شود.
+
+جزئیات در `docs/LEARNING_QUALITY.md` ثبت شده است.
+
+## بانک سنجش عمیق
+
+چهار آزمون مستقل روی reasoning، boundary و trade-off تمرکز دارند:
 
 - `basic-qz-depth-fundamentals-001` — Problem Solving، Algorithm، Validation، Control Flow و Function Design
 - `basic-qz-depth-beginner-001` — Collections، Date/Time، Error/File/Data Format، CLI، Git، Debugging، Testing و Documentation
 - `basic-qz-depth-advanced-001` — OOP/Functional، Recursion، Data Structures، Complexity، Memory، Testing، Refactoring، SOLID و Patterns
 - `basic-qz-depth-specialist-001` — Architecture، Versioning، Security، Team Delivery، CI/CD، Open Source، Portfolio و Interview
 
-Question Tagها برای اتصال به `weakTags` و Weak Topic Review حفظ شده‌اند.
+Question Tagها مستقیماً در Weak Topic Review استفاده می‌شوند.
 
 ## پروژه‌های مرحله‌ای
 
@@ -100,50 +130,40 @@ Final Capstone کل دوره باید این مهارت‌ها را در یک م
 
 ارزیابی پروژه‌ها طبق Rubric صد امتیازی `docs/PROJECT_RUBRIC.md` انجام می‌شود و `acceptanceCriteria` هر Milestone معیار اجرایی همان مرحله است.
 
-## کیفیت یادگیری
-
-پایه یادگیری تطبیقی شامل این اجزا است:
-
-- `basic-qz-placement-001` برای تعیین نقطه شروع
-- استفاده از Question Tagها و `weakTags` برای مرور هدفمند
-- Glossary گسترده‌تر به‌عنوان منبع واحد Flashcardها
-- استاندارد Spaced Review بدون duplication محتوای Course
-- Rubric استاندارد پروژه‌ها
-- Definition of Learning Done به‌جای Complete شدن صرفاً با بازکردن درس
-- Depth Assessment جدا برای هر چهار سطح
-
-جزئیات در `docs/LEARNING_QUALITY.md` مستند شده است.
-
 ## وضعیت فنی Android
 
 - Android Host مستقل Basic فعال است.
 - Lesson/Quiz/Exercise/Project به UI مشترک Core وصل‌اند.
 - Quiz History، Exercise Draft/Completion و Project Progress در Room مشترک ذخیره می‌شوند.
+- Placement/Weak Topic Review/Flashcard Review از Route، Repository، Engine و UI مشترک Core استفاده می‌کنند.
 - Course Package قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
-- Core `1.0.1` سازگاری `EXERCISE_LINK` و dependency عمومی Room را برای Course Hostها فراهم می‌کند.
+- Core 1.2.0 شامل Room schema v4، Backup schema v3 و Migration غیرمخرب است.
 - GitHub Actions مسیر `Validate -> Compile -> Lint -> Assemble Debug -> Upload APK Artifact` را اجرا می‌کند.
-- نسخه Android به `versionCode=4 / versionName=0.2.2` افزایش یافته تا نصب روی نسخه قبلی update-friendly باقی بماند.
+- نسخه Android به `versionCode=5 / versionName=0.3.0` افزایش یافته تا نصب روی 0.2.2 و نسخه‌های قبل update-friendly باقی بماند.
 
 ## Enrichment بعد از پوشش سرفصل اصلی
 
 انجام‌شده:
 
+- چهار سطح کامل آموزشی
 - Placement Test
 - Question Bank تا 334 سؤال
 - چهار Depth Assessment سطحی
-- Weak Topic Review contract/flow
-- Flashcard و Spaced Review foundation
+- Weak Topic Review end-to-end
+- Flashcard و Spaced Review end-to-end
+- Persistent Placement Summary
 - Rubric پروژه‌ها
-- Glossary گسترده‌تر
+- Glossary گسترده
 
-ادامه توسعه محتوایی:
+اولویت توسعه بعدی:
 
+- Room Migration instrumentation test و schema JSON در Core
+- گروه‌بندی Home بر اساس Level/Chapter به‌جای فهرست تخت 157 درس
 - Micro Quiz و Lesson Exam بیشتر برای درس‌های پرریسک
 - Challenge Exerciseهای بیشتر
 - Diagram و Assetهای بصری
 - بانک سؤال مصاحبه بزرگ‌تر
-- افزایش Question Bank به چندصد سؤال بیشتر با تنوع سناریویی
-- اتصال کامل Review Session و Placement Summary مشترک Core به Android Host
+- Mastery/Streak/Review statistics روی Engineهای مرکزی
 
 ## ساختار Repository
 
@@ -202,6 +222,17 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## Version History
 
+### 0.3.0 — Adaptive learning Android integration
+
+- اتصال Placement Test به Room و Placement Summary Persist شده
+- اتصال Weak Topic Review به تاریخچه واقعی Quiz Attemptها
+- اتصال Glossary به Flashcard/Spaced Review واقعی
+- Sessionهای مرور حداکثر 20 کارتی با snapshot پایدار
+- ذخیره Flashcard Progress در Room و Backup/Restore مشترک Core
+- اضافه‌شدن Routeهای Adaptive Learning به Home و Drawer
+- ارتقای Core requirement به 1.2.0
+- افزایش Android versionCode به 5 برای Update سالم
+
 ### 0.2.2 — Assessment depth expansion
 
 - اضافه‌شدن 4 آزمون عمیق مستقل برای چهار سطح
@@ -225,7 +256,6 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 - 157 درس، 155 تمرین، 43 Quiz با 222 سؤال و 14 پروژه
 - آزمون جامع هر سطح و آزمون جامع نهایی کل Basic
 - Final Capstone صفر تا مهندسی، Release، Portfolio و Interview
-- ارتقای Core requirement به 1.0.1
 - افزایش Android versionCode به 2 برای Update سالم
 
 ### 0.1.0 — Foundation
@@ -236,4 +266,4 @@ Course Bundle در `app/src/main/assets/basic-course.json` تولید می‌ش�
 
 ## وضعیت فعلی
 
-`Four-level curriculum covered / 334-question assessment bank in validation / Adaptive-review Android integration next`
+`Four-level curriculum covered / 334-question bank / Adaptive learning integrated in Android / Core 1.2.0 validation in progress`

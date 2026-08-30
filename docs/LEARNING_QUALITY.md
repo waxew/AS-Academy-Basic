@@ -6,6 +6,8 @@
 
 `Placement -> Learn -> Practice -> Quiz -> Weak Topic Review -> Spaced Review -> Project -> Exam -> Evidence`
 
+در Basic 0.3.0 این چرخه فقط مستند نیست؛ Placement، Weak Topic Review و Flashcard Review به Android Host واقعی و Persistence مشترک Core متصل شده‌اند.
+
 ## آزمون تعیین سطح
 
 آزمون `basic-qz-placement-001` یک آزمون جامع ۳۲ سؤالی است که چهار سطح دوره را پوشش می‌دهد. سؤال‌های پیشرفته‌تر وزن بیشتری دارند تا صرفاً حفظ مفاهیم ابتدایی باعث قرارگیری اشتباه در سطح بالا نشود.
@@ -20,11 +22,22 @@
 
 نمره به‌تنهایی برای Skip کردن درس کافی نیست. اگر یک Tag در پاسخ‌های غلط تکرار شود، همان موضوع باید در Weak Topic Review برگردد.
 
+### رفتار Android در 0.3.0
+
+1. کاربر Placement Test را مانند یک Quiz واقعی حل می‌کند.
+2. نتیجه و `weakTags` ابتدا در Room مشترک ذخیره می‌شوند.
+3. Placement Summary نتیجه آخر Persist شده را می‌خواند؛ Rotation یا Restart آن را از بین نمی‌برد.
+4. سطح شروع توسط Policy چهارسطحی Core انتخاب می‌شود.
+5. اولین درس سطح پیشنهادی با ترتیب رسمی Level/Chapter/Lesson از `LearningPathEngine` پیدا می‌شود.
+6. کاربر می‌تواند مستقیم وارد Weak Topic Review شود.
+
 ## Weak Topic Review
 
-Quiz Engine در هر `QuizScore` مجموعه `weakTags` را تولید می‌کند. موتور مشترک Core این Tagها را در چند آزمون تجمیع و درس‌هایی را که بیشترین هم‌پوشانی با ضعف تکرارشونده دارند رتبه‌بندی می‌کند.
+Quiz Engine در هر `QuizScore` مجموعه `weakTags` را تولید می‌کند. Core این Tagها را از تاریخچه واقعی آزمون همان Course می‌خواند، در چند Attempt تجمیع می‌کند و درس‌هایی را که بیشترین هم‌پوشانی با ضعف تکرارشونده دارند رتبه‌بندی می‌کند.
 
-قاعده پیشنهادی:
+Basic هیچ SQL، parsing یا الگوریتم رتبه‌بندی اختصاصی برای این قابلیت ندارد.
+
+قاعده پیشنهادی آموزشی:
 
 1. ضعف یک‌باره: مرور خلاصه و یک تمرین.
 2. ضعف دوباره: بازخوانی درس + تمرین Medium.
@@ -33,7 +46,7 @@ Quiz Engine در هر `QuizScore` مجموعه `weakTags` را تولید می�
 
 ## Flashcard و Spaced Review
 
-Glossary منبع حقیقت واژگان است. Flashcardهای پایه باید از Glossary مشتق شوند تا تعریف یک اصطلاح در چند محل تکرار نشود.
+Glossary منبع حقیقت واژگان است. Flashcardهای پایه از Glossary مشتق می‌شوند تا تعریف یک اصطلاح در چند محل تکرار نشود.
 
 هر کارت شامل:
 
@@ -49,6 +62,16 @@ Glossary منبع حقیقت واژگان است. Flashcardهای پایه با�
 - `HARD`: یادآوری سخت؛ فاصله کم افزایش یابد.
 - `GOOD`: پاسخ صحیح معمولی؛ فاصله استاندارد افزایش یابد.
 - `EASY`: تسلط بالا؛ فاصله سریع‌تر افزایش یابد.
+
+### رفتار Session در 0.3.0
+
+- کارت‌های دیده‌نشده نیز برای اولین مرور `due` هستند.
+- هر Session به‌صورت پیش‌فرض حداکثر ۲۰ کارت دارد تا جلسه بیش از حد طولانی نشود.
+- فهرست کارت‌ها هنگام شروع Session snapshot می‌شود؛ Rating یک کارت ترتیب کارت‌های بعدی را جابه‌جا نمی‌کند.
+- زمان مرور بعدی در Core بر اساس UTC epoch day محاسبه می‌شود.
+- Progress هر کارت در Room schema v4 ذخیره می‌شود.
+- Backup schema v3 برنامه مرور را نیز Export/Restore می‌کند.
+- Migration دیتابیس destructive نیست و داده نسخه‌های قبلی حفظ می‌شود.
 
 ## Lesson Quality Minimum
 
@@ -72,6 +95,7 @@ Glossary منبع حقیقت واژگان است. Flashcardهای پایه با�
 - Chapter Exam: پوشش چند درس با سؤال مفهومی و کاربردی
 - Level Exam: سنجش end-to-end سطح
 - Placement Test: انتخاب نقطه شروع
+- Depth Assessment: سنجش reasoning و trade-off هر سطح
 - Final Exam: پوشش کل دوره
 - Project/Capstone: ارزیابی توانایی ساخت و دفاع از راه‌حل
 
@@ -86,3 +110,16 @@ Glossary منبع حقیقت واژگان است. Flashcardهای پایه با�
 - اگر موضوع پروژه‌محور است، Acceptance Criteria مرتبط پاس شده باشد.
 
 این تعریف از Complete شدن صرفاً با بازکردن صفحه درس جلوگیری می‌کند.
+
+## مالکیت معماری
+
+Basic فقط Course Content، Stable IDها و Branding را نگه می‌دارد. این قابلیت‌ها متعلق به `AS-Academy-Core >= 1.2.0` هستند:
+
+- Placement policy/result repository
+- Weak Topic Review engine/repository/UI
+- Spaced Review engine/repository/UI
+- Flashcard persistence و Backup/Restore
+- Adaptive navigation routes
+- first-lesson lookup برای سطح پیشنهادی
+
+این تفکیک باید در همه Courseهای بعدی AS Academy حفظ شود.
