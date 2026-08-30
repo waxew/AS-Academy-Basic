@@ -15,9 +15,9 @@ android {
         minSdk = 23
         targetSdk = 36
         // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
-        versionCode = 2
-        // 0.2.0 اولین نسخه‌ای است که هر چهار سطح محتوایی Basic را در یک Package واحد دارد.
-        versionName = "0.2.0"
+        versionCode = 3
+        // 0.3.0 قابلیت Flashcard، مرور فاصله‌دار و واژه‌نامه/منابع چهارسطحی را به Host اضافه می‌کند.
+        versionName = "0.3.0"
     }
 
     // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
@@ -41,9 +41,8 @@ android {
 }
 
 dependencies {
-    // All shared learning/runtime behavior comes from the central composite build.
-    // 1.0.1 شامل قرارداد سازگار EXERCISE_LINK و dependency عمومی Room برای Hostهای دوره است.
-    implementation("com.asdevelopers.academy:core:1.0.1")
+    // All shared learning/runtime behavior comes from the central Core; 1.1.0 introduces shared Flashcard contract/review/persistence.
+    implementation("com.asdevelopers.academy:core:1.1.0")
 
     // Host-only Android and Compose dependencies mirror the versions used by Core.
     implementation("androidx.core:core-ktx:1.17.0")
