@@ -40,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.asdevelopers.academy.core.content.AssetCoursePackageSource
 import com.asdevelopers.academy.core.content.CourseBundle
 import com.asdevelopers.academy.core.content.CourseLoadResult
+import com.asdevelopers.academy.core.content.CoursePackageImporter
 import com.asdevelopers.academy.core.content.CoursePackageLoader
 import com.asdevelopers.academy.core.database.AcademyDatabase
 import com.asdevelopers.academy.core.exercise.ExerciseDraft
@@ -47,6 +48,7 @@ import com.asdevelopers.academy.core.navigation.AcademyNavHost
 import com.asdevelopers.academy.core.navigation.AcademyRoutes
 import com.asdevelopers.academy.core.navigation.openAbout
 import com.asdevelopers.academy.core.navigation.openExercise
+import com.asdevelopers.academy.core.navigation.openFlashcards
 import com.asdevelopers.academy.core.navigation.openLesson
 import com.asdevelopers.academy.core.navigation.openProject
 import com.asdevelopers.academy.core.navigation.openQuiz
@@ -76,7 +78,7 @@ import kotlinx.coroutines.launch
 
 /**
  * Host اختصاصی Basic فقط Course Bundle، Branding و اتصال Repositoryها را فراهم می‌کند.
- * Navigation، Drawer، Quiz/Exercise/Project UI و تمام Engineها از AS-Academy-Core مصرف می‌شوند.
+ * Navigation، Drawer، Quiz/Exercise/Project/Flashcard UI و تمام Engineها از AS-Academy-Core مصرف می‌شوند.
  */
 @Composable
 fun BasicAcademyApp() {
@@ -93,6 +95,8 @@ fun BasicAcademyApp() {
     val reminderScheduler = remember { StudyReminderScheduler(context) }
     // Room مرکزی با نام اختصاصی Host ساخته می‌شود تا داده‌های Basic پایدار بمانند.
     val database = remember { AcademyDatabase.create(context, "basic_academy.db") }
+    // Importer مشترک Search Index، Legacy claim و Flashcard seed را در یک Transaction انجام می‌دهد.
+    val coursePackageImporter = remember(database) { CoursePackageImporter(database) }
     // Repository تاریخچه آزمون، QuizScore را بدون SQL مستقیم از Host ذخیره می‌کند.
     val quizHistoryRepository = remember(database) { QuizHistoryRepository(database.quizResultDao()) }
     // Draft تمرین از Repository مشترک و جدول چنددوره‌ای استفاده می‌کند.
@@ -118,11 +122,25 @@ fun BasicAcademyApp() {
     // Loader چهار حالت loading/success/invalid/failure را در این State قرار می‌دهد.
     var courseResult by remember { mutableStateOf<CourseLoadResult?>(null) }
 
-    // Bundle خروجی Compiler رسمی Core از assets خوانده و دوباره Validate می‌شود.
-    LaunchedEffect(Unit) {
-        courseResult = CoursePackageLoader().load(
+    // Bundle خروجی Compiler رسمی Core از assets خوانده، Validate و سپس در دیتابیس مشترک Import می‌شود.
+    LaunchedEffect(coursePackageImporter) {
+        val loaded = CoursePackageLoader().load(
             AssetCoursePackageSource(context, "basic-course.json")
         )
+        courseResult = if (loaded is CourseLoadResult.Success) {
+            // Success فقط وقتی به UI داده می‌شود که Search/Legacy claim/Flashcard seed نیز با موفقیت Commit شده باشند.
+            runCatching {
+                coursePackageImporter.import(loaded.bundle)
+                loaded
+            }.getOrElse { error ->
+                CourseLoadResult.Failure(
+                    message = error.message ?: "خطا در آماده‌سازی داده دوره",
+                    cause = error
+                )
+            }
+        } else {
+            loaded
+        }
     }
 
     // انتخاب تصویر پروفایل در Host انجام می‌شود اما داده آن در DataStore مشترک ذخیره می‌شود.
@@ -152,11 +170,11 @@ fun BasicAcademyApp() {
         }
     }
 
-    // فقط Result موفق Bundle معتبر در اختیار UI و Activity Screenها قرار می‌گیرد.
+    // فقط Result موفق Bundle معتبر و Importشده در اختیار UI و Activity Screenها قرار می‌گیرد.
     val bundle = (courseResult as? CourseLoadResult.Success)?.bundle
 
     // Drawer فقط گزینه‌های اختصاصی Course را تعریف می‌کند؛ Settings/Share/About از Core می‌آیند.
-    val drawerItems = listOf(
+    val drawerItems = listOfNotNull(
         AcademyDrawerItem(
             id = "basic-home",
             label = "خانه",
@@ -178,7 +196,19 @@ fun BasicAcademyApp() {
             bundle?.lessons?.firstOrNull()?.let { lesson ->
                 navController.openLesson(lesson.id)
             }
-        }
+        },
+        // مقصد Flashcard فقط وقتی نمایش داده می‌شود که Capability فعال و حداقل یک کارت واقعی وجود داشته باشد.
+        bundle
+            ?.takeIf { course -> course.manifest.capabilities.flashcards && course.flashcards.isNotEmpty() }
+            ?.let {
+                AcademyDrawerItem(
+                    id = "basic-flashcards",
+                    label = "مرور فلش‌کارت",
+                    icon = Icons.Outlined.MenuBook
+                ) {
+                    navController.openFlashcards()
+                }
+            }
     )
 
     // Theme ذخیره‌شده با حالت Dark دستگاه ترکیب می‌شود.
@@ -269,11 +299,19 @@ fun BasicAcademyApp() {
                         )
                     },
                     about = {
-                        // About عمومی فقط متن و نسخه اختصاصی Course را دریافت می‌کند.
+                        // About عمومی فقط متن و نسخه واقعی Build اختصاصی Course را دریافت می‌کند.
                         AcademyAboutScreen(
                             appTitle = "Basic",
                             description = "دوره پایه و پیش‌نیاز مشترک برنامه‌نویسی در AS Academy؛ از سواد رایانه و حل مسئله تا مهندسی نرم‌افزار و آمادگی بازار کار.",
-                            versionName = "0.1.0",
+                            versionName = BuildConfig.VERSION_NAME,
+                            modifier = Modifier.padding(paddingValues)
+                        )
+                    },
+                    flashcards = {
+                        // Host فقط Bundle و Database را تزریق می‌کند؛ Deck، Repository و Spaced Review همگی در Core هستند.
+                        BasicFlashcardScreen(
+                            bundle = bundle,
+                            database = database,
                             modifier = Modifier.padding(paddingValues)
                         )
                     },
@@ -448,9 +486,9 @@ private fun BasicHomeScreen(
             CircularProgressIndicator()
         }
 
-        // Failure خطای خواندن فایل یا I/O را گزارش می‌کند.
+        // Failure خطای خواندن فایل یا Import/DB را گزارش می‌کند.
         is CourseLoadResult.Failure -> BasicMessage(
-            message = "خطا در خواندن دوره: ${result.message}",
+            message = "خطا در خواندن یا آماده‌سازی دوره: ${result.message}",
             modifier = modifier
         )
 
@@ -460,14 +498,14 @@ private fun BasicHomeScreen(
             modifier = modifier
         )
 
-        // Success فقط Bundle معتبر را برای ساخت فهرست درس‌ها مصرف می‌کند.
+        // Success فقط Bundle معتبر و Importشده را برای ساخت فهرست درس‌ها مصرف می‌کند.
         is CourseLoadResult.Success -> LazyColumn(
             modifier = modifier
                 .fillMaxSize()
                 .padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Header تعداد واقعی سطح، فصل و درس کامپایل‌شده را نشان می‌دهد.
+            // Header تعداد واقعی سطح، فصل، درس و Flashcard کامپایل‌شده را نشان می‌دهد.
             item {
                 Column(
                     modifier = Modifier
@@ -480,10 +518,10 @@ private fun BasicHomeScreen(
                         style = MaterialTheme.typography.headlineMedium
                     )
                     Text(
-                        text = "${bundle?.levels?.size ?: 0} سطح • ${bundle?.chapters?.size ?: 0} فصل • ${bundle?.lessons?.size ?: 0} درس آماده"
+                        text = "${bundle?.levels?.size ?: 0} سطح • ${bundle?.chapters?.size ?: 0} فصل • ${bundle?.lessons?.size ?: 0} درس • ${bundle?.flashcards?.size ?: 0} فلش‌کارت"
                     )
                     Text(
-                        text = "از مبانی رایانه و حل مسئله شروع کنید؛ محتوای دوره مرحله‌به‌مرحله تا سطح تخصصی گسترش می‌یابد.",
+                        text = "از مبانی رایانه و حل مسئله شروع کنید؛ مسیر تا مهندسی نرم‌افزار، بازار کار و مرور فاصله‌دار ادامه دارد.",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
