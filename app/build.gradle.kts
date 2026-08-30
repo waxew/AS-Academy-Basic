@@ -14,8 +14,10 @@ android {
         applicationId = "com.asdevelopers.academy.basic"
         minSdk = 23
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
+        versionCode = 2
+        // 0.2.0 اولین نسخه‌ای است که هر چهار سطح محتوایی Basic را در یک Package واحد دارد.
+        versionName = "0.2.0"
     }
 
     // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
@@ -40,7 +42,8 @@ android {
 
 dependencies {
     // All shared learning/runtime behavior comes from the central composite build.
-    implementation("com.asdevelopers.academy:core:1.0.0")
+    // 1.0.1 شامل قرارداد سازگار EXERCISE_LINK و dependency عمومی Room برای Hostهای دوره است.
+    implementation("com.asdevelopers.academy:core:1.0.1")
 
     // Host-only Android and Compose dependencies mirror the versions used by Core.
     implementation("androidx.core:core-ktx:1.17.0")
