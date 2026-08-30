@@ -15,9 +15,9 @@ android {
         minSdk = 23
         targetSdk = 36
         // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
-        versionCode = 6
-        // 0.2.4 بانک Challenge چندموضوعی هر چهار سطح را به Course Package اضافه می‌کند.
-        versionName = "0.2.4"
+        versionCode = 7
+        // 0.2.5 بانک 100 سؤالی Interview را به محتوای تخصصی Basic اضافه می‌کند.
+        versionName = "0.2.5"
     }
 
     // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
