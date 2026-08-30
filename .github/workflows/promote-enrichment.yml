@@ -1,0 +1,79 @@
+name: Promote validated enrichment
+
+on:
+  push:
+    branches: [phase-5-enrichment]
+    paths:
+      - .github/workflows/promote-enrichment.yml
+
+permissions:
+  contents: write
+
+jobs:
+  validate-build-promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Basic enrichment
+        uses: actions/checkout@v5
+        with:
+          ref: phase-5-enrichment
+          fetch-depth: 0
+          path: AS-Academy-Basic
+
+      - name: Rebase enrichment on latest main
+        working-directory: AS-Academy-Basic
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git rebase origin/main
+
+      - name: Checkout AS Academy Core
+        uses: actions/checkout@v5
+        with:
+          repository: waxew/AS-Academy-Core
+          ref: main
+          path: AS-Academy-Core
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android API 36
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Validate complete Basic Course Package
+        working-directory: AS-Academy-Core
+        run: ./gradlew :tools:run --args="validate ../AS-Academy-Basic/course/basic" --stacktrace
+
+      - name: Compile complete Course Bundle
+        working-directory: AS-Academy-Core
+        run: ./gradlew :tools:run --args="compile ../AS-Academy-Basic/course/basic ../AS-Academy-Basic/app/src/main/assets/basic-course.json" --stacktrace
+
+      - name: Lint and assemble Basic debug APK
+        working-directory: AS-Academy-Basic
+        run: ../AS-Academy-Core/gradlew -p . :app:lintDebug :app:assembleDebug --stacktrace
+
+      - name: Remove one-time promotion workflow
+        working-directory: AS-Academy-Basic
+        run: git rm .github/workflows/promote-enrichment.yml
+
+      - name: Commit validated promotion state
+        working-directory: AS-Academy-Basic
+        run: |
+          git add -A
+          git commit -m "Promote validated enrichment curriculum"
+
+      - name: Update enrichment branch and main
+        working-directory: AS-Academy-Basic
+        run: |
+          git push --force-with-lease origin HEAD:phase-5-enrichment
+          git push origin HEAD:main
