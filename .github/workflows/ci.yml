@@ -26,11 +26,12 @@ jobs:
         with:
           path: AS-Academy-Basic
 
-      # Core منبع رسمی Contract، Compiler، Runtime و Gradle Wrapper این Course است.
+      # Integration branch تا Merge Core 1.1.0 همان تغییرات Flashcard را تست می‌کند؛ پیش از Merge Basic این ref دوباره main می‌شود.
       - name: Checkout AS Academy Core
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-Core
+          ref: feature/flashcards
           path: AS-Academy-Core
 
       # نسخه Java دقیقاً با Core یکسان نگه داشته می‌شود.
