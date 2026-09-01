@@ -2,6 +2,30 @@
 
 همه تغییرات قابل انتشار AS Academy Basic در این فایل ثبت می‌شوند. نسخه‌ها از Semantic Versioning پیروی می‌کنند.
 
+## 1.1.0-rc2 — 2026-09-01
+
+### Added
+
+- Runtime Content Update مستقل از APK با استفاده از `AS-Academy-Core 1.4.0`.
+- `BasicRuntimeContentApp` برای فعال‌سازی نسخه معتبر محلی و بررسی کانال رسمی MainCourse در پس‌زمینه.
+- کانال Metadata عمومی `basic-content/latest.json` برای کشف نسخه جدید Course Package.
+- fallback قطعی به `basic-course.json` داخل APK در نبود اینترنت یا رد شدن Update.
+
+### Changed
+
+- `MainActivity` از Bootstrap محتوایی جدید شروع می‌شود و سپس Host اصلی Basic را اجرا می‌کند.
+- `versionCode` از 10 به 11 و `versionName` از `1.1.0-rc1` به `1.1.0-rc2` افزایش یافت.
+- Runtime/Engine از Core 1.3.0 به Core 1.4.0 ارتقا یافت.
+- Permission استاندارد `INTERNET` برای دریافت محتوای آموزشی از HTTPS اضافه شد؛ Storage permission عمومی اضافه نشده است.
+- Content Update موفق فقط درخت Compose دوره را Reload می‌کند؛ Room/DataStore و Progress کاربر حذف یا Reset نمی‌شوند.
+
+### Safety
+
+- SHA-256، Course Validator، `courseId`، SemVer و `minimumCoreVersion` قبل از فعال شدن Package جدید بررسی می‌شوند.
+- نصب Package به‌صورت Atomic انجام می‌شود و Core Backup/Rollback را نگه می‌دارد.
+- Update خراب، ناقص، قدیمی یا ناسازگار جایگزین محتوای فعال نمی‌شود.
+- `applicationId` همچنان `com.asdevelopers.academy.basic` است و Signing identity نسخه Stable 1.0.0 نباید تغییر کند.
+
 ## 1.1.0-rc1 — 2026-09-01
 
 ### Changed
