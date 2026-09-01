@@ -23,7 +23,7 @@ jobs:
         with:
           path: AS-Academy-Basic
 
-      # RC2 pins all shared inputs to immutable commits so dependency drift cannot silently change the build.
+      # RC2 pins all shared inputs to immutable merged commits so dependency drift cannot silently change the build.
       - name: Checkout AS Academy Core
         uses: actions/checkout@v5
         with:
@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-MainCourse
-          ref: da11d7434cc6180b6d69daf3130da97f2ca3d289
+          ref: 5c7f4d01a60d850d796bf7ec887b45c6aa495f28
           path: AS-Academy-MainCourse
 
       - name: Set up JDK 17
