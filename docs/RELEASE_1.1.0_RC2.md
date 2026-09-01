@@ -62,15 +62,21 @@
 
 ## Automated APK gates
 
-- [ ] Final RC2 four-repository CI completes successfully on the exact RC2 head.
-- [ ] Canonical MainCourse Basic validation passes in Basic CI.
-- [ ] MainCourse package compile into bundled Android asset passes.
-- [ ] MainUi lint/build passes.
-- [ ] Basic lintDebug/assembleDebug passes.
-- [ ] Basic assembleRelease unsigned passes.
-- [ ] Debug and unsigned Release SHA-256 artifacts generated.
+Evidence run before recording this checklist:
 
-این موارد پس از CI نهایی RC2 علامت‌گذاری می‌شوند.
+- GitHub Actions run: `33506655036`
+- RC2 head: `a500189521fbfe34292534ea869e3e4713f6330b`
+- Result: `success`
+
+- [x] Final RC2 four-repository CI completes successfully on the exact RC2 head.
+- [x] Canonical MainCourse Basic validation passes in Basic CI.
+- [x] MainCourse package compile into bundled Android asset passes.
+- [x] MainUi lint/build passes.
+- [x] Basic lintDebug/assembleDebug passes.
+- [x] Basic assembleRelease unsigned passes.
+- [x] Debug and unsigned Release SHA-256 artifacts generated and uploaded.
+
+این commit فقط Evidence خودکار را ثبت می‌کند؛ هیچ Runtime، UI یا Course source را تغییر نمی‌دهد. CI باید این commit مستنداتی را نیز قبل از Merge تأیید کند.
 
 ## Device/Publish gates
 
