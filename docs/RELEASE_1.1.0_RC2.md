@@ -13,9 +13,9 @@
 
 ## Frozen cross-repository inputs
 
-- Core 1.4.0: `38d54560e56479bd4e3d784dd1a9a65d8c9dd5fc`
+- Core 1.4.0: `6ab793a351180697e59de13b8cb770a7d1dff54b`
 - MainUi 0.1.0: `2519f76a1391e87dfbf784eb7c3b18c06868680b`
-- MainCourse: `5c7f4d01a60d850d796bf7ec887b45c6aa495f28`
+- MainCourse: `e7f7d555b7b28f18a62983b87461c258ffd0551d`
 - MainCourse Basic manifest: `version=1.1.0`, `curriculumVersion=1.1.0`, `minimumCoreVersion=1.3.0`
 
 ## Runtime content channel evidence
@@ -35,11 +35,13 @@
 
 - [x] HTTPS-only metadata/package channel.
 - [x] Redirects remain HTTPS-only and are bounded.
+- [x] Metadata SemVer/`minimumCoreVersion` preflight before large Package download.
+- [x] Current/downgrade/Core-incompatible releases are rejected before Package transfer.
 - [x] SHA-256 validation before activation.
 - [x] Course Validator before activation.
 - [x] `courseId` match requirement.
-- [x] SemVer update/downgrade policy.
-- [x] `minimumCoreVersion` compatibility gate.
+- [x] SemVer update/downgrade policy is repeated against the decoded Package manifest.
+- [x] `minimumCoreVersion` compatibility is repeated against the decoded Package manifest.
 - [x] Atomic installation.
 - [x] Backup/Rollback support.
 - [x] Installed package validation on startup.
