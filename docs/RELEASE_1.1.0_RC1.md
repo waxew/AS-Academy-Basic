@@ -19,24 +19,32 @@
 
 ## Automated gates
 
-- [ ] Validate canonical MainCourse Basic Course Package
-- [ ] Compile MainCourse package into Android asset
-- [ ] MainUi lintDebug
-- [ ] MainUi assembleDebug
-- [ ] Basic lintDebug
-- [ ] Basic assembleDebug
-- [ ] Basic assembleRelease (unsigned QA artifact)
-- [ ] SHA-256 generated for Debug and unsigned Release artifacts
+- [x] Validate canonical MainCourse Basic Course Package
+- [x] Compile MainCourse package into Android asset
+- [x] MainUi lintDebug
+- [x] MainUi assembleDebug
+- [x] Basic lintDebug
+- [x] Basic assembleDebug
+- [x] Basic assembleRelease (unsigned QA artifact)
+- [x] SHA-256 generated for Debug and unsigned Release artifacts
+
+## RC signing identity evidence
+
+- [x] همان JKS خصوصی نسخه 1.0.0 برای امضای یک RC test artifact استفاده شد.
+- [x] امضای RC test artifact با `jarsigner` verify شد.
+- [x] SHA-256 fingerprint گواهی RC test دقیقاً با signed 1.0.0 یکسان است.
+- [x] package/version configuration برای RC روی `com.asdevelopers.academy.basic / versionCode=10 / versionName=1.1.0-rc1` ثابت شده است.
+
+این RC test صرفاً برای Upgrade/Sideload verification است. Publish نهایی باید با Android APK signing مناسب و همین signing identity ساخته شود.
 
 ## Publish gates
 
-- [ ] Sign publish APK with the exact same private JKS used for 1.0.0
-- [ ] Verify APK signature/certificate
-- [ ] Verify package is `com.asdevelopers.academy.basic`
-- [ ] Verify versionCode is greater than 9
-- [ ] Install/upgrade smoke test over signed 1.0.0 while preserving app data
-- [ ] Smoke test Home, Drawer, Learning Catalog, Lesson, Quiz, Exercise, Project, Placement, Weak Topic Review and Flashcard Review
-- [ ] Verify offline Course Package loads from compiled MainCourse asset
-- [ ] Record final APK SHA-256
+- [ ] Sign final Publish APK with the exact same private JKS used for 1.0.0 using Android APK signing.
+- [ ] Verify final Publish APK signature/certificate.
+- [ ] Independently verify final APK package is `com.asdevelopers.academy.basic` and versionCode is greater than 9.
+- [ ] Install/upgrade smoke test over signed 1.0.0 while preserving app data.
+- [ ] Smoke test Home, Drawer, Learning Catalog, Lesson, Quiz, Exercise, Project, Placement, Weak Topic Review and Flashcard Review.
+- [ ] Verify offline Course Package loads from compiled MainCourse asset on an installed build.
+- [ ] Record final Publish APK SHA-256.
 
 Stable `1.1.0` must not be tagged or published until all Publish gates pass.
