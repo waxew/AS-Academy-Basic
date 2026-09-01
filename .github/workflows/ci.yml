@@ -2,7 +2,7 @@ name: Basic quality gates
 
 on:
   push:
-    branches: [main, "architecture/**", "release/**"]
+    branches: [main, "architecture/**", "release/**", "feature/**"]
   pull_request:
   workflow_dispatch:
 
@@ -23,12 +23,12 @@ jobs:
         with:
           path: AS-Academy-Basic
 
-      # Release candidates pin all shared inputs to immutable commits so the same Basic commit is reproducible.
+      # RC2 pins all shared inputs to immutable commits so dependency drift cannot silently change the build.
       - name: Checkout AS Academy Core
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-Core
-          ref: 47b4c32ed2b4f707444f059f26b03ca4755dbfb4
+          ref: eda732812e18816d524ce1e4ab74d72d04d823b1
           path: AS-Academy-Core
 
       - name: Checkout AS Academy MainUi
@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-MainCourse
-          ref: de4001ccd55ff346bab420f86bfd7b8868806768
+          ref: 5ef9e755dbb134aef57fadc229ea7a7814464ca9
           path: AS-Academy-MainCourse
 
       - name: Set up JDK 17
