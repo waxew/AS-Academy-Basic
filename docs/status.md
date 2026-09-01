@@ -1,145 +1,96 @@
 # وضعیت فعلی AS Academy Basic
 
-آخرین بازبینی: 2026-08-30
+آخرین بازبینی: 2026-09-01
 
-## معماری
+## وضعیت انتشار
 
-- اتصال به `AS-Academy-Core`: انجام شده
-- Course Package استاندارد: انجام شده
-- Android Host Compose: انجام شده
-- Drawer / Settings / Theme / Navigation: از Core مصرف می‌شود
-- Quiz / Exercise / Project workflow: از Core مصرف می‌شود
-- Room persistence برای Quiz History / Exercise Draft / Activity Completion / Project Progress: متصل شده
-- Course Validator / Compiler: متصل شده
-- GitHub Actions Quality Gate: فعال
-- Shared Quiz/Exercise/Project UI در Core: انجام شده
-- Core compatibility patch: نسخه `1.0.1`
-- Android Host Basic: نسخه `0.2.0` با `versionCode=2`
-- Build pipeline: Validate → Compile → Lint → Assemble Debug → APK Artifact
+- Stable: `1.0.0` / `versionCode=9`
+- Release Candidate: `1.1.0-rc1` / `versionCode=10`
+- Android package: `com.asdevelopers.academy.basic`
+- Signing identity: بدون تغییر نسبت به 1.0.0
+- Stable `1.1.0`: هنوز منتشر نشده و به Upgrade/Smoke Test واقعی وابسته است.
+
+## معماری چهارریپویی
+
+- `AS-Academy-Core 1.3.0`: Runtime، Engine، Persistence، Navigation Contract و منطق مشترک.
+- `AS-Academy-MainUi 0.1.0`: Theme، AppShell، Home، Learning Catalog و Screenهای مشترک.
+- `AS-Academy-MainCourse`: منبع یگانه محتوای آموزشی در `courses/basic/course`.
+- `AS-Academy-Basic`: Thin Android Host؛ محتوای Course محلی ندارد.
+
+Course Manifest مرکزی Basic:
+
+- `version=1.1.0`
+- `curriculumVersion=1.1.0`
+- `minimumCoreVersion=1.3.0`
+- `contentSchemaVersion=1`
+
+## ورودی‌های قفل‌شده RC
+
+- Core: `47b4c32ed2b4f707444f059f26b03ca4755dbfb4`
+- MainUi: `2519f76a1391e87dfbf784eb7c3b18c06868680b`
+- MainCourse: `de4001ccd55ff346bab420f86bfd7b8868806768`
+
+این Pinها باعث می‌شوند Build نسخه RC با حرکت branchهای مرکزی به‌صورت ناخواسته تغییر نکند.
 
 ## آمار محتوای واقعی
 
-- سطح‌ها: 4 / 4
-- فصل‌ها: 39
-- درس واقعی: 157
-- Quiz: 43
-- سؤال Quiz: 222
-- Exercise: 155
-- Project: 14
-- Glossary: 39 مدخل فعلی
+- سطح‌ها: **4**
+- فصل‌ها: **39**
+- درس‌ها: **157**
+- Quizها: **73**
+- سؤال‌ها: **534**
+- Micro Quiz: **20 / 100 سؤال**
+- Exerciseها: **195**
+- Challenge Exercise: **40**
+- Projectها: **14**
+- Glossary Entry: **69**
+- Placement Test: **1 / 32 سؤال**
+- Depth Assessment: **4 / 80 سؤال**
+- Interview Assessment: **5 / 100 سؤال**
 
-## سطح ۱ — مبانی
+توزیع درس‌ها:
 
-10 فصل و 41 درس واقعی:
+- مبانی: **41 درس / 10 فصل**
+- مقدماتی: **48 درس / 12 فصل**
+- پیشرفته: **44 درس / 11 فصل**
+- تخصصی و بازار کار: **24 درس / 6 فصل**
 
-1. سواد رایانه و سیستم‌عامل
-2. رشته‌ها و بازار کار برنامه‌نویسی
-3. منطق و حل مسئله
-4. الگوریتم، فلوچارت و شبه‌کد
-5. متغیرها و انواع داده
-6. عملگرها و عبارت‌ها
-7. ورودی و خروجی
-8. شرط‌ها و تصمیم‌گیری
-9. حلقه‌ها و تکرار
-10. توابع و تفکیک مسئولیت
+## قابلیت‌های فعال Android
 
-- آزمون جامع: `basic-qz-011`
-- پروژه پایان سطح: `basic-prj-003`
+- RTL و Theme/Settings مشترک
+- Drawer و Back Navigation
+- Home و Learning Catalog
+- Lesson / Quiz / Exercise / Project
+- Placement Summary
+- Weak Topic Review
+- Flashcard / Spaced Review
+- Quiz History
+- Exercise Draft/Completion
+- Project Progress
+- Room persistence مشترک
+- Offline compiled Course Package
+- Final Capstone: `basic-prj-014`
 
-## سطح ۲ — مقدماتی
+## QA و Build Pipeline
 
-12 فصل و 48 درس واقعی:
+Pipeline رسمی:
 
-1. Collectionها: Array / List / Set / Map
-2. String / Unicode / Parsing / Text Processing
-3. Date / Time / UTC / Time Zone / Duration
-4. Error / Exception / Logging / Recovery
-5. File / Path / Encoding / Atomic Save / Streaming
-6. JSON / CSV / XML / Schema / Validation
-7. Terminal / Shell / Pipe / Script / Environment
-8. Git Repository / Commit / Diff / Remote / Tag
-9. Branch / Merge / Rebase / Pull Request
-10. Debugging / Reproduce / Breakpoint / Stack Trace / Root Cause
-11. Testing / AAA / Boundary / Test Double / Regression
-12. README / Comment / Naming / Changelog / ADR
+`MainCourse Validate -> Core Compile -> MainUi Lint/Build -> Basic Lint/Debug -> Basic unsigned Release -> SHA-256 -> Artifacts`
 
-- آزمون جامع: `basic-qz-024`
-- پروژه‌های میانی: `basic-prj-004` و `basic-prj-005`
-- پروژه پایان سطح: `basic-prj-006`
+وضعیت Release Candidate:
 
-## سطح ۳ — پیشرفته
+- MainCourse validator: موفق
+- Compile محتوای canonical: موفق
+- MainUi lint/build: موفق
+- Basic lint/debug build: موفق
+- Basic unsigned release build: موفق
+- SHA-256 artifacts: موفق
+- Signing certificate compatibility با signed 1.0.0: تأیید شده در تست محلی RC
 
-11 فصل و 44 درس واقعی:
+## Gateهای باقی‌مانده برای Stable 1.1.0
 
-1. OOP
-2. Functional Programming
-3. Recursion
-4. Data Structures
-5. Search / Sort
-6. Big-O و Complexity
-7. Memory Management
-8. Advanced Testing
-9. Clean Code / Refactoring
-10. SOLID
-11. Design Patterns
-
-- Quiz فصل‌ها: `basic-qz-025` تا `basic-qz-035`
-- آزمون جامع: `basic-qz-036`
-- پروژه‌های میانی: `basic-prj-007`، `basic-prj-008`، `basic-prj-009`
-- پروژه پایان سطح: `basic-prj-010`
-
-## سطح ۴ — تخصصی و بازار کار
-
-6 فصل و 24 درس واقعی:
-
-1. Software Architecture / Dependency Management / Versioning / Migration / ADR
-2. Security / Threat Modeling / AuthN / AuthZ / Injection / Secure Delivery
-3. Teamwork / Agile / Scrum / Kanban / Code Review / Incident/Postmortem
-4. CI/CD / Release / Rollback / Open Source / Supply Chain / Artifact Provenance
-5. Portfolio / GitHub / Resume / Career Gap Analysis
-6. Technical Interview / Algorithm Patterns / Design Interview / STAR
-
-- Quiz فصل‌ها: `basic-qz-037` تا `basic-qz-042`
-- آزمون جامع نهایی کل Basic: `basic-qz-043`
-- پروژه‌های تخصصی: `basic-prj-011`، `basic-prj-012`، `basic-prj-013`
-- Final Capstone کل دوره: `basic-prj-014`
-
-## Final Capstone
-
-`basic-prj-014` یک Personal Operations Manager است که باید در یک زبان انتخابی پیاده‌سازی شود و این موارد را یکپارچه کند:
-
-- Problem/Scope و Acceptance Criteria
-- Data Model و Algorithm/Data Structure
-- Architecture و Dependency Direction
-- Offline Storage، Migration، Backup/Restore و Import/Export
-- Security و Threat Model
-- Git/Issue/Branch/PR Workflow
-- Unit/Property/Integration/E2E/Regression Testing
-- CI/CD و Release Evidence
-- Documentation و ADR
-- Complexity/Performance/Memory Review
-- Security/Code Review
-- Portfolio Case Study و Mock Interview Defense
-
-## وضعیت پوشش آموزشی
-
-چهار سطح اصلی اکنون مسیر آموزشی end-to-end دارند. «پوشش کامل اولیه» به معنی وجود درس واقعی، تمرین، ارزیابی و پروژه برای تمام فصل‌های اصلی است؛ enrichment همچنان ادامه پیدا می‌کند:
-
-- Micro Quiz و Lesson Exam بیشتر
-- Question Bank بزرگ‌تر
-- Placement Test
-- Weak Topic Review Queue
-- Flashcard و Spaced Review
-- مثال‌ها و Challengeهای بیشتر
-- Rubric دقیق‌تر پروژه‌ها
-- Diagram و Assetهای بصری
-- Glossary گسترده‌تر
-- بانک سؤال مصاحبه بزرگ‌تر
-
-## فاز فعلی
-
-`Four-level curriculum covered → Final validation/build → Enrichment and release hardening`
-
-## معیار Done
-
-عنوان یا فایل خالی Done محسوب نمی‌شود. فقط محتوایی در آمار تکمیل وارد می‌شود که آموزش واقعی، مثال/سناریو، تمرین یا ارزیابی معتبر داشته باشد. Course Validator و GitHub Actions مرجع فنی صحت Package و Android Host هستند.
+1. تولید Publish APK با Android APK signing مناسب و همان JKS خصوصی نسخه 1.0.0.
+2. نصب signed 1.0.0 و Upgrade مستقیم به 1.1.0 RC روی Device/Emulator بدون حذف داده.
+3. Smoke Test مسیرهای Home، Drawer، Catalog، Lesson، Quiz، Exercise، Project، Placement، Weak Topic Review و Flashcard Review.
+4. تأیید Load محتوای Offline از MainCourse روی نصب واقعی.
+5. ثبت SHA-256 و Verify نهایی APK و سپس Tag/Release نسخه Stable.
