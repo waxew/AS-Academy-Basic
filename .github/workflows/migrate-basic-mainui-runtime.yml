@@ -1,4 +1,4 @@
-name: Migrate Basic runtime to MainUi
+name: Finalize Basic architecture README
 
 on:
   push:
@@ -24,20 +24,20 @@ jobs:
           ref: architecture/maincourse-mainui
           fetch-depth: 0
 
-      - name: Move shared learning screens behind MainUi
-        run: python3 scripts/migrate_basic_mainui_screens.py
+      - name: Update README for MainCourse and MainUi architecture
+        run: python3 scripts/update_basic_readme_architecture.py
 
-      - name: Commit screen migration
+      - name: Commit README migration
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app/src/main/kotlin/com/asdevelopers/academy/basic/BasicAcademyApp.kt
+          git add README.md
           if git diff --cached --quiet; then
-            echo "Shared screens already migrated."
+            echo "README already migrated."
             exit 0
           fi
-          git commit -m "refactor: consume shared screens through MainUi"
+          git commit -m "docs: document MainCourse MainUi thin-host architecture"
           git pull --rebase origin architecture/maincourse-mainui
           git push origin HEAD:architecture/maincourse-mainui
