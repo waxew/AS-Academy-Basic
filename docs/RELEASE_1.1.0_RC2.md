@@ -13,9 +13,9 @@
 
 ## Frozen cross-repository inputs
 
-- Core 1.4.0: `6ab793a351180697e59de13b8cb770a7d1dff54b`
+- Core 1.4.0: `d8b42beb42894452d9420b8bf3200847c6294fb9`
 - MainUi 0.1.0: `2519f76a1391e87dfbf784eb7c3b18c06868680b`
-- MainCourse: `e7f7d555b7b28f18a62983b87461c258ffd0551d`
+- MainCourse: `6169fa7464be3db213c2e7e29c03cabd297a555b`
 - MainCourse Basic manifest: `version=1.1.0`, `curriculumVersion=1.1.0`, `minimumCoreVersion=1.3.0`
 
 ## Runtime content channel evidence
@@ -44,9 +44,11 @@
 - [x] `minimumCoreVersion` compatibility is repeated against the decoded Package manifest.
 - [x] Atomic installation.
 - [x] Backup/Rollback support.
-- [x] Installed package validation on startup.
-- [x] Corrupt installed package quarantine.
-- [x] Bundled APK asset fallback.
+- [x] Bundled APK asset and installed Runtime Package are both validated locally.
+- [x] Installed Runtime Package is selected only when strictly newer than bundled APK content.
+- [x] Equal/newer bundled APK content supersedes an older/equal installed Runtime Package.
+- [x] Corrupt/mismatched/superseded installed Package is quarantined.
+- [x] Valid installed content is retained if the bundled APK asset is invalid.
 
 ## Basic host integration
 
@@ -83,6 +85,7 @@
 - [ ] Verify Runtime Content metadata/channel is reachable on a real Android installation.
 - [ ] Verify a newer test Course version can be installed and rendered without APK replacement.
 - [ ] Verify bad/unreachable update channel falls back without blocking learning content.
+- [ ] Verify APK update with equal/newer bundled Course does not regress to an older Runtime Package while offline.
 - [ ] Record final Publish APK SHA-256 and Android signature verification evidence.
 
 Stable `1.1.0` must not be tagged or published until all Device/Publish gates pass.
