@@ -26,9 +26,9 @@ Course Manifest مرکزی Basic:
 
 ## ورودی‌های قفل‌شده RC2
 
-- Core: `6ab793a351180697e59de13b8cb770a7d1dff54b`
+- Core: `d8b42beb42894452d9420b8bf3200847c6294fb9`
 - MainUi: `2519f76a1391e87dfbf784eb7c3b18c06868680b`
-- MainCourse: `e7f7d555b7b28f18a62983b87461c258ffd0551d`
+- MainCourse: `6169fa7464be3db213c2e7e29c03cabd297a555b`
 
 این Pinها باعث می‌شوند Build نسخه RC2 با حرکت branchهای مرکزی به‌صورت ناخواسته تغییر نکند.
 
@@ -44,12 +44,13 @@ Course Manifest مرکزی Basic:
 
 رفتار Runtime:
 
-`installed valid package -> bundled APK asset fallback -> UI -> background HTTPS metadata check -> preflight -> download only when newer/installable -> validate/install -> reload CourseBundle`
+`validate bundled + validate installed -> choose newest valid local -> UI -> background HTTPS metadata check -> preflight -> download only when newer/installable -> validate/install -> reload CourseBundle`
 
 کنترل‌های قبل از فعال‌سازی:
 
 - HTTPS-only
 - Metadata preflight برای SemVer و `minimumCoreVersion` قبل از دانلود فایل بزرگ
+- current/downgrade/Core-incompatible release بدون دانلود Package رد می‌شود
 - SHA-256
 - Course Validator
 - `courseId`
@@ -58,7 +59,12 @@ Course Manifest مرکزی Basic:
 - atomic install
 - backup/rollback
 
-در نتیجه وقتی `latest.json` همان نسخه فعال را گزارش کند، Package حدود 1.55MB دوباره دانلود نمی‌شود.
+قانون انتخاب محتوای محلی:
+
+- Runtime Package فقط وقتی فعال می‌شود که نسخه آن از Asset داخل APK **بالاتر** باشد.
+- اگر APK بعدی Course هم‌نسخه یا جدیدتری Bundle کرده باشد، Asset APK برنده است؛ بنابراین App Update در حالت Offline به محتوای قدیمی Runtime عقب نمی‌رود.
+- Runtime Package خراب/نامعتبر/شناسه‌اشتباه قرنطینه می‌شود.
+- اگر Asset APK نامعتبر ولی Runtime Package معتبر باشد، نسخه نصب‌شده حفظ می‌شود تا آموزش‌ها از دسترس خارج نشوند.
 
 Progress و داده‌های کاربر از Course Package جدا هستند و Content Update نباید آن‌ها را پاک کند.
 
@@ -118,5 +124,5 @@ Gateهای Runtime Content نیز جداگانه در MainCourse اجرا می�
 2. تولید Signed RC2 با همان JKS خصوصی نسخه 1.0.0 و Verify certificate/signature.
 3. نصب signed 1.0.0 و Upgrade مستقیم به RC2 روی Device/Emulator بدون حذف داده.
 4. Smoke Test مسیرهای Home، Drawer، Catalog، Lesson، Quiz، Exercise، Project، Placement، Weak Topic Review و Flashcard Review.
-5. Smoke Test Runtime Content Update و fallback آفلاین روی نصب واقعی.
+5. Smoke Test Runtime Content Update، newest-local selection و fallback آفلاین روی نصب واقعی.
 6. ثبت SHA-256 و Verify نهایی Publish APK و سپس Tag/Release نسخه Stable.
