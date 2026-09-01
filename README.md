@@ -15,7 +15,7 @@
 - Shared UI: `AS-Academy-MainUi 0.1.0`
 - Canonical content: `AS-Academy-MainCourse/courses/basic/course`
 - Stable release: **1.0.0**
-- Current migration line: **1.1.0-dev**
+- Current release candidate: **1.1.0-rc1**
 - Android `versionCode`: **10**
 
 ## قانون معماری
@@ -33,7 +33,7 @@
 3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code، Refactoring، SOLID و Patterns.
 4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Agile/Review، CI/CD، Open Source، Portfolio و Technical Interview.
 
-## وضعیت واقعی محتوای نسخه 1.0.0
+## وضعیت واقعی محتوا
 
 - **4 سطح**
 - **39 فصل**
@@ -143,8 +143,10 @@ Android Host به قابلیت‌های مشترک Core متصل است:
 - Quiz History، Exercise Draft/Completion، Project Progress و Flashcard Progress در Room مشترک ذخیره می‌شوند.
 - Course Package از MainCourse دریافت و قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
 - GitHub Actions: `Checkout MainCourse/MainUi/Core -> Validate -> Compile -> MainUi Lint/Build -> Basic Lint/Debug -> Release -> SHA-256 -> QA Artifacts`.
-- خط توسعه فعلی `versionCode=10 / versionName=1.1.0-dev` است؛ package و signing identity نسخه 1.0.0 تغییر نکرده‌اند.
+- Release Candidate فعلی `versionCode=10 / versionName=1.1.0-rc1` است؛ package و signing identity نسخه 1.0.0 تغییر نکرده‌اند.
+- برای بازتولید RC، CI ورودی‌های Core/MainUi/MainCourse را به commitهای ثابت قفل می‌کند.
 - APK Publish نهایی با keystore خصوصی و پایدار خارج از repository عمومی امضا می‌شود.
+- Stable `1.1.0` تا پایان تست واقعی Upgrade از 1.0.0 و Smoke Test مسیرهای اصلی منتشر نمی‌شود.
 
 ## Build
 
@@ -166,14 +168,16 @@ scripts\prepare-course.bat
 
 ## Version History
 
-### 1.1.0-dev — MainCourse/MainUi architecture migration
+### 1.1.0-rc1 — Reproducible Release Candidate
 
 - انتقال کامل Course Package دوره Basic به `AS-Academy-MainCourse/courses/basic/course`
 - تبدیل MainCourse به Single Source of Truth محتوای Basic و حذف کپی محلی از Host
 - افزودن `AS-Academy-MainUi` به build واقعی Android
 - انتقال Theme، AppShell، Home، Learning Catalog و Screenهای مشترک پشت facade MainUi
 - ارتقا runtime به Core 1.3.0 و فعال‌سازی Learning Catalog
-- ارتقا Android به `versionCode=10 / versionName=1.1.0-dev` بدون تغییر package/signing identity
+- هم‌راستا شدن MainCourse manifest با `version=1.1.0 / curriculumVersion=1.1.0 / minimumCoreVersion=1.3.0`
+- ارتقا Android به `versionCode=10 / versionName=1.1.0-rc1` بدون تغییر package/signing identity
+- قفل‌شدن ورودی‌های Core/MainUi/MainCourse به SHAهای ثابت برای Build قابل بازتولید
 - CI یکپارچه `MainCourse -> Core -> MainUi -> Basic`
 
 ### 1.0.0 — Stable Release
@@ -221,4 +225,4 @@ scripts\prepare-course.bat
 
 ## وضعیت فعلی
 
-`1.0.0 released / 1.1.0-dev architecture migration active / content source = MainCourse / presentation = MainUi / runtime = Core 1.3.0`
+`1.0.0 released / 1.1.0-rc1 active / content source = MainCourse 1.1.0 / presentation = MainUi 0.1.0 / runtime = Core 1.3.0`
