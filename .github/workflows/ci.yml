@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-Core
-          ref: 38d54560e56479bd4e3d784dd1a9a65d8c9dd5fc
+          ref: 6ab793a351180697e59de13b8cb770a7d1dff54b
           path: AS-Academy-Core
 
       - name: Checkout AS Academy MainUi
@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-MainCourse
-          ref: 5c7f4d01a60d850d796bf7ec887b45c6aa495f28
+          ref: e7f7d555b7b28f18a62983b87461c258ffd0551d
           path: AS-Academy-MainCourse
 
       - name: Set up JDK 17
