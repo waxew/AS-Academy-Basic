@@ -104,34 +104,39 @@ BasicRuntimeContentApp
    |
    +--> CourseContentStore
    |      |
-   |      +--> installed valid course-package.json
-   |      |
-   |      `--> bundled basic-course.json in APK
+   |      +--> validate bundled basic-course.json in APK
+   |      +--> validate installed runtime course-package.json if present
+   |      `--> choose newest valid local version
+   |             |-- installed only when newer than bundled asset
+   |             `-- bundled asset when equal/newer or installed is invalid
    |
    +--> BasicAcademyApp -> CoursePackageLoader -> CourseBundle -> MainUi
    |
    `--> HTTPS latest.json check
           |
-          +--> newer? download candidate
+          +--> metadata SemVer/minimumCoreVersion preflight
+          +--> current/downgrade/incompatible? stop without Package download
+          +--> newer/installable? download candidate
           |
           +--> SHA-256
           +--> Course Validator
           +--> courseId check
-          +--> SemVer/downgrade check
-          +--> minimumCoreVersion check
+          +--> SemVer/downgrade re-check on real Package manifest
+          +--> minimumCoreVersion re-check on real Package manifest
           |
           `--> atomic install -> activate -> reload CourseBundle
 ```
 
 ### ترتیب نمایش و Update
 
-1. ابتدا `CourseContentStore` محتوای معتبر موجود روی دستگاه را Resolve می‌کند.
-2. اگر قبلاً Content Update معتبر نصب شده باشد، همان فعال می‌شود.
-3. در غیر این صورت `basic-course.json` داخل APK فعال می‌شود.
+1. `CourseContentStore` Asset داخل APK و در صورت وجود Runtime Package نصب‌شده را Validate می‌کند.
+2. بین دو منبع محلی، جدیدترین نسخه معتبر انتخاب می‌شود؛ Runtime Package فقط وقتی برنده است که از Asset APK واقعاً جدیدتر باشد.
+3. اگر APK بعدی Course هم‌نسخه یا جدیدتری Bundle کرده باشد، همان Asset جدید انتخاب می‌شود و Runtime Package قدیمی از مسیر فعال خارج می‌شود.
 4. UI آموزشی بدون انتظار برای شبکه ساخته می‌شود.
-5. سپس کانال MainCourse در پس‌زمینه بررسی می‌شود.
-6. اگر نسخه جدید معتبر باشد، در فضای خصوصی اپ نصب و فعال می‌شود.
-7. Host دوباره CourseBundle را Load می‌کند و محتوای جدید در MainUi نمایش داده می‌شود.
+5. سپس فقط `latest.json` کانال MainCourse در پس‌زمینه بررسی می‌شود.
+6. اگر Metadata همان نسخه، Downgrade یا Course ناسازگار با Core فعلی را گزارش کند، فایل بزرگ Course Package دانلود نمی‌شود.
+7. اگر نسخه واقعاً جدید و قابل نصب باشد، Package دانلود، Hash/Contract/Version دوباره بررسی و در فضای خصوصی اپ به‌صورت Atomic نصب می‌شود.
+8. Host دوباره CourseBundle را Load می‌کند و محتوای جدید در MainUi نمایش داده می‌شود.
 
 ### رفتار آفلاین و خطا
 
@@ -147,7 +152,7 @@ BasicRuntimeContentApp
 - Downgrade
 - `minimumCoreVersion` بالاتر از Core نصب‌شده
 
-در تمام این حالات محتوای فعال فعلی باقی می‌ماند. اگر فایل نصب‌شده روی دستگاه خراب شود، Core آن را قرنطینه کرده و Asset آفلاین داخل APK را دوباره فعال می‌کند.
+در تمام این حالات محتوای معتبر محلی فعلی باقی می‌ماند. اگر فایل Runtime نصب‌شده روی دستگاه خراب شود، Core آن را قرنطینه می‌کند. اگر APK جدیدتر Course جدیدتری Bundle کرده باشد، Asset جدیدتر در حالت Offline برنده می‌شود؛ بنابراین App Update باعث بازگشت به محتوای قدیمی Runtime نمی‌شود. اگر Asset APK به هر دلیل نامعتبر باشد ولی Runtime Package معتبر وجود داشته باشد، Core نسخه معتبر نصب‌شده را حفظ می‌کند تا آموزش از دسترس خارج نشود.
 
 ### امنیت و حفاظت از داده کاربر
 
@@ -162,7 +167,7 @@ Runtime Content Update فقط فایل Course Package را تعویض می‌ک�
 - Settings
 - Profile
 
-Package جدید قبل از فعال شدن با SHA-256 و Validator رسمی Core بررسی می‌شود. نصب Atomic است و Backup/Rollback در Core نگهداری می‌شود. Storage permission عمومی برای این قابلیت وجود ندارد.
+Package جدید قبل از فعال شدن با SHA-256 و Validator رسمی Core بررسی می‌شود. Metadata فقط برای Preflight استفاده می‌شود و تصمیم Version/Core روی Manifest واقعی Package دوباره اجرا می‌شود. نصب Atomic است و Backup/Rollback در Core نگهداری می‌شود. Storage permission عمومی برای این قابلیت وجود ندارد.
 
 ## قانون نسخه محتوا
 
@@ -311,9 +316,10 @@ scripts\prepare-course.bat
 - Android `versionName=1.1.0-rc2`
 - Runtime Content Update مستقل از APK
 - HTTPS MainCourse channel
-- SHA-256/Validation/SemVer/Core compatibility gates
+- Metadata Preflight؛ Package فقط وقتی نسخه واقعاً جدید/قابل نصب است دانلود می‌شود
+- SHA-256/Validation/SemVer/Core compatibility gates روی Package واقعی
 - Atomic install + backup/rollback
-- installed-content-first + bundled asset fallback
+- newest-valid-local selection بین Runtime Package و bundled APK asset
 - Refresh CourseBundle بعد از نصب موفق
 
 ### 1.1.0-rc1 — Four-repository migration
