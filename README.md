@@ -20,7 +20,7 @@
 
 ## قانون معماری
 
-این Repository از معماری جدید به بعد یک **Thin Course Host** است. محتوای آموزشی Basic فقط در `AS-Academy-MainCourse/courses/basic/course` نگهداری می‌شود؛ Presentation مشترک شامل Theme، AppShell، Home، Catalog، Lesson، Quiz، Exercise، Project، Settings و Reviewها از `AS-Academy-MainUi` مصرف می‌شود؛ Engine، Navigation contract، Room، Progress، Quiz/Exercise/Project logic، Placement، Weak Topic Review و Spaced Review در `AS-Academy-Core` باقی می‌مانند. پوشه `course/basic` در این Repository فقط Snapshot تاریخی 1.0.0 است و منبع ویرایش محتوای جدید نیست.
+این Repository از معماری جدید به بعد یک **Thin Course Host** است. محتوای آموزشی Basic فقط در `AS-Academy-MainCourse/courses/basic/course` نگهداری می‌شود؛ Presentation مشترک شامل Theme، AppShell، Home، Catalog، Lesson، Quiz، Exercise، Project، Settings و Reviewها از `AS-Academy-MainUi` مصرف می‌شود؛ Engine، Navigation contract، Room، Progress، Quiz/Exercise/Project logic، Placement، Weak Topic Review و Spaced Review در `AS-Academy-Core` باقی می‌مانند. کپی محلی `course/basic` از خط توسعه 1.1 حذف شده است؛ نسخه 1.0.0 آن همچنان در تاریخچه Git و tag انتشار محفوظ است.
 
 ## چرخه آموزشی
 
@@ -148,7 +148,7 @@ Android Host به قابلیت‌های مشترک Core متصل است:
 
 ## Build
 
-چیدمان پیش‌فرض توسعه چهار Repository هم‌سطح است: `AS-Academy-Core/`، `AS-Academy-MainUi/`، `AS-Academy-MainCourse/` و `AS-Academy-Basic/`. اسکریپت prepare-course فقط محتوای canonical MainCourse را Compile می‌کند و عمداً به Snapshot محلی fallback نمی‌کند.
+چیدمان پیش‌فرض توسعه چهار Repository هم‌سطح است: `AS-Academy-Core/`، `AS-Academy-MainUi/`، `AS-Academy-MainCourse/` و `AS-Academy-Basic/`. اسکریپت prepare-course فقط محتوای canonical MainCourse را Compile می‌کند و اگر MainCourse در دسترس نباشد Build آماده‌سازی محتوا را متوقف می‌کند.
 
 Linux/macOS:
 
@@ -169,7 +169,7 @@ scripts\prepare-course.bat
 ### 1.1.0-dev — MainCourse/MainUi architecture migration
 
 - انتقال کامل Course Package دوره Basic به `AS-Academy-MainCourse/courses/basic/course`
-- تبدیل MainCourse به Single Source of Truth محتوای Basic
+- تبدیل MainCourse به Single Source of Truth محتوای Basic و حذف کپی محلی از Host
 - افزودن `AS-Academy-MainUi` به build واقعی Android
 - انتقال Theme، AppShell، Home، Learning Catalog و Screenهای مشترک پشت facade MainUi
 - ارتقا runtime به Core 1.3.0 و فعال‌سازی Learning Catalog
