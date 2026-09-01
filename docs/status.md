@@ -26,9 +26,9 @@ Course Manifest مرکزی Basic:
 
 ## ورودی‌های قفل‌شده RC2
 
-- Core: `38d54560e56479bd4e3d784dd1a9a65d8c9dd5fc`
+- Core: `6ab793a351180697e59de13b8cb770a7d1dff54b`
 - MainUi: `2519f76a1391e87dfbf784eb7c3b18c06868680b`
-- MainCourse: `5c7f4d01a60d850d796bf7ec887b45c6aa495f28`
+- MainCourse: `e7f7d555b7b28f18a62983b87461c258ffd0551d`
 
 این Pinها باعث می‌شوند Build نسخه RC2 با حرکت branchهای مرکزی به‌صورت ناخواسته تغییر نکند.
 
@@ -44,18 +44,21 @@ Course Manifest مرکزی Basic:
 
 رفتار Runtime:
 
-`installed valid package -> bundled APK asset fallback -> UI -> background HTTPS check -> validate/install -> reload CourseBundle`
+`installed valid package -> bundled APK asset fallback -> UI -> background HTTPS metadata check -> preflight -> download only when newer/installable -> validate/install -> reload CourseBundle`
 
 کنترل‌های قبل از فعال‌سازی:
 
 - HTTPS-only
+- Metadata preflight برای SemVer و `minimumCoreVersion` قبل از دانلود فایل بزرگ
 - SHA-256
 - Course Validator
 - `courseId`
-- SemVer / downgrade protection
-- `minimumCoreVersion`
+- SemVer / downgrade protection دوباره روی Manifest واقعی Package
+- `minimumCoreVersion` دوباره روی Manifest واقعی Package
 - atomic install
 - backup/rollback
+
+در نتیجه وقتی `latest.json` همان نسخه فعال را گزارش کند، Package حدود 1.55MB دوباره دانلود نمی‌شود.
 
 Progress و داده‌های کاربر از Course Package جدا هستند و Content Update نباید آن‌ها را پاک کند.
 
@@ -111,7 +114,7 @@ Gateهای Runtime Content نیز جداگانه در MainCourse اجرا می�
 
 ## Gateهای باقی‌مانده برای Stable 1.1.0
 
-1. تکمیل CI نهایی RC2 و دریافت Debug/unsigned Release artifact.
+1. تکمیل CI نهایی RC2 روی Pinهای نهایی و دریافت Debug/unsigned Release artifact.
 2. تولید Signed RC2 با همان JKS خصوصی نسخه 1.0.0 و Verify certificate/signature.
 3. نصب signed 1.0.0 و Upgrade مستقیم به RC2 روی Device/Emulator بدون حذف داده.
 4. Smoke Test مسیرهای Home، Drawer، Catalog، Lesson، Quiz، Exercise، Project، Placement، Weak Topic Review و Flashcard Review.
