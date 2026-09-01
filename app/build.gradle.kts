@@ -14,9 +14,9 @@ android {
         applicationId = "com.asdevelopers.academy.basic"
         minSdk = 23
         targetSdk = 36
-        // 1.1 development line follows the signed 1.0.0 release (versionCode 9).
+        // Release candidate for the 1.1 line; versionCode stays above the signed 1.0.0 release (versionCode 9).
         versionCode = 10
-        versionName = "1.1.0-dev"
+        versionName = "1.1.0-rc1"
     }
 
     // Basic remains only the Android entry host; reusable presentation belongs to MainUi.
@@ -30,7 +30,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    // Release variants remain unsigned in the public repository. Future publish APKs must use the existing Basic signing JKS.
+    // Release variants remain unsigned in the public repository. Publish builds must use the existing Basic signing JKS.
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -41,10 +41,10 @@ android {
 dependencies {
     // Core 1.3 owns runtime, repositories, engines, persistence, navigation contracts and Course Package APIs.
     implementation("com.asdevelopers.academy:core:1.3.0")
-    // MainUi is now the visual/presentation dependency for shared Course App surfaces.
+    // MainUi is the visual/presentation dependency for shared Course App surfaces.
     implementation("com.asdevelopers.academy:main-ui:0.1.0")
 
-    // Host-only Android dependencies are kept minimal during the migration.
+    // Host-only Android dependencies are kept minimal.
     implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.activity:activity-compose:1.12.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
