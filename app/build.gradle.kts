@@ -14,9 +14,9 @@ android {
         applicationId = "com.asdevelopers.academy.basic"
         minSdk = 23
         targetSdk = 36
-        // Release candidate for the 1.1 line; versionCode stays above the signed 1.0.0 release (versionCode 9).
-        versionCode = 10
-        versionName = "1.1.0-rc1"
+        // RC2 adds independent Runtime Content Update while staying upgrade-compatible with 1.0.0 and RC1.
+        versionCode = 11
+        versionName = "1.1.0-rc2"
     }
 
     // Basic remains only the Android entry host; reusable presentation belongs to MainUi.
@@ -39,8 +39,8 @@ android {
 }
 
 dependencies {
-    // Core 1.3 owns runtime, repositories, engines, persistence, navigation contracts and Course Package APIs.
-    implementation("com.asdevelopers.academy:core:1.3.0")
+    // Core 1.4 owns runtime, repositories, engines, persistence, navigation and independent Course Content Update.
+    implementation("com.asdevelopers.academy:core:1.4.0")
     // MainUi is the visual/presentation dependency for shared Course App surfaces.
     implementation("com.asdevelopers.academy:main-ui:0.1.0")
 
