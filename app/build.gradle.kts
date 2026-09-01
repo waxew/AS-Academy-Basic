@@ -1,12 +1,12 @@
 plugins {
-    // AGP 9 provides the Android application and built-in Kotlin support used by the Core sample host.
+    // AGP 9 provides the Android application toolchain used by the shared Academy builds.
     id("com.android.application")
-    // Compose compiler version is kept aligned with the Core repository.
+    // Compose compiler stays aligned with Core/MainUi.
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
-    // Namespace and applicationId are stable identifiers; changing applicationId later would create a different app.
+    // Stable app identity must never change or Android would treat the update as a different application.
     namespace = "com.asdevelopers.academy.basic"
     compileSdk = 36
 
@@ -14,25 +14,23 @@ android {
         applicationId = "com.asdevelopers.academy.basic"
         minSdk = 23
         targetSdk = 36
-        // versionCode فقط افزایشی است تا APK جدید روی نسخه قبلی بدون حذف داده نصب شود.
-        versionCode = 9
-        // 1.0.0 نخستین نسخه Stable/Release دوره Basic با چهار سطح کامل آموزشی است.
-        versionName = "1.0.0"
+        // 1.1 development line follows the signed 1.0.0 release (versionCode 9).
+        versionCode = 10
+        versionName = "1.1.0-dev"
     }
 
-    // Basic is a Compose host; reusable UI remains inside AS-Academy-Core.
+    // Basic remains only the Android entry host; reusable presentation belongs to MainUi.
     buildFeatures {
         compose = true
         buildConfig = true
     }
 
-    // Core and all AS Academy course hosts use JDK 17 bytecode compatibility.
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    // Release builds are produced unsigned by Gradle in the public repository and are signed outside the repository with the stable private AS Academy key.
+    // Release variants remain unsigned in the public repository. Future publish APKs must use the existing Basic signing JKS.
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -41,11 +39,12 @@ android {
 }
 
 dependencies {
-    // All shared learning/runtime behavior comes from the central composite build.
-    // Core 1.2.0 provides Placement, Weak Topic Review, Spaced Review, persistence and shared Navigation used by Basic 1.0.0.
-    implementation("com.asdevelopers.academy:core:1.2.0")
+    // Core 1.3 owns runtime, repositories, engines, persistence, navigation contracts and Course Package APIs.
+    implementation("com.asdevelopers.academy:core:1.3.0")
+    // MainUi is now the visual/presentation dependency for shared Course App surfaces.
+    implementation("com.asdevelopers.academy:main-ui:0.1.0")
 
-    // Host-only Android and Compose dependencies mirror the versions used by Core.
+    // Host-only Android dependencies are kept minimal during the migration.
     implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.activity:activity-compose:1.12.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
