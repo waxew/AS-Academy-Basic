@@ -74,18 +74,18 @@ import com.asdevelopers.academy.core.settings.AcademyProfile
 import com.asdevelopers.academy.core.settings.AcademySettings
 import com.asdevelopers.academy.core.settings.AcademyThemeMode
 import com.asdevelopers.academy.mainui.AcademyMainUiShell
-import com.asdevelopers.academy.core.ui.components.AcademyDrawerItem
-import com.asdevelopers.academy.core.ui.content.LessonRenderer
-import com.asdevelopers.academy.core.ui.screens.AcademyAboutScreen
-import com.asdevelopers.academy.core.ui.screens.AcademyExerciseScreen
-import com.asdevelopers.academy.core.ui.screens.AcademyFlashcardReviewScreen
-import com.asdevelopers.academy.core.ui.screens.AcademyPlacementSummaryScreen
-import com.asdevelopers.academy.core.ui.screens.AcademyProjectScreen
-import com.asdevelopers.academy.core.ui.screens.AcademyQuizScreen
-import com.asdevelopers.academy.core.ui.screens.AcademySettingsScreen
-import com.asdevelopers.academy.core.ui.screens.AcademyWeakTopicReviewScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiDrawerItem
+import com.asdevelopers.academy.mainui.AcademyMainUiLessonScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiAboutScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiExerciseScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiFlashcardReviewScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiPlacementSummaryScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiProjectScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiQuizScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiSettingsScreen
+import com.asdevelopers.academy.mainui.AcademyMainUiWeakTopicReviewScreen
 import com.asdevelopers.academy.mainui.AcademyMainUiTheme
-import com.asdevelopers.academy.core.ui.theme.DefaultAcademyBranding
+import com.asdevelopers.academy.mainui.DefaultMainUiBranding
 import com.asdevelopers.academy.mainui.AcademyCourseHomeScreen
 import com.asdevelopers.academy.mainui.AcademyCourseLearningCatalog
 import com.asdevelopers.academy.mainui.AcademyMainUiLoading
@@ -183,7 +183,7 @@ fun BasicAcademyApp() {
 
     // Drawer فقط مقصدهای Course را انتخاب می‌کند؛ Route و Screen واقعی در Core مشترک هستند.
     val drawerItems = listOf(
-        AcademyDrawerItem(
+        AcademyMainUiDrawerItem(
             id = "basic-home",
             label = "خانه",
             icon = Icons.Outlined.Home,
@@ -195,7 +195,7 @@ fun BasicAcademyApp() {
                 popUpTo(AcademyRoutes.HOME)
             }
         },
-        AcademyDrawerItem(
+        AcademyMainUiDrawerItem(
             id = "basic-first-lesson",
             label = "شروع یادگیری",
             icon = Icons.Outlined.MenuBook
@@ -205,7 +205,7 @@ fun BasicAcademyApp() {
                 navController.openLesson(lesson.id)
             }
         },
-        AcademyDrawerItem(
+        AcademyMainUiDrawerItem(
             id = "basic-placement",
             label = "تعیین سطح",
             icon = Icons.Outlined.MenuBook
@@ -213,21 +213,21 @@ fun BasicAcademyApp() {
             // تعیین سطح همیشه Quiz واقعی دوره را باز می‌کند؛ Result بعد از Completion از Room خوانده می‌شود.
             navController.openQuiz(BASIC_PLACEMENT_QUIZ_ID)
         },
-        AcademyDrawerItem(
+        AcademyMainUiDrawerItem(
             id = "basic-weak-review",
             label = "مرور نقاط ضعف",
             icon = Icons.Outlined.MenuBook
         ) {
             navController.openWeakTopicReview()
         },
-        AcademyDrawerItem(
+        AcademyMainUiDrawerItem(
             id = "basic-catalog",
             label = "تمرین، آزمون و پروژه",
             icon = Icons.Outlined.MenuBook
         ) {
             navController.openLearningCatalog()
         },
-        AcademyDrawerItem(
+        AcademyMainUiDrawerItem(
             id = "basic-flashcards",
             label = "مرور فلش‌کارت",
             icon = Icons.Outlined.MenuBook
@@ -247,7 +247,7 @@ fun BasicAcademyApp() {
 
     // Theme مشترک Core رنگ‌های Course Package را دریافت می‌کند و هیچ رنگی در Host Hard-code نمی‌شود.
     AcademyMainUiTheme(
-        branding = bundle?.branding ?: DefaultAcademyBranding,
+        branding = bundle?.branding ?: DefaultMainUiBranding,
         darkTheme = useDarkTheme
     ) {
         // Font Scale بدون تغییر Density فیزیکی روی تمام Screenهای Core اعمال می‌شود.
@@ -294,7 +294,7 @@ fun BasicAcademyApp() {
                     },
                     settings = {
                         // Settings Screen از Core است و Host فقط persistence callback را وصل می‌کند.
-                        AcademySettingsScreen(
+                        AcademyMainUiSettingsScreen(
                             settings = settings,
                             onThemeChanged = { mode ->
                                 scope.launch { preferences.setThemeMode(mode) }
@@ -329,7 +329,7 @@ fun BasicAcademyApp() {
                     },
                     about = {
                         // About عمومی فقط متن و نسخه اختصاصی Course را دریافت می‌کند.
-                        AcademyAboutScreen(
+                        AcademyMainUiAboutScreen(
                             appTitle = "Basic",
                             description = "دوره پایه و پیش‌نیاز مشترک برنامه‌نویسی در AS Academy؛ از سواد رایانه و حل مسئله تا مهندسی نرم‌افزار و آمادگی بازار کار.",
                             versionName = BuildConfig.VERSION_NAME,
@@ -345,7 +345,7 @@ fun BasicAcademyApp() {
                                 modifier = Modifier.padding(paddingValues)
                             )
                         } else {
-                            LessonRenderer(
+                            AcademyMainUiLessonScreen(
                                 lesson = lesson,
                                 // دکمه Quiz بلوک درس به Route عمومی آزمون متصل می‌شود.
                                 onQuizClick = { quizId -> navController.openQuiz(quizId) },
@@ -369,7 +369,7 @@ fun BasicAcademyApp() {
                                 modifier = Modifier.padding(paddingValues)
                             )
                         } else {
-                            AcademyQuizScreen(
+                            AcademyMainUiQuizScreen(
                                 quiz = quiz,
                                 modifier = Modifier.padding(paddingValues),
                                 onCompleted = { score ->
@@ -403,7 +403,7 @@ fun BasicAcademyApp() {
                                 exerciseDraftRepository.observe(BASIC_COURSE_ID, exercise.id)
                             }
                             val savedDraft by draftFlow.collectAsState(initial = null)
-                            AcademyExerciseScreen(
+                            AcademyMainUiExerciseScreen(
                                 exercise = exercise,
                                 initialAnswer = savedDraft?.answer.orEmpty(),
                                 modifier = Modifier.padding(paddingValues),
@@ -461,7 +461,7 @@ fun BasicAcademyApp() {
                                 projectProgressRepository.observe(BASIC_COURSE_ID, project.id)
                             }
                             val savedProgress by progressFlow.collectAsState(initial = null)
-                            AcademyProjectScreen(
+                            AcademyMainUiProjectScreen(
                                 project = project,
                                 progress = savedProgress,
                                 modifier = Modifier.padding(paddingValues),
@@ -509,7 +509,7 @@ fun BasicAcademyApp() {
                                     modifier = Modifier.padding(paddingValues)
                                 )
                             } else {
-                                AcademyPlacementSummaryScreen(
+                                AcademyMainUiPlacementSummaryScreen(
                                     recommendation = state.recommendation,
                                     weakTags = state.weakTags,
                                     onStartLevel = { levelType ->
@@ -542,7 +542,7 @@ fun BasicAcademyApp() {
                                 weakTopicReviewRepository.observeRecommendations(currentBundle)
                             }
                             val recommendations by recommendationsFlow.collectAsState(initial = emptyList())
-                            AcademyWeakTopicReviewScreen(
+                            AcademyMainUiWeakTopicReviewScreen(
                                 recommendations = recommendations,
                                 onLessonClick = { lessonId -> navController.openLesson(lessonId) },
                                 modifier = Modifier.padding(paddingValues)
@@ -579,7 +579,7 @@ fun BasicAcademyApp() {
                                     CircularProgressIndicator()
                                 }
                             } else {
-                                AcademyFlashcardReviewScreen(
+                                AcademyMainUiFlashcardReviewScreen(
                                     cards = sessionCards,
                                     onRated = { card, rating ->
                                         scope.launch {
