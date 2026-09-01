@@ -22,7 +22,7 @@ Owns the curriculum. The canonical Basic package is:
 
 `courses/basic/course`
 
-New lessons, chapters, quizzes, exercises, projects, glossary data and educational references must be edited there first. `AS-Academy-Basic/course/basic` is a legacy 1.0.0 snapshot and is not a valid source for new content after migration.
+New lessons, chapters, quizzes, exercises, projects, glossary data and educational references are edited there. The duplicated `AS-Academy-Basic/course/basic` directory has been removed from the 1.1 development line; the former 1.0.0 copy remains available through Git history and the stable release tag.
 
 ### AS-Academy-Basic
 Owns only application identity and Course-specific host configuration:
@@ -33,7 +33,7 @@ Owns only application identity and Course-specific host configuration:
 - Android launcher/entry configuration
 - build scripts that compile the canonical MainCourse package
 
-Shared UI or learning logic must not be copied into Basic.
+Shared UI, learning logic or editable curriculum content must not be copied into Basic.
 
 ## Build inputs
 
@@ -52,7 +52,7 @@ Optional path overrides:
 - `ACADEMY_MAIN_UI_DIR`
 - `ACADEMY_MAIN_COURSE_DIR`
 
-`scripts/prepare-course.sh` and `scripts/prepare-course.bat` fail if `MainCourse/courses/basic/course` is unavailable. They deliberately do not fall back to the legacy Basic course directory.
+`scripts/prepare-course.sh` and `scripts/prepare-course.bat` fail if `MainCourse/courses/basic/course` is unavailable. There is no local Course Package fallback in Basic.
 
 ## Update compatibility
 
@@ -60,8 +60,10 @@ The 1.0.0 signed release used versionCode 9. The 1.1 development line starts at 
 
 ## Migration status
 
-1. MainCourse canonical Basic package — migration/validation in progress.
-2. MainUi executable Android library — bootstrapped with Core 1.3 facade and CI.
-3. Basic build — switched to Core 1.3 + MainUi 0.1.0 and MainCourse content input.
-4. Old Core UI calls — temporarily supported through the documented compatibility adapter; each shared surface will move behind MainUi without changing Course behavior.
-5. Core 1.3 Learning Catalog — available for the MainUi-backed 1.1 integration.
+1. MainCourse canonical Basic package — migrated and validated with Core.
+2. MainUi executable Android library — active, compile/lint gated and exposing the shared presentation facade.
+3. Basic build — consumes Core 1.3 + MainUi 0.1.0 and compiles its Course Package exclusively from MainCourse.
+4. Shared Theme/AppShell/Home/Catalog/Lesson/Quiz/Exercise/Project/Settings/Review presentation — routed through MainUi.
+5. Core 1.3 Learning Catalog — integrated into Basic navigation and Drawer.
+6. Legacy local Basic Course Package — removed from the 1.1 development line.
+7. Android identity — preserved as `com.asdevelopers.academy.basic`; versionCode advanced from 9 to 10 for update compatibility.
