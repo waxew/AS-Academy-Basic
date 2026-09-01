@@ -5,17 +5,17 @@
 ## وضعیت انتشار
 
 - Stable: `1.0.0` / `versionCode=9`
-- Release Candidate: `1.1.0-rc1` / `versionCode=10`
+- Release Candidate: `1.1.0-rc2` / `versionCode=11`
 - Android package: `com.asdevelopers.academy.basic`
-- Signing identity: بدون تغییر نسبت به 1.0.0
+- Signing identity: باید همان identity نسخه 1.0.0 باقی بماند.
 - Stable `1.1.0`: هنوز منتشر نشده و به Upgrade/Smoke Test واقعی وابسته است.
 
 ## معماری چهارریپویی
 
-- `AS-Academy-Core 1.3.0`: Runtime، Engine، Persistence، Navigation Contract و منطق مشترک.
+- `AS-Academy-Core 1.4.0`: Runtime، Engine، Persistence، Navigation Contract و Runtime Content Update.
 - `AS-Academy-MainUi 0.1.0`: Theme، AppShell، Home، Learning Catalog و Screenهای مشترک.
-- `AS-Academy-MainCourse`: منبع یگانه محتوای آموزشی در `courses/basic/course`.
-- `AS-Academy-Basic`: Thin Android Host؛ محتوای Course محلی ندارد.
+- `AS-Academy-MainCourse`: منبع یگانه محتوای آموزشی در `courses/basic/course` و ناشر کانال `basic-content`.
+- `AS-Academy-Basic`: Thin Android Host؛ محتوای قابل ویرایش Course محلی ندارد.
 
 Course Manifest مرکزی Basic:
 
@@ -24,13 +24,49 @@ Course Manifest مرکزی Basic:
 - `minimumCoreVersion=1.3.0`
 - `contentSchemaVersion=1`
 
-## ورودی‌های قفل‌شده RC
+## ورودی‌های قفل‌شده RC2
 
-- Core: `47b4c32ed2b4f707444f059f26b03ca4755dbfb4`
+- Core: `d8b42beb42894452d9420b8bf3200847c6294fb9`
 - MainUi: `2519f76a1391e87dfbf784eb7c3b18c06868680b`
-- MainCourse: `de4001ccd55ff346bab420f86bfd7b8868806768`
+- MainCourse: `6169fa7464be3db213c2e7e29c03cabd297a555b`
 
-این Pinها باعث می‌شوند Build نسخه RC با حرکت branchهای مرکزی به‌صورت ناخواسته تغییر نکند.
+این Pinها باعث می‌شوند Build نسخه RC2 با حرکت branchهای مرکزی به‌صورت ناخواسته تغییر نکند.
+
+## Runtime Content Channel
+
+کانال عمومی Basic:
+
+- Release tag: `basic-content`
+- Metadata: `releases/download/basic-content/latest.json`
+- Package: `releases/download/basic-content/basic-course.json`
+- Package SHA-256 فعلی: `cfed3c452dbe2efc803e9f31de9f462467a1040bbb05688dcf00bc9ef2ca0e22`
+- Package size فعلی: `1,553,478` bytes
+
+رفتار Runtime:
+
+`validate bundled + validate installed -> choose newest valid local -> UI -> background HTTPS metadata check -> preflight -> download only when newer/installable -> validate/install -> reload CourseBundle`
+
+کنترل‌های قبل از فعال‌سازی:
+
+- HTTPS-only
+- Metadata preflight برای SemVer و `minimumCoreVersion` قبل از دانلود فایل بزرگ
+- current/downgrade/Core-incompatible release بدون دانلود Package رد می‌شود
+- SHA-256
+- Course Validator
+- `courseId`
+- SemVer / downgrade protection دوباره روی Manifest واقعی Package
+- `minimumCoreVersion` دوباره روی Manifest واقعی Package
+- atomic install
+- backup/rollback
+
+قانون انتخاب محتوای محلی:
+
+- Runtime Package فقط وقتی فعال می‌شود که نسخه آن از Asset داخل APK **بالاتر** باشد.
+- اگر APK بعدی Course هم‌نسخه یا جدیدتری Bundle کرده باشد، Asset APK برنده است؛ بنابراین App Update در حالت Offline به محتوای قدیمی Runtime عقب نمی‌رود.
+- Runtime Package خراب/نامعتبر/شناسه‌اشتباه قرنطینه می‌شود.
+- اگر Asset APK نامعتبر ولی Runtime Package معتبر باشد، نسخه نصب‌شده حفظ می‌شود تا آموزش‌ها از دسترس خارج نشوند.
+
+Progress و داده‌های کاربر از Course Package جدا هستند و Content Update نباید آن‌ها را پاک کند.
 
 ## آمار محتوای واقعی
 
@@ -69,6 +105,7 @@ Course Manifest مرکزی Basic:
 - Project Progress
 - Room persistence مشترک
 - Offline compiled Course Package
+- Runtime Content Update مستقل از APK
 - Final Capstone: `basic-prj-014`
 
 ## QA و Build Pipeline
@@ -77,20 +114,15 @@ Pipeline رسمی:
 
 `MainCourse Validate -> Core Compile -> MainUi Lint/Build -> Basic Lint/Debug -> Basic unsigned Release -> SHA-256 -> Artifacts`
 
-وضعیت Release Candidate:
+Gateهای Runtime Content نیز جداگانه در MainCourse اجرا می‌شوند:
 
-- MainCourse validator: موفق
-- Compile محتوای canonical: موفق
-- MainUi lint/build: موفق
-- Basic lint/debug build: موفق
-- Basic unsigned release build: موفق
-- SHA-256 artifacts: موفق
-- Signing certificate compatibility با signed 1.0.0: تأیید شده در تست محلی RC
+`Validate -> Compile -> Generate metadata/SHA -> Verify hash -> Publish rolling content assets`
 
 ## Gateهای باقی‌مانده برای Stable 1.1.0
 
-1. تولید Publish APK با Android APK signing مناسب و همان JKS خصوصی نسخه 1.0.0.
-2. نصب signed 1.0.0 و Upgrade مستقیم به 1.1.0 RC روی Device/Emulator بدون حذف داده.
-3. Smoke Test مسیرهای Home، Drawer، Catalog، Lesson، Quiz، Exercise، Project، Placement، Weak Topic Review و Flashcard Review.
-4. تأیید Load محتوای Offline از MainCourse روی نصب واقعی.
-5. ثبت SHA-256 و Verify نهایی APK و سپس Tag/Release نسخه Stable.
+1. تکمیل CI نهایی RC2 روی Pinهای نهایی و دریافت Debug/unsigned Release artifact.
+2. تولید Signed RC2 با همان JKS خصوصی نسخه 1.0.0 و Verify certificate/signature.
+3. نصب signed 1.0.0 و Upgrade مستقیم به RC2 روی Device/Emulator بدون حذف داده.
+4. Smoke Test مسیرهای Home، Drawer، Catalog، Lesson، Quiz، Exercise، Project، Placement، Weak Topic Review و Flashcard Review.
+5. Smoke Test Runtime Content Update، newest-local selection و fallback آفلاین روی نصب واقعی.
+6. ثبت SHA-256 و Verify نهایی Publish APK و سپس Tag/Release نسخه Stable.

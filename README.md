@@ -7,31 +7,190 @@
 - App: **Basic**
 - Repository: `AS-Academy-Basic`
 - Course ID: `basic`
-- Android package: `com.asdevelopers.academy.basic`
+- Android package/applicationId: `com.asdevelopers.academy.basic`
 - زبان اصلی: فارسی / RTL
 - Android: `minSdk 23` / `targetSdk 36`
 - Java: JDK 17
-- Core runtime: `AS-Academy-Core 1.3.0`
-- Shared UI: `AS-Academy-MainUi 0.1.0`
+- Runtime/Engine: **AS-Academy-Core 1.4.0**
+- Shared UI: **AS-Academy-MainUi 0.1.0**
 - Canonical content: `AS-Academy-MainCourse/courses/basic/course`
 - Stable release: **1.0.0**
-- Current release candidate: **1.1.0-rc1**
-- Android `versionCode`: **10**
+- Current release candidate: **1.1.0-rc2**
+- Android `versionCode`: **11**
 
 ## قانون معماری
 
-این Repository از معماری جدید به بعد یک **Thin Course Host** است. محتوای آموزشی Basic فقط در `AS-Academy-MainCourse/courses/basic/course` نگهداری می‌شود؛ Presentation مشترک شامل Theme، AppShell، Home، Catalog، Lesson، Quiz، Exercise، Project، Settings و Reviewها از `AS-Academy-MainUi` مصرف می‌شود؛ Engine، Navigation contract، Room، Progress، Quiz/Exercise/Project logic، Placement، Weak Topic Review و Spaced Review در `AS-Academy-Core` باقی می‌مانند. کپی محلی `course/basic` از خط توسعه 1.1 حذف شده است؛ نسخه 1.0.0 آن همچنان در تاریخچه Git و tag انتشار محفوظ است.
+این Repository یک **Thin Android Course Host** است. محتوای آموزشی Basic در این ریپو ویرایش یا Fork نمی‌شود.
 
-## چرخه آموزشی
+مالکیت اجزا:
 
-`Placement -> Learn -> Example -> Practice -> Micro Quiz -> Quiz -> Weak Topic Review -> Challenge -> Project -> Exam -> Spaced Review -> Interview Defense`
+```text
+AS-Academy-MainCourse
+  -> درس، فصل، Quiz، Exercise، Project، Glossary و Curriculum
 
-## چهار سطح
+AS-Academy-Core
+  -> Course contract/validator/compiler
+  -> Runtime content updater
+  -> SHA-256 / SemVer / minimumCoreVersion
+  -> atomic install / backup / rollback
+  -> Room / Progress / Placement / Review / Navigation contracts
 
-1. **مبانی** — سواد رایانه، بازار کار، حل مسئله، الگوریتم، داده، عملگر، I/O، شرط، حلقه و تابع.
-2. **مقدماتی** — Collection، String، Date/Time، Error، File، JSON/CSV/XML، CLI، Git، Debugging، Testing و Documentation.
-3. **پیشرفته** — OOP، Functional، Recursion، Data Structures، Search/Sort، Complexity، Memory، Advanced Testing، Clean Code، Refactoring، SOLID و Patterns.
-4. **تخصصی و بازار کار** — Architecture، Dependency/Versioning، Security، Agile/Review، CI/CD، Open Source، Portfolio و Technical Interview.
+AS-Academy-MainUi
+  -> Theme / AppShell / Home / Catalog
+  -> Lesson / Quiz / Exercise / Project
+  -> Settings / About / Placement / Review UI
+
+AS-Academy-Basic
+  -> applicationId / versionCode / signing identity
+  -> Branding و اتصال Course
+  -> Android entry point
+```
+
+## آموزش‌ها بعد از انتقال به MainCourse چگونه داخل برنامه نمایش داده می‌شوند؟
+
+انتقال Course به MainCourse به معنی حذف آموزش از اپ نیست. MainCourse فقط **Single Source of Truth** است.
+
+در Build:
+
+```text
+AS-Academy-MainCourse/courses/basic/course
+        |
+        | Core Validate
+        v
+   valid Course Package
+        |
+        | Core Compile
+        v
+AS-Academy-Basic/app/src/main/assets/basic-course.json
+        |
+        v
+       APK
+```
+
+در Runtime، Host فایل فعال Course را با `CoursePackageLoader` به `CourseBundle` تبدیل می‌کند و همان Bundle وارد MainUi می‌شود. در نتیجه این موارد از MainCourse دوباره داخل خود برنامه قابل نمایش و اجرا هستند:
+
+- Level و Chapter
+- Lesson و محتوای متنی/کد/مثال
+- Quiz و Assessment
+- Exercise و Challenge
+- Project و Capstone
+- Glossary و Flashcard seed
+- Placement و Weak Topic Review
+- Learning Catalog
+
+بنابراین Course App همچنان یک برنامه آموزشی کامل و آفلاین است؛ فقط منبع ویرایش محتوا از Host جدا شده است.
+
+## Runtime Content Update مستقل از APK
+
+از `1.1.0-rc2`، Basic علاوه بر Asset داخل APK به کانال رسمی Runtime Content در MainCourse متصل است. در نتیجه برای اصلاح یا افزودن درس/آزمون/تمرین/پروژه، در صورتی که Schema و Runtime فعلی کافی باشند، لازم نیست APK جدید منتشر شود.
+
+کانال رسمی:
+
+```text
+Metadata:
+https://github.com/waxew/AS-Academy-MainCourse/releases/download/basic-content/latest.json
+
+Package:
+https://github.com/waxew/AS-Academy-MainCourse/releases/download/basic-content/basic-course.json
+```
+
+جریان اجرای برنامه:
+
+```text
+MainActivity
+   |
+   v
+BasicRuntimeContentApp
+   |
+   +--> CourseContentStore
+   |      |
+   |      +--> validate bundled basic-course.json in APK
+   |      +--> validate installed runtime course-package.json if present
+   |      `--> choose newest valid local version
+   |             |-- installed only when newer than bundled asset
+   |             `-- bundled asset when equal/newer or installed is invalid
+   |
+   +--> BasicAcademyApp -> CoursePackageLoader -> CourseBundle -> MainUi
+   |
+   `--> HTTPS latest.json check
+          |
+          +--> metadata SemVer/minimumCoreVersion preflight
+          +--> current/downgrade/incompatible? stop without Package download
+          +--> newer/installable? download candidate
+          |
+          +--> SHA-256
+          +--> Course Validator
+          +--> courseId check
+          +--> SemVer/downgrade re-check on real Package manifest
+          +--> minimumCoreVersion re-check on real Package manifest
+          |
+          `--> atomic install -> activate -> reload CourseBundle
+```
+
+### ترتیب نمایش و Update
+
+1. `CourseContentStore` Asset داخل APK و در صورت وجود Runtime Package نصب‌شده را Validate می‌کند.
+2. بین دو منبع محلی، جدیدترین نسخه معتبر انتخاب می‌شود؛ Runtime Package فقط وقتی برنده است که از Asset APK واقعاً جدیدتر باشد.
+3. اگر APK بعدی Course هم‌نسخه یا جدیدتری Bundle کرده باشد، همان Asset جدید انتخاب می‌شود و Runtime Package قدیمی از مسیر فعال خارج می‌شود.
+4. UI آموزشی بدون انتظار برای شبکه ساخته می‌شود.
+5. سپس فقط `latest.json` کانال MainCourse در پس‌زمینه بررسی می‌شود.
+6. اگر Metadata همان نسخه، Downgrade یا Course ناسازگار با Core فعلی را گزارش کند، فایل بزرگ Course Package دانلود نمی‌شود.
+7. اگر نسخه واقعاً جدید و قابل نصب باشد، Package دانلود، Hash/Contract/Version دوباره بررسی و در فضای خصوصی اپ به‌صورت Atomic نصب می‌شود.
+8. Host دوباره CourseBundle را Load می‌کند و محتوای جدید در MainUi نمایش داده می‌شود.
+
+### رفتار آفلاین و خطا
+
+این قابلیت **Offline-First** است. موارد زیر نباید باعث حذف آموزش یا غیرقابل استفاده شدن برنامه شوند:
+
+- نبود اینترنت
+- HTTP/Download failure
+- Metadata خراب
+- فایل ناقص
+- SHA-256 اشتباه
+- Course Package نامعتبر
+- `courseId` اشتباه
+- Downgrade
+- `minimumCoreVersion` بالاتر از Core نصب‌شده
+
+در تمام این حالات محتوای معتبر محلی فعلی باقی می‌ماند. اگر فایل Runtime نصب‌شده روی دستگاه خراب شود، Core آن را قرنطینه می‌کند. اگر APK جدیدتر Course جدیدتری Bundle کرده باشد، Asset جدیدتر در حالت Offline برنده می‌شود؛ بنابراین App Update باعث بازگشت به محتوای قدیمی Runtime نمی‌شود. اگر Asset APK به هر دلیل نامعتبر باشد ولی Runtime Package معتبر وجود داشته باشد، Core نسخه معتبر نصب‌شده را حفظ می‌کند تا آموزش از دسترس خارج نشود.
+
+### امنیت و حفاظت از داده کاربر
+
+Runtime Content Update فقط فایل Course Package را تعویض می‌کند. این داده‌ها جداگانه در Room/DataStore باقی می‌مانند:
+
+- Progress
+- Quiz History
+- Exercise Draft/Completion
+- Project Progress
+- Placement Result
+- Flashcard Progress
+- Settings
+- Profile
+
+Package جدید قبل از فعال شدن با SHA-256 و Validator رسمی Core بررسی می‌شود. Metadata فقط برای Preflight استفاده می‌شود و تصمیم Version/Core روی Manifest واقعی Package دوباره اجرا می‌شود. نصب Atomic است و Backup/Rollback در Core نگهداری می‌شود. Storage permission عمومی برای این قابلیت وجود ندارد.
+
+## قانون نسخه محتوا
+
+هر تغییر آموزشی که باید به کاربران نصب‌شده برسد باید در این فایل انجام شود:
+
+```text
+AS-Academy-MainCourse/courses/basic/course/manifest.json
+```
+
+و مقدار `version` افزایش یابد؛ مثلاً:
+
+```text
+1.1.0 -> 1.1.1
+```
+
+اگر فقط Course Content تغییر کرده باشد، افزایش `versionCode` اپ لازم نیست. اگر Core/UI/native capability/permission یا خود APK تغییر کند، App Update جداگانه لازم است.
+
+خلاصه:
+
+```text
+Content Update = MainCourse version
+App Update     = Android versionCode/versionName
+```
 
 ## وضعیت واقعی محتوا
 
@@ -40,14 +199,15 @@
 - **157 درس واقعی**
 - **73 Quiz**
 - **534 سؤال** با Explanation و Tag موضوعی
-- **20 Micro Quiz**، هرکدام 5 سؤال
+- **20 Micro Quiz** / 100 سؤال
 - **195 Exercise** با Hint/Solution/Explanation
 - **40 Challenge Exercise چندموضوعی**
 - **14 Project** چندمرحله‌ای
-- **69 Glossary Entry** برای واژه‌نامه و Flashcard seed
-- **1 Placement Test** جامع 32 سؤالی
-- **4 Depth Assessment** با مجموع 80 سؤال
-- **5 Interview Assessment** با مجموع 100 سؤال
+- **69 Glossary Entry**
+- **1 Placement Test** / 32 سؤال
+- **4 Depth Assessment** / 80 سؤال
+- **5 Interview Assessment** / 100 سؤال
+- Final Capstone: `basic-prj-014`
 
 توزیع درس‌ها:
 
@@ -56,101 +216,82 @@
 - پیشرفته: **44 درس / 11 فصل**
 - تخصصی: **24 درس / 6 فصل**
 
-## Micro Quizها
+## چرخه آموزشی
 
-Micro Quizها برای تشخیص سریع ضعف قبل از آزمون جامع ساخته شده‌اند. هر سطح پنج Micro Quiz دارد و همه از درس جمع‌بندی همان سطح قابل بازشدن‌اند.
-
-### مبانی
-
-- `basic-qz-micro-fnd-001` — داده و عملگرها
-- `basic-qz-micro-fnd-002` — ورودی و Validation
-- `basic-qz-micro-fnd-003` — شرط و تصمیم
-- `basic-qz-micro-fnd-004` — حلقه و State
-- `basic-qz-micro-fnd-005` — Function و Decomposition
-
-### مقدماتی
-
-- `basic-qz-micro-beg-001` — Collection و String
-- `basic-qz-micro-beg-002` — Date/Time و Error Handling
-- `basic-qz-micro-beg-003` — File و Data Format
-- `basic-qz-micro-beg-004` — CLI و Git
-- `basic-qz-micro-beg-005` — Debug، Test و Documentation
-
-### پیشرفته
-
-- `basic-qz-micro-adv-001` — OOP و Functional
-- `basic-qz-micro-adv-002` — Recursion و Data Structure
-- `basic-qz-micro-adv-003` — Search، Sort و Complexity
-- `basic-qz-micro-adv-004` — Memory و Testing
-- `basic-qz-micro-adv-005` — Clean Code، SOLID و Pattern
-
-### تخصصی
-
-- `basic-qz-micro-spc-001` — Architecture و Versioning
-- `basic-qz-micro-spc-002` — Security
-- `basic-qz-micro-spc-003` — Teamwork، Agile و Review
-- `basic-qz-micro-spc-004` — CI/CD و Open Source
-- `basic-qz-micro-spc-005` — Portfolio و Interview
-
-تمام Micro Quizها Passing Score برابر 80٪، Question/Answer Shuffle، Explanation و weak-topic tag دارند؛ بنابراین Attemptهای آن‌ها نیز وارد Quiz History و Weak Topic Review می‌شوند.
-
-## Interview Bank
-
-صد سؤال در پنج آزمون:
-
-- `basic-qz-interview-001` — Problem Solving و Algorithms
-- `basic-qz-interview-002` — Code Design، OOP و Data Structures
-- `basic-qz-interview-003` — Debugging، Testing و Git
-- `basic-qz-interview-004` — Architecture، Security و Delivery
-- `basic-qz-interview-005` — System Design، Behavioral و Career
-
-هر پنج آزمون از درس نهایی `basic-spc-024` قابل اجرا هستند.
-
-## Challenge Bank
-
-Exerciseهای `basic-ex-156` تا `basic-ex-195` چهل Challenge زبان‌خنثی هستند:
-
-- 10 مبانی: validation، rules، statistics، state، ATM، password، inventory و گزارش مالی
-- 10 مقدماتی: CSV/JSON، migration، timezone، file recovery، CLI، Git conflict، debugging، test matrix، API contract و Backup/Restore
-- 10 پیشرفته: OOP/Composition، Functional Core، Recursion/Tree، Graph، Index، Search/Sort، Big-O، Memory، Test Architecture و Refactoring
-- 10 تخصصی: ADR، Dependency Policy، Threat Model، AuthN/AuthZ، Code Review، Incident، CI/CD، Open Source، Portfolio و System Design
-
-تمام Challengeها از درس جمع‌بندی سطح مربوط قابل بازشدن‌اند.
-
-## پروژه‌ها و Final Capstone
-
-چهارده پروژه مرحله‌ای از پروژه شروع مسیر تا Final Capstone وجود دارد. پروژه نهایی `basic-prj-014` یک **Personal Operations Manager** است و باید Problem/Scope، Data Model، Algorithm، Architecture، Offline Storage، Migration، Backup/Restore، Security، Git/PR، Testing، CI/CD، Release Evidence، Documentation، Performance Review، Portfolio Case Study و Mock Interview Defense را یکپارچه کند.
-
-ارزیابی پروژه‌ها با `docs/PROJECT_RUBRIC.md` و `acceptanceCriteria` هر Milestone انجام می‌شود.
+```text
+Placement
+-> Learn
+-> Example
+-> Practice
+-> Micro Quiz
+-> Quiz
+-> Weak Topic Review
+-> Challenge
+-> Project
+-> Exam
+-> Spaced Review
+-> Interview Defense
+```
 
 ## یادگیری تطبیقی
 
-Android Host به قابلیت‌های مشترک Core متصل است:
+Host به قابلیت‌های مشترک Core متصل است:
 
 - `basic-qz-placement-001` برای تعیین سطح
-- `PlacementResultRepository` برای بازیابی نتیجه
-- `PlacementEngine.fourLevelPolicy()` برای پیشنهاد سطح
-- `LearningPathEngine.firstLessonIdForLevelType()` برای شروع اولین درس سطح پیشنهادی
-- `WeakTopicReviewRepository` برای تبدیل Quiz History به پیشنهاد مرور
-- Glossary به‌عنوان منبع واحد Flashcard
-- `FlashcardReviewRepository` و Spaced Review با Ratingهای Again/Hard/Good/Easy
-- Backup/Restore برنامه مرور و Progress کاربر
+- `PlacementResultRepository`
+- `PlacementEngine.fourLevelPolicy()`
+- `LearningPathEngine.firstLessonIdForLevelType()`
+- `WeakTopicReviewRepository`
+- Glossary به‌عنوان منبع Flashcard
+- `FlashcardReviewRepository`
+- Spaced Review با Again/Hard/Good/Easy
+- Backup/Restore برنامه مرور و Progress
 
-## وضعیت Android و QA
+## پروژه نهایی
 
-- Theme/AppShell/Home/Catalog و Lesson/Quiz/Exercise/Project/Settings/Review از facade مشترک MainUi استفاده می‌کنند.
-- Placement Summary، Weak Topic Review و Flashcard Review فعال‌اند و Presentation آن‌ها از MainUi عبور می‌کند.
-- Quiz History، Exercise Draft/Completion، Project Progress و Flashcard Progress در Room مشترک ذخیره می‌شوند.
-- Course Package از MainCourse دریافت و قبل Build با Validator/Compiler رسمی Core بررسی می‌شود.
-- GitHub Actions: `Checkout MainCourse/MainUi/Core -> Validate -> Compile -> MainUi Lint/Build -> Basic Lint/Debug -> Release -> SHA-256 -> QA Artifacts`.
-- Release Candidate فعلی `versionCode=10 / versionName=1.1.0-rc1` است؛ package و signing identity نسخه 1.0.0 تغییر نکرده‌اند.
-- برای بازتولید RC، CI ورودی‌های Core/MainUi/MainCourse را به commitهای ثابت قفل می‌کند.
-- APK Publish نهایی با keystore خصوصی و پایدار خارج از repository عمومی امضا می‌شود.
-- Stable `1.1.0` تا پایان تست واقعی Upgrade از 1.0.0 و Smoke Test مسیرهای اصلی منتشر نمی‌شود.
+`basic-prj-014` یک **Personal Operations Manager** است و Problem/Scope، Data Model، Algorithm، Architecture، Offline Storage، Migration، Backup/Restore، Security، Git/PR، Testing، CI/CD، Release Evidence، Documentation، Performance Review، Portfolio Case Study و Mock Interview Defense را یکپارچه می‌کند.
+
+## Android و QA
+
+- Theme/AppShell/Home/Catalog و Lesson/Quiz/Exercise/Project/Settings/Review از MainUi استفاده می‌کنند.
+- Course Package در CI فقط از MainCourse گرفته می‌شود.
+- Core/MainUi/MainCourse در RC به SHAهای immutable قفل می‌شوند.
+- CI مسیر `MainCourse -> Core -> MainUi -> Basic` را Validate/Lint/Build می‌کند.
+- Debug و unsigned Release APK همراه SHA-256 به Artifact تبدیل می‌شوند.
+- Release عمومی repository unsigned است.
+- Publish APK نهایی باید فقط با همان JKS خصوصی Stable 1.0.0 امضا شود.
+- `applicationId` ثابت `com.asdevelopers.academy.basic` است.
+- Stable `1.1.0` تا Upgrade Test واقعی از Signed 1.0.0 و Smoke Test نهایی منتشر نمی‌شود.
+
+## فایل‌های Runtime Content در این Host
+
+```text
+app/src/main/kotlin/com/asdevelopers/academy/basic/BasicRuntimeContentApp.kt
+  -> bootstrap محتوای محلی + check/install/reload
+
+app/src/main/kotlin/com/asdevelopers/academy/basic/MainActivity.kt
+  -> اجرای BasicRuntimeContentApp
+
+app/src/main/kotlin/com/asdevelopers/academy/basic/BasicAcademyApp.kt
+  -> نمایش CourseBundle و اتصال همه Screenها
+
+app/src/main/AndroidManifest.xml
+  -> INTERNET + notification permission
+
+.github/workflows/ci.yml
+  -> compile Asset از MainCourse و QA چهارریپویی
+```
 
 ## Build
 
-چیدمان پیش‌فرض توسعه چهار Repository هم‌سطح است: `AS-Academy-Core/`، `AS-Academy-MainUi/`، `AS-Academy-MainCourse/` و `AS-Academy-Basic/`. اسکریپت prepare-course فقط محتوای canonical MainCourse را Compile می‌کند و اگر MainCourse در دسترس نباشد Build آماده‌سازی محتوا را متوقف می‌کند.
+چیدمان توسعه چهار Repository هم‌سطح است:
+
+```text
+AS-Academy-Core/
+AS-Academy-MainUi/
+AS-Academy-MainCourse/
+AS-Academy-Basic/
+```
 
 Linux/macOS:
 
@@ -168,61 +309,35 @@ scripts\prepare-course.bat
 
 ## Version History
 
-### 1.1.0-rc1 — Reproducible Release Candidate
+### 1.1.0-rc2 — Runtime Content Update
 
-- انتقال کامل Course Package دوره Basic به `AS-Academy-MainCourse/courses/basic/course`
-- تبدیل MainCourse به Single Source of Truth محتوای Basic و حذف کپی محلی از Host
-- افزودن `AS-Academy-MainUi` به build واقعی Android
-- انتقال Theme، AppShell، Home، Learning Catalog و Screenهای مشترک پشت facade MainUi
-- ارتقا runtime به Core 1.3.0 و فعال‌سازی Learning Catalog
-- هم‌راستا شدن MainCourse manifest با `version=1.1.0 / curriculumVersion=1.1.0 / minimumCoreVersion=1.3.0`
-- ارتقا Android به `versionCode=10 / versionName=1.1.0-rc1` بدون تغییر package/signing identity
-- قفل‌شدن ورودی‌های Core/MainUi/MainCourse به SHAهای ثابت برای Build قابل بازتولید
-- CI یکپارچه `MainCourse -> Core -> MainUi -> Basic`
+- Core 1.4.0
+- Android `versionCode=11`
+- Android `versionName=1.1.0-rc2`
+- Runtime Content Update مستقل از APK
+- HTTPS MainCourse channel
+- Metadata Preflight؛ Package فقط وقتی نسخه واقعاً جدید/قابل نصب است دانلود می‌شود
+- SHA-256/Validation/SemVer/Core compatibility gates روی Package واقعی
+- Atomic install + backup/rollback
+- newest-valid-local selection بین Runtime Package و bundled APK asset
+- Refresh CourseBundle بعد از نصب موفق
 
-### 1.0.0 — Stable Release
+### 1.1.0-rc1 — Four-repository migration
 
-- تثبیت Curriculum چهارسطحی کامل
+- MainCourse به‌عنوان Single Source of Truth
+- MainUi 0.1.0
+- Core 1.3.0
+- Learning Catalog
+- `versionCode=10 / versionName=1.1.0-rc1`
+- CI چهارریپویی و dependency pinning
+
+### 1.0.0 — Stable
+
 - 157 درس، 73 Quiz، 534 سؤال، 195 Exercise و 14 Project
-- Placement، Weak Topic Review و Spaced Review end-to-end
-- Final Capstone و Interview Bank کامل
-- Release QA برای Debug و Release variant و SHA-256
-- Android `versionCode` به 9 افزایش یافت
-
-### 0.2.6 — Micro Quiz checkpoints
-
-- 20 Micro Quiz پنج‌سؤالی؛ پنج مورد برای هر سطح
-- افزایش Quiz Bank از 53 به 73
-- افزایش Question Bank از 434 به 534 سؤال
-- اتصال Micro Quizها به چهار درس جمع‌بندی
-- Tagهای موضوعی برای Weak Topic Review
-- افزایش Android versionCode به 8
-
-### 0.2.5 — Interview Bank
-
-- 5 Interview Assessment با 100 سؤال
-- افزایش Question Bank به 434 سؤال
-
-### 0.2.4 — Multi-topic Challenge Bank
-
-- 40 Challenge Exercise و افزایش Exercise Bank به 195 تمرین
-
-### 0.2.3 — Adaptive Android integration
-
-- Placement، Weak Topic Review و Flashcard/Spaced Review end-to-end
-
-### 0.2.2 — Assessment depth expansion
-
-- 4 Depth Assessment و 80 سؤال سناریویی
-
-### 0.2.1 — Learning quality foundation
-
-- Placement Test، Glossary expansion و Project Rubric
-
-### 0.2.0 — Four-level curriculum
-
-- تکمیل مسیر چهارسطحی، 157 درس، 14 پروژه و Final Capstone
+- Placement، Weak Topic Review و Spaced Review
+- Final Capstone و Interview Bank
+- `versionCode=9 / versionName=1.0.0`
 
 ## وضعیت فعلی
 
-`1.0.0 released / 1.1.0-rc1 active / content source = MainCourse 1.1.0 / presentation = MainUi 0.1.0 / runtime = Core 1.3.0`
+`1.0.0 stable / 1.1.0-rc2 development candidate / content source = MainCourse 1.1.0 / presentation = MainUi 0.1.0 / runtime = Core 1.4.0 / runtime content channel = basic-content`

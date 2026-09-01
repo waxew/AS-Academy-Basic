@@ -2,6 +2,36 @@
 
 همه تغییرات قابل انتشار AS Academy Basic در این فایل ثبت می‌شوند. نسخه‌ها از Semantic Versioning پیروی می‌کنند.
 
+## 1.1.0-rc2 — 2026-09-01
+
+### Added
+
+- Runtime Content Update مستقل از APK با استفاده از `AS-Academy-Core 1.4.0`.
+- `BasicRuntimeContentApp` برای فعال‌سازی جدیدترین نسخه معتبر محلی و بررسی کانال رسمی MainCourse در پس‌زمینه.
+- کانال Metadata عمومی `basic-content/latest.json` برای کشف نسخه جدید Course Package.
+- Asset آفلاین `basic-course.json` داخل APK به‌عنوان منبع محلی امن و مستقل از شبکه.
+
+### Changed
+
+- `MainActivity` از Bootstrap محتوایی جدید شروع می‌شود و سپس Host اصلی Basic را اجرا می‌کند.
+- `versionCode` از 10 به 11 و `versionName` از `1.1.0-rc1` به `1.1.0-rc2` افزایش یافت.
+- Runtime/Engine از Core 1.3.0 به Core 1.4.0 ارتقا یافت.
+- Permission استاندارد `INTERNET` برای دریافت محتوای آموزشی از HTTPS اضافه شد؛ Storage permission عمومی اضافه نشده است.
+- Content Update موفق فقط درخت Compose دوره را Reload می‌کند؛ Room/DataStore و Progress کاربر حذف یا Reset نمی‌شوند.
+- Metadata قبل از دانلود Package با SemVer و `minimumCoreVersion` Preflight می‌شود؛ همان نسخه، Downgrade و Release ناسازگار فایل Course را دانلود نمی‌کنند.
+- در Startup، Runtime Package و Asset APK هر دو Validate می‌شوند و جدیدترین نسخه معتبر محلی انتخاب می‌شود؛ Runtime Package فقط وقتی فعال است که از Asset APK جدیدتر باشد.
+
+### Safety
+
+- SHA-256، Course Validator، `courseId`، SemVer و `minimumCoreVersion` قبل از فعال شدن Package جدید بررسی می‌شوند.
+- تصمیم Version/Core بعد از دانلود روی Manifest واقعی Package دوباره اجرا می‌شود؛ Metadata مرجع نهایی اعتماد نیست.
+- نصب Package به‌صورت Atomic انجام می‌شود و Core Backup/Rollback را نگه می‌دارد.
+- Update خراب، ناقص، قدیمی یا ناسازگار جایگزین محتوای فعال نمی‌شود.
+- Runtime Package خراب/شناسه‌اشتباه/قدیمی قرنطینه می‌شود.
+- APK جدید با Course هم‌نسخه یا جدیدتر در حالت Offline روی Runtime Package قدیمی اولویت دارد و مانع regression محتوا می‌شود.
+- اگر Asset APK نامعتبر باشد ولی Runtime Package معتبر وجود داشته باشد، نسخه نصب‌شده حفظ می‌شود تا آموزش‌ها از دسترس خارج نشوند.
+- `applicationId` همچنان `com.asdevelopers.academy.basic` است و Signing identity نسخه Stable 1.0.0 نباید تغییر کند.
+
 ## 1.1.0-rc1 — 2026-09-01
 
 ### Changed

@@ -14,9 +14,9 @@ class MainActivity : ComponentActivity() {
         // چرخه حیات استاندارد Activity ابتدا به کلاس والد واگذار می‌شود.
         super.onCreate(savedInstanceState)
 
-        // Compose ریشه رابط کاربری را از Host اختصاصی Basic دریافت می‌کند.
+        // Bootstrap ابتدا محتوای محلی را فعال می‌کند و سپس Runtime Content Update را مستقل از APK بررسی می‌کند.
         setContent {
-            BasicAcademyApp()
+            BasicRuntimeContentApp()
         }
     }
 }

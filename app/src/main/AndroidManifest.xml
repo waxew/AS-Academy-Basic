@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Basic uses a single Compose activity; reusable screens and navigation are supplied by AS-Academy-Core. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Runtime Course Content از کانال عمومی MainCourse فقط از HTTPS دریافت می‌شود. -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- Android 13+ requests this permission at runtime only when the user enables study reminders. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
