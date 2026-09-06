@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   validate-and-build:
-    name: MainCourse -> Core -> MainUi -> Basic
+    name: Foundation v1.5 -> MainCourse -> Basic
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Basic
@@ -23,26 +23,26 @@ jobs:
         with:
           path: AS-Academy-Basic
 
-      # RC2 pins all shared inputs to immutable merged commits so dependency drift cannot silently change the build.
+      # RC3 integration pins every shared input to an immutable commit while the cross-repo migration is validated.
       - name: Checkout AS Academy Core
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-Core
-          ref: d8b42beb42894452d9420b8bf3200847c6294fb9
+          ref: fdef97043080f51e5a1e5bff4b8d5374543e3365
           path: AS-Academy-Core
 
       - name: Checkout AS Academy MainUi
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-MainUi
-          ref: 2519f76a1391e87dfbf784eb7c3b18c06868680b
+          ref: 12998a6e2103ef9ae3e0ba4e40096328436acc4f
           path: AS-Academy-MainUi
 
       - name: Checkout AS Academy MainCourse
         uses: actions/checkout@v5
         with:
           repository: waxew/AS-Academy-MainCourse
-          ref: 6169fa7464be3db213c2e7e29c03cabd297a555b
+          ref: ef1a69fa23c86af50275ee7ead38641f1643228b
           path: AS-Academy-MainCourse
 
       - name: Set up JDK 17
@@ -60,7 +60,14 @@ jobs:
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
 
-      # MainCourse is the only educational source. A missing canonical package is a hard failure.
+      - name: Verify Foundation integration contract
+        working-directory: AS-Academy-Core
+        run: python3 integration/validate_contract.py --peer ../AS-Academy-MainUi/integration/contract.json --peer ../AS-Academy-MainCourse/integration/contract.json
+
+      - name: Run Core unit gates
+        working-directory: AS-Academy-Core
+        run: ./gradlew :engine:test :core:testDebugUnitTest --stacktrace
+
       - name: Validate canonical Basic Course Package
         working-directory: AS-Academy-Core
         run: ./gradlew :tools:run --args="validate ../AS-Academy-MainCourse/courses/basic/course" --stacktrace
@@ -69,7 +76,6 @@ jobs:
         working-directory: AS-Academy-Core
         run: ./gradlew :tools:run --args="compile ../AS-Academy-MainCourse/courses/basic/course ../AS-Academy-Basic/app/src/main/assets/basic-course.json" --stacktrace
 
-      # MainUi is built independently first so Course App builds cannot hide a presentation-layer error.
       - name: Lint and build shared MainUi
         run: ./AS-Academy-Core/gradlew -p AS-Academy-MainUi :main-ui:lintDebug :main-ui:assembleDebug --stacktrace
 
